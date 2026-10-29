@@ -82,7 +82,7 @@ const PRODUCTS = [
     image: "https://down-my.img.susercontent.com/file/c9c5bea40bb9b312bf621aa2c70da005",
     imageAlt: "Split Second racing game cover"
   },
-  {id:"gaming-accessories","Tech.png","Gaming Accessories",category:"tech",genre:"Tech",icon:"🎮",tag:"TECH GEAR",price:"Ask for price",description:"Controllers, gaming mice, keyboards, headsets and other accessories. Ask about compatibility with your device.",platforms:"PC · Console (varies)",image:"",imageAlt:""},
+  {id:"gaming-accessories","Gaming Accessories",category:"tech",genre:"Tech",icon:"🎮",tag:"TECH GEAR",price:"Ask for price",description:"Controllers, gaming mice, keyboards, headsets and other accessories. Ask about compatibility with your device.",platforms:"PC · Console (varies)",image:"",imageAlt:""},
   {id:"storage-upgrades",name:"Storage & PC Upgrades",category:"tech",genre:"Tech",icon:"▤",tag:"TECH GEAR",price:"Ask for price",description:"Ask about SSDs, RAM and upgrades compatible with your computer model.",platforms:"PC · Laptop",image:"",imageAlt:""},
   {id:"productivity-software",name:"Productivity Software",category:"software",genre:"Software",icon:"▦",tag:"SOFTWARE",price:"Ask for price",description:"Ask about legitimate office, PDF and productivity software with the right licence for your needs.",platforms:"Windows · macOS (varies)",image:"",imageAlt:""},
   {id:"official-drivers",name:"Official Drivers & Setup Help",category:"drivers",genre:"Drivers",icon:"⚙",tag:"DRIVERS",price:"Ask for price",description:"Get help identifying official graphics, Wi-Fi, Bluetooth, audio and chipset drivers for your exact PC model.",platforms:"Windows · Device-specific",image:"",imageAlt:""}
