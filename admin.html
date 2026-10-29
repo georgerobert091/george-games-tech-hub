@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#080d16">
+
+    <title>Admin Dashboard | George Games Tech Hub</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #080d16;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            padding: 20px;
+            background: #111c2d;
+            border: 1px solid #24364b;
+            border-radius: 15px;
+            margin-bottom: 25px;
+        }
+
+        h1, h2 {
+            color: #00ff99;
+        }
+
+        .subtitle {
+            color: #b8c5d6;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(250px, 1fr)
+            );
+            gap: 20px;
+        }
+
+        .card {
+            background: #111c2d;
+            border: 1px solid #24364b;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #080d16;
+            color: white;
+            border: 1px solid #34465c;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 18px;
+            background: #00ff99;
+            color: #080d16;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .notice {
+            padding: 12px;
+            background: #17283a;
+            border-radius: 8px;
+            color: #b8c5d6;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #00ff99;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>GEORGE GAMES TECH HUB</h1>
+
+        <p>Store Administration Dashboard</p>
+
+        <p class="subtitle">
+            Manage your games, accessories and software.
+        </p>
+
+        <a href="./">← Return to Store</a>
+    </header>
+
+    <div class="dashboard">
+
+        <section class="card">
+            <h2>📊 Store Overview</h2>
+
+            <p>Store: George Games Tech Hub</p>
+
+            <p>Currency: Nigerian Naira (₦)</p>
+
+            <p class="notice">
+                Your dashboard interface is ready.
+                Product management will be connected
+                to a secure database in the next stage.
+            </p>
+        </section>
+
+        <section class="card">
+            <h2>➕ Add a Product</h2>
+
+            <form id="productForm">
+
+                <label for="productName">
+                    Product Name
+                </label>
+
+                <input
+                    id="productName"
+                    type="text"
+                    placeholder="e.g. FIFA 14"
+                    required
+                >
+
+                <label for="productPrice">
+                    Price (₦)
+                </label>
+
+                <input
+                    id="productPrice"
+                    type="number"
+                    min="0"
+                    step="1"
+                    placeholder="e.g. 7000"
+                    required
+                >
+
+                <label for="productCategory">
+                    Category
+                </label>
+
+                <select id="productCategory" required>
+                    <option value="">Choose category</option>
+                    <option>Games</option>
+                    <option>PC Accessories</option>
+                    <option>Storage & PC Upgrades</option>
+                    <option>Software</option>
+                    <option>Drivers</option>
+                </select>
+
+                <label for="productImage">
+                    Product Image URL
+                </label>
+
+                <input
+                    id="productImage"
+                    type="url"
+                    placeholder="https://example.com/image.png"
+                >
+
+                <label for="productDescription">
+                    Product Description
+                </label>
+
+                <textarea
+                    id="productDescription"
+                    rows="3"
+                    placeholder="Describe your product"
+                ></textarea>
+
+                <button type="submit">
+                    Preview Product
+                </button>
+
+            </form>
+
+            <div id="preview"></div>
+        </section>
+
+    </div>
+
+    <script>
+        const form = document.getElementById("productForm");
+        const preview = document.getElementById("preview");
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name =
+                document.getElementById("productName").value;
+
+            const price =
+                Number(document.getElementById("productPrice").value);
+
+            const category =
+                document.getElementById("productCategory").value;
+
+            const description =
+                document.getElementById("productDescription").value;
+
+            const image =
+                document.getElementById("productImage").value;
+
+            preview.replaceChildren();
+
+            const heading = document.createElement("h2");
+            heading.textContent = "Product Preview";
+
+            const nameText = document.createElement("p");
+            nameText.textContent = "Name: " + name;
+
+            const priceText = document.createElement("p");
+            priceText.textContent =
+                "Price: ₦" + price.toLocaleString("en-NG");
+
+            const categoryText = document.createElement("p");
+            categoryText.textContent = "Category: " + category;
+
+            const descriptionText = document.createElement("p");
+            descriptionText.textContent =
+                "Description: " + description;
+
+            preview.append(
+                heading,
+                nameText,
+                priceText,
+                categoryText,
+                descriptionText
+            );
+
+            if (image) {
+                const picture = document.createElement("img");
+
+                picture.src = image;
+                picture.alt = name;
+                picture.style.maxWidth = "150px";
+                picture.style.display = "block";
+
+                preview.appendChild(picture);
+            }
+        });
+    </script>
+
+</body>
+</html>
