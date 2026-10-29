@@ -77,7 +77,69 @@ html {
         width: 100%;
     }
 }
-  </style></head><body>
+  /* Gaming loading screen */
+#app-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: #080d16;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease;
+}
+
+#app-loader h1 {
+    color: #00ff99;
+    text-align: center;
+    text-shadow: 0 0 15px #00ff99;
+    animation: glow 1.5s infinite alternate;
+}
+
+.loader-circle {
+    width: 55px;
+    height: 55px;
+    border: 4px solid #24364b;
+    border-top: 4px solid #00ff99;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 25px;
+}
+
+#app-loader p {
+    color: white;
+    text-align: center;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes glow {
+    from {
+        text-shadow: 0 0 5px #00ff99;
+    }
+    to {
+        text-shadow: 0 0 25px #00ff99;
+    }
+}
+
+#app-loader.hidden {
+    opacity: 0;
+    pointer-events: none;
+    }</style></head><body><div id="app-loader">
+    <div class="loader-circle"></div>
+
+    <h1>
+        GEORGE<br>
+        GAMES TECH HUB
+    </h1>
+
+    <p>Your World of Gaming & Technology</p>
+  </div>
 <div class="topline">PC GAMES <b>•</b> TECH PRODUCTS <b>•</b> SOFTWARE &amp; DRIVERS</div>
 <header class="header"><a class="brand" href="#home"><div class="logo"><svg viewBox="0 0 100 100"><path d="M25 20 35 29 50 12 65 29 75 20 71 39 29 39Z" fill="#a8ff35"/><path d="M70 48A27 27 0 1 0 75 63H57V54H83V76H74V70A27 27 0 1 1 70 48Z" fill="#a8ff35"/><path d="M48 43A16 16 0 1 0 64 59H53V53H71V62A23 23 0 1 1 66 41Z" fill="#101610"/></svg></div><span><strong>GEORGE</strong><small>GAMES &amp; TECH HUB</small></span></a>
 <button id="menuBtn" aria-label="Open navigation">☰</button><nav id="nav"><a href="#home">Home</a><a href="#catalogue">Catalogue</a><a href="#why-us">Why us</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
