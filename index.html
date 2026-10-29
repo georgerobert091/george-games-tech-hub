@@ -185,4 +185,18 @@ if ("serviceWorker" in navigator) {
       });
   });
 }
+  </script><script>
+window.addEventListener("load", function () {
+    const loader = document.getElementById("app-loader");
+
+    if (loader) {
+        setTimeout(function () {
+            loader.classList.add("hidden");
+
+            setTimeout(function () {
+                loader.remove();
+            }, 500);
+        }, 700);
+    }
+});
   </script></body></html>
