@@ -1,276 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d16">
+<title>Admin Dashboard | George Games Tech Hub</title>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+<style>
+* { box-sizing: border-box; }
 
-    <meta name="theme-color" content="#080d16">
+body {
+    margin: 0;
+    padding: 20px;
+    background: #080d16;
+    color: white;
+    font-family: Arial, sans-serif;
+}
 
-    <title>Admin Dashboard | George Games Tech Hub</title>
+header, .card {
+    padding: 20px;
+    background: #111c2d;
+    border: 1px solid #24364b;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
 
-    <style>
-        * {
-            box-sizing: border-box;
-        }
+h1, h2 { color: #00ff99; }
 
-        body {
-            margin: 0;
-            padding: 20px;
-            background: #080d16;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
+.subtitle, .message { color: #b8c5d6; }
 
-        header {
-            padding: 20px;
-            background: #111c2d;
-            border: 1px solid #24364b;
-            border-radius: 15px;
-            margin-bottom: 25px;
-        }
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
 
-        h1, h2 {
-            color: #00ff99;
-        }
+label {
+    display: block;
+    margin-top: 15px;
+    margin-bottom: 7px;
+}
 
-        .subtitle {
-            color: #b8c5d6;
-        }
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    background: #080d16;
+    color: white;
+    border: 1px solid #34465c;
+    border-radius: 8px;
+}
 
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(250px, 1fr)
-            );
-            gap: 20px;
-        }
+button {
+    width: 100%;
+    padding: 13px;
+    margin-top: 18px;
+    background: #00ff99;
+    color: #080d16;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
 
-        .card {
-            background: #111c2d;
-            border: 1px solid #24364b;
-            padding: 20px;
-            border-radius: 15px;
-        }
+a { color: #00ff99; }
 
-        label {
-            display: block;
-            margin-top: 15px;
-            margin-bottom: 7px;
-        }
+.hidden { display: none; }
 
-        input, select, textarea {
-            width: 100%;
-            padding: 12px;
-            background: #080d16;
-            color: white;
-            border: 1px solid #34465c;
-            border-radius: 8px;
-        }
+.product {
+    padding: 12px;
+    border-bottom: 1px solid #34465c;
+}
 
-        button {
-            width: 100%;
-            padding: 13px;
-            margin-top: 18px;
-            background: #00ff99;
-            color: #080d16;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
+.product img {
+    max-width: 100px;
+    display: block;
+    margin-top: 10px;
+}
 
-        .notice {
-            padding: 12px;
-            background: #17283a;
-            border-radius: 8px;
-            color: #b8c5d6;
-            line-height: 1.6;
-        }
-
-        a {
-            color: #00ff99;
-        }
-    </style>
+.message {
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+</style>
 </head>
 
 <body>
 
-    <header>
-        <h1>GEORGE GAMES TECH HUB</h1>
+<header>
+    <h1>GEORGE GAMES TECH HUB</h1>
+    <p>Store Administration Dashboard</p>
+    <p class="subtitle">Manage your games, accessories and software.</p>
+    <a href="./">← Return to Store</a>
+</header>
 
-        <p>Store Administration Dashboard</p>
+<section id="loginSection" class="card">
+    <h2>🔐 Admin Login</h2>
 
-        <p class="subtitle">
-            Manage your games, accessories and software.
-        </p>
+    <form id="loginForm">
+        <label for="email">Email Address</label>
+        <input id="email" type="email" required>
 
-        <a href="./">← Return to Store</a>
-    </header>
+        <label for="password">Password</label>
+        <input id="password" type="password" required>
+
+        <button type="submit">Sign In</button>
+    </form>
+
+    <p id="loginMessage" class="message"></p>
+</section>
+
+<main id="dashboard" class="hidden">
+
+    <div class="card">
+        <h2>📊 Store Overview</h2>
+        <p>Store: George Games Tech Hub</p>
+        <p>Currency: Nigerian Naira (₦)</p>
+        <button id="logoutButton">Sign Out</button>
+    </div>
 
     <div class="dashboard">
-
-        <section class="card">
-            <h2>📊 Store Overview</h2>
-
-            <p>Store: George Games Tech Hub</p>
-
-            <p>Currency: Nigerian Naira (₦)</p>
-
-            <p class="notice">
-                Your dashboard interface is ready.
-                Product management will be connected
-                to a secure database in the next stage.
-            </p>
-        </section>
 
         <section class="card">
             <h2>➕ Add a Product</h2>
 
             <form id="productForm">
 
-                <label for="productName">
-                    Product Name
-                </label>
+                <label for="productName">Product Name</label>
+                <input id="productName" type="text" required>
 
-                <input
-                    id="productName"
-                    type="text"
-                    placeholder="e.g. FIFA 14"
-                    required
-                >
+                <label for="productPrice">Price (₦)</label>
+                <input id="productPrice" type="number"
+                       min="0" step="1" required>
 
-                <label for="productPrice">
-                    Price (₦)
-                </label>
-
-                <input
-                    id="productPrice"
-                    type="number"
-                    min="0"
-                    step="1"
-                    placeholder="e.g. 7000"
-                    required
-                >
-
-                <label for="productCategory">
-                    Category
-                </label>
-
+                <label for="productCategory">Category</label>
                 <select id="productCategory" required>
                     <option value="">Choose category</option>
-                    <option>Games</option>
-                    <option>PC Accessories</option>
-                    <option>Storage & PC Upgrades</option>
-                    <option>Software</option>
-                    <option>Drivers</option>
+                    <option value="Games">Games</option>
+                    <option value="PC Accessories">PC Accessories</option>
+                    <option value="Storage & PC Upgrades">
+                        Storage & PC Upgrades
+                    </option>
+                    <option value="Software">Software</option>
+                    <option value="Drivers">Drivers</option>
                 </select>
 
-                <label for="productImage">
-                    Product Image URL
-                </label>
-
-                <input
-                    id="productImage"
-                    type="url"
-                    placeholder="https://example.com/image.png"
-                >
+                <label for="productImage">Product Image URL</label>
+                <input id="productImage" type="url"
+                       placeholder="https://example.com/image.png">
 
                 <label for="productDescription">
                     Product Description
                 </label>
+                <textarea id="productDescription"
+                          rows="4"></textarea>
 
-                <textarea
-                    id="productDescription"
-                    rows="3"
-                    placeholder="Describe your product"
-                ></textarea>
-
-                <button type="submit">
-                    Preview Product
-                </button>
+                <button type="submit">Save Product</button>
 
             </form>
 
-            <div id="preview"></div>
+            <p id="productMessage" class="message"></p>
+        </section>
+
+        <section class="card">
+            <h2>📦 Your Products</h2>
+            <div id="productList">Loading products...</div>
         </section>
 
     </div>
-
-    <script>
-        const form = document.getElementById("productForm");
-        const preview = document.getElementById("preview");
-
-        form.addEventListener("submit", function(event) {
-            event.preventDefault();
-
-            const name =
-                document.getElementById("productName").value;
-
-            const price =
-                Number(document.getElementById("productPrice").value);
-
-            const category =
-                document.getElementById("productCategory").value;
-
-            const description =
-                document.getElementById("productDescription").value;
-
-            const image =
-                document.getElementById("productImage").value;
-
-            preview.replaceChildren();
-
-            const heading = document.createElement("h2");
-            heading.textContent = "Product Preview";
-
-            const nameText = document.createElement("p");
-            nameText.textContent = "Name: " + name;
-
-            const priceText = document.createElement("p");
-            priceText.textContent =
-                "Price: ₦" + price.toLocaleString("en-NG");
-
-            const categoryText = document.createElement("p");
-            categoryText.textContent = "Category: " + category;
-
-            const descriptionText = document.createElement("p");
-            descriptionText.textContent =
-                "Description: " + description;
-
-            preview.append(
-                heading,
-                nameText,
-                priceText,
-                categoryText,
-                descriptionText
-            );
-
-            if (image) {
-                const picture = document.createElement("img");
-
-                picture.src = image;
-                picture.alt = name;
-                picture.style.maxWidth = "150px";
-                picture.style.display = "block";
-
-                preview.appendChild(picture);
-            }
-        });
-    </script>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://krwdispgabnsxrbbpeqgx.supabase.co";
+const SUPABASE_URL =
+"https://krwdispgabnsxrbbpeqgx.supabase.co";
 
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
+const SUPABASE_PUBLISHABLE_KEY =
+"sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
 
 const supabaseClient = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_PUBLISHABLE_KEY
 );
-</script></body>
+
+const loginSection = document.getElementById("loginSection");
+const dashboard = document.getElementById("dashboard");
+const loginMessage = document.getElementById("loginMessage");
+const productMessage = document.getElementById("productMessage");
+
+async function checkAdmin() {
+    const { data: { session } } =
+        await supabaseClient.auth.getSession();
+
+    if (!session) {
+        loginSection.classList.remove("hidden");
+        dashboard.classList.add("hidden");
+        return;
+    }
+
+    const { data, error } = await supabaseClient
+        .from("admin_users")
+        .select("user_id")
+        .eq("user_id", session.user.id)
+        .maybeSingle();
+
+    if (error || !data) {
+        await supabaseClient.auth.signOut();
+        loginMessage.textContent =
+            "Access denied. This account is not an administrator.";
+        loginSection.classList.remove("hidden");
+        dashboard.classList.add("hidden");
+        return;
+    }
+
+    loginSection.classList.add("hidden");
+    dashboard.classList.remove("hidden");
+
+    loadProducts();
+}
+
+document.getElementById("loginForm")
+.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    loginMessage.textContent = "Signing in...";
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    const { error } = await supabaseClient.auth
+        .signInWithPassword({ email, password });
+
+    if (error) {
+        loginMessage.textContent = error.message;
+        return;
+    }
+
+    loginMessage.textContent = "";
+    await checkAdmin();
+});
+
+document.getElementById("logoutButton")
+.addEventListener("click", async function() {
+    await supabaseClient.auth.signOut();
+    location.reload();
+});
+
+document.getElementById("productForm")
+.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    productMessage.textContent = "Saving product...";
+
+    const name = document.getElementById("productName").value.trim();
+    const price = Number(document.getElementById("productPrice").value);
+    const category = document.getElementById("productCategory").value;
+    const image = document.getElementById("productImage").value.trim();
+    const description =
+        document.getElementById("productDescription").value.trim();
+
+    const { error } = await supabaseClient
+        .from("Products")
+        .insert({
+            "Name": name,
+            "Category": category,
+            "Price": price,
+            "Description": description,
+            "Image URL": image || null
+        });
+
+    if (error) {
+        productMessage.textContent = "Error: " + error.message;
+        return;
+    }
+
+    productMessage.textContent = "✅ Product saved successfully!";
+
+    this.reset();
+    loadProducts();
+});
+
+async function loadProducts() {
+    const productList = document.getElementById("productList");
+
+    productList.textContent = "Loading products...";
+
+    const { data, error } = await supabaseClient
+        .from("Products")
+        .select('*')
+        .order("id", { ascending: false });
+
+    if (error) {
+        productList.textContent = error.message;
+        return;
+    }
+
+    productList.replaceChildren();
+
+    if (!data || data.length === 0) {
+        productList.textContent = "No products added yet.";
+        return;
+    }
+
+    data.forEach(product => {
+        const item = document.createElement("div");
+        item.className = "product";
+
+        const name = document.createElement("h3");
+        name.textContent = product.Name;
+
+        const price = document.createElement("p");
+        price.textContent =
+            "₦" + Number(product.Price).toLocaleString("en-NG");
+
+        const category = document.createElement("p");
+        category.textContent = product.Category;
+
+        item.append(name, price, category);
+
+        if (product["Image URL"]) {
+            const image = document.createElement("img");
+            image.src = product["Image URL"];
+            image.alt = product.Name;
+            image.loading = "lazy";
+            item.appendChild(image);
+        }
+
+        productList.appendChild(item);
+    });
+}
+
+checkAdmin();
+</script>
+
+</body>
 </html>
