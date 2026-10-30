@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#080b09">
-  <meta name="description" content="View product details at George Games and Tech Hub.">
+  <meta name="description" content="Product details at George Games and Tech Hub.">
   <title>Product Details | George Games and Tech Hub</title>
   <link rel="stylesheet" href="styles.css">
 
   <style>
-    .productDetails {
-      padding: 70px 0;
-    }
+    .productDetails { padding: 70px 0; }
 
     .detailsLayout {
       display: grid;
@@ -58,11 +56,7 @@
       color: var(--muted);
       line-height: 1.8;
       margin: 20px 0;
-    }
-
-    .detailsInfo .button {
-      display: inline-block;
-      margin-top: 15px;
+      white-space: pre-line;
     }
 
     .backLink {
@@ -72,13 +66,8 @@
     }
 
     @media(max-width: 700px) {
-      .detailsLayout {
-        grid-template-columns: 1fr;
-      }
-
-      .productDetails {
-        padding: 40px 0;
-      }
+      .detailsLayout { grid-template-columns: 1fr; }
+      .productDetails { padding: 40px 0; }
     }
   </style>
 </head>
@@ -88,7 +77,6 @@
 <header class="siteHeader">
   <div class="container">
     <a href="index.html" class="logo">GEORGE <span>GAMES & TECH</span></a>
-
     <nav class="mainNav">
       <a href="index.html">Home</a>
       <a href="games.html">Games</a>
@@ -105,13 +93,10 @@
 <main>
   <section class="productDetails">
     <div class="container">
-
       <a href="index.html" class="backLink">← Back to Home</a>
-
       <div id="productDetails">
         <p>Loading product details...</p>
       </div>
-
     </div>
   </section>
 </main>
@@ -123,106 +108,130 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+const SUPABASE_URL = "https://krwdispgabnsxrbbpeqx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
 
-  const productDetails = document.getElementById("productDetails");
-  const productId = new URLSearchParams(window.location.search).get("id");
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+</script>
 
-  const PRODUCTS = Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+<script src="products.js"></script>
 
-  function showProduct(product) {
-    if (!product) {
-      productDetails.innerHTML = `
-        <h2>Product not found</h2>
-        <p>We couldn't find this product. Please return to the catalogue.</p>
-        <a href="index.html" class="button">Back to Home</a>
-      `;
-      return;
-    }
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
 
-    const name = product.name || "Product";
-    const description = product.description || "Contact us for more information.";
-    const image = product.image_url || product.image || "";
-    const price = product.price || "Ask for price";
-    const category = product.category || "Product";
-    const genre = product.genre || "";
+const container = document.getElementById("productDetails");
+const productId = new URLSearchParams(location.search).get("id");
 
-    const whatsappMessage = encodeURIComponent(
-      "Hello, I am interested in " + name + ". Please give me more information."
-    );
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
+}
 
-    productDetails.innerHTML = `
-      <div class="detailsLayout">
-        <div class="detailsImage">
-          ${
-            image
-              ? `<img src="${image}" alt="${name}" onerror="this.style.display='none'">`
-              : `<div class="imageFallback">Product image unavailable</div>`
-          }
-        </div>
-
-        <div class="detailsInfo">
-          <p class="detailsCategory">${category}</p>
-          <h1>${name}</h1>
-          ${genre ? `<p>${genre}</p>` : ""}
-          <p class="detailsPrice">${price}</p>
-          <div class="detailsDescription">${description}</div>
-
-          <a
-            class="button"
-            href="https://wa.me/234?text=${whatsappMessage}"
-            target="_blank"
-            rel="noopener"
-          >
-            Enquire on WhatsApp
-          </a>
-        </div>
-      </div>
-    `;
-  }
-
-  async function loadProduct() {
-    if (!productId) {
-      showProduct(null);
-      return;
-    }
-
-    try {
-      const response = await fetch("products.js");
-
-      if (!response.ok) throw new Error("Could not load products");
-
-      const scriptText = await response.text();
-
-      const match = scriptText.match(
-        /(?:const|let|var)\s+PRODUCTS\s*=\s*(\[[\s\S]*?\]);/
-      );
-
-      if (!match) throw new Error("Product list not found");
-
-      const staticProducts = Function('"use strict"; return (' + match[1] + ')')();
-
-      const staticProduct = staticProducts.find(
-        product => String(product.id) === String(productId)
-      );
-
-      if (staticProduct) {
-        showProduct(staticProduct);
-        return;
-      }
-    } catch (error) {
-      console.log("Static product lookup:", error);
-    }
-
-    productDetails.innerHTML = `
+function showProduct(product) {
+  if (!product) {
+    container.innerHTML = `
       <h2>Product not found</h2>
-      <p>Please return to the catalogue and select a product again.</p>
+      <p>We couldn't find this product.</p>
       <a href="index.html" class="button">Back to Home</a>
     `;
+    return;
   }
 
-  loadProduct();
+  const name = product.name || "Product";
+  const description = product.description || "Contact us for more information.";
+  const image = product.image_url || product.image || "";
+  const price = product.price || "Ask for price";
+  const category = product.category || "Product";
+  const genre = product.genre || "";
+  const platforms = product.platforms || "";
+
+  const message = encodeURIComponent(
+    "Hello, I am interested in " + name + ". Please give me more information."
+  );
+
+  container.innerHTML = `
+    <div class="detailsLayout">
+      <div class="detailsImage">
+        ${
+          image
+            ? `<img src="${escapeHTML(image)}" alt="${escapeHTML(name)}"
+                 onerror="this.outerHTML='<p>Product image unavailable</p>'">`
+            : `<div class="imageFallback">Product image unavailable</div>`
+        }
+      </div>
+
+      <div class="detailsInfo">
+        <p class="detailsCategory">${escapeHTML(category)}</p>
+        <h1>${escapeHTML(name)}</h1>
+        ${genre ? `<p>${escapeHTML(genre)}</p>` : ""}
+        <p class="detailsPrice">${escapeHTML(price)}</p>
+
+        <div class="detailsDescription">${escapeHTML(description)}</div>
+
+        ${platforms ? `<p><strong>Platforms:</strong> ${escapeHTML(platforms)}</p>` : ""}
+
+        <a class="button"
+           href="https://wa.me/234?text=${message}"
+           target="_blank" rel="noopener">
+          Enquire on WhatsApp
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+async function loadProduct() {
+  if (!productId) {
+    showProduct(null);
+    return;
+  }
+
+  // Check the existing static catalogue first.
+  const staticProduct = PRODUCTS.find(
+    product => String(product.id) === String(productId)
+  );
+
+  if (staticProduct) {
+    showProduct(staticProduct);
+    return;
+  }
+
+  // If it is not static, check the Supabase database.
+  if (productId.startsWith("database-")) {
+    const databaseId = productId.replace("database-", "");
+
+    try {
+      const { data, error } = await supabaseClient
+        .from("Products")
+        .select("*")
+        .eq("id", databaseId)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      showProduct(data);
+      return;
+
+    } catch (error) {
+      console.error("Database product error:", error);
+    }
+  }
+
+  showProduct(null);
+}
+
+loadProduct();
 </script>
 
 </body>
