@@ -182,7 +182,7 @@ function showProduct(product) {
         ${platforms ? `<p><strong>Platforms:</strong> ${escapeHTML(platforms)}</p>` : ""}
 
         <a class="button"
-           href="https://wa.me/234?text=${message}"
+           href="https://wa.me/2349136059577?text=${message}"
            target="_blank" rel="noopener">
           Enquire on WhatsApp
         </a>
@@ -197,7 +197,6 @@ async function loadProduct() {
     return;
   }
 
-  // Check the existing static catalogue first.
   const staticProduct = PRODUCTS.find(
     product => String(product.id) === String(productId)
   );
@@ -207,7 +206,6 @@ async function loadProduct() {
     return;
   }
 
-  // If it is not static, check the Supabase database.
   if (productId.startsWith("database-")) {
     const databaseId = productId.replace("database-", "");
 
