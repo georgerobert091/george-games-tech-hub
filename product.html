@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b09">
+  <meta name="description" content="View product details at George Games and Tech Hub.">
+  <title>Product Details | George Games and Tech Hub</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    .productDetails {
+      padding: 70px 0;
+    }
+
+    .detailsLayout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    .detailsImage {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+      min-height: 300px;
+    }
+
+    .detailsImage img {
+      width: 100%;
+      display: block;
+      object-fit: contain;
+      max-height: 500px;
+    }
+
+    .detailsInfo h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      margin: 10px 0;
+    }
+
+    .detailsCategory {
+      color: var(--green);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-size: 13px;
+    }
+
+    .detailsPrice {
+      color: var(--green);
+      font-size: 1.7rem;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .detailsDescription {
+      color: var(--muted);
+      line-height: 1.8;
+      margin: 20px 0;
+    }
+
+    .detailsInfo .button {
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    .backLink {
+      display: inline-block;
+      margin-bottom: 25px;
+      color: var(--green);
+    }
+
+    @media(max-width: 700px) {
+      .detailsLayout {
+        grid-template-columns: 1fr;
+      }
+
+      .productDetails {
+        padding: 40px 0;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="siteHeader">
+  <div class="container">
+    <a href="index.html" class="logo">GEORGE <span>GAMES & TECH</span></a>
+
+    <nav class="mainNav">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="accessories.html">Accessories</a>
+      <a href="storage.html">Storage & Upgrades</a>
+      <a href="software.html">Software</a>
+      <a href="drivers.html">Drivers</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="productDetails">
+    <div class="container">
+
+      <a href="index.html" class="backLink">← Back to Home</a>
+
+      <div id="productDetails">
+        <p>Loading product details...</p>
+      </div>
+
+    </div>
+  </section>
+</main>
+
+<footer class="siteFooter">
+  <div class="container">
+    <p>© <span id="year"></span> George Games and Tech Hub. All rights reserved.</p>
+    <p>Games • Accessories • Software • PC Upgrades</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const productDetails = document.getElementById("productDetails");
+  const productId = new URLSearchParams(window.location.search).get("id");
+
+  const PRODUCTS = Array.isArray(window.PRODUCTS) ? window.PRODUCTS : [];
+
+  function showProduct(product) {
+    if (!product) {
+      productDetails.innerHTML = `
+        <h2>Product not found</h2>
+        <p>We couldn't find this product. Please return to the catalogue.</p>
+        <a href="index.html" class="button">Back to Home</a>
+      `;
+      return;
+    }
+
+    const name = product.name || "Product";
+    const description = product.description || "Contact us for more information.";
+    const image = product.image_url || product.image || "";
+    const price = product.price || "Ask for price";
+    const category = product.category || "Product";
+    const genre = product.genre || "";
+
+    const whatsappMessage = encodeURIComponent(
+      "Hello, I am interested in " + name + ". Please give me more information."
+    );
+
+    productDetails.innerHTML = `
+      <div class="detailsLayout">
+        <div class="detailsImage">
+          ${
+            image
+              ? `<img src="${image}" alt="${name}" onerror="this.style.display='none'">`
+              : `<div class="imageFallback">Product image unavailable</div>`
+          }
+        </div>
+
+        <div class="detailsInfo">
+          <p class="detailsCategory">${category}</p>
+          <h1>${name}</h1>
+          ${genre ? `<p>${genre}</p>` : ""}
+          <p class="detailsPrice">${price}</p>
+          <div class="detailsDescription">${description}</div>
+
+          <a
+            class="button"
+            href="https://wa.me/234?text=${whatsappMessage}"
+            target="_blank"
+            rel="noopener"
+          >
+            Enquire on WhatsApp
+          </a>
+        </div>
+      </div>
+    `;
+  }
+
+  async function loadProduct() {
+    if (!productId) {
+      showProduct(null);
+      return;
+    }
+
+    try {
+      const response = await fetch("products.js");
+
+      if (!response.ok) throw new Error("Could not load products");
+
+      const scriptText = await response.text();
+
+      const match = scriptText.match(
+        /(?:const|let|var)\s+PRODUCTS\s*=\s*(\[[\s\S]*?\]);/
+      );
+
+      if (!match) throw new Error("Product list not found");
+
+      const staticProducts = Function('"use strict"; return (' + match[1] + ')')();
+
+      const staticProduct = staticProducts.find(
+        product => String(product.id) === String(productId)
+      );
+
+      if (staticProduct) {
+        showProduct(staticProduct);
+        return;
+      }
+    } catch (error) {
+      console.log("Static product lookup:", error);
+    }
+
+    productDetails.innerHTML = `
+      <h2>Product not found</h2>
+      <p>Please return to the catalogue and select a product again.</p>
+      <a href="index.html" class="button">Back to Home</a>
+    `;
+  }
+
+  loadProduct();
+</script>
+
+</body>
+</html>
