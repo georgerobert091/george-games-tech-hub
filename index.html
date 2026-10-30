@@ -6,8 +6,10 @@
 <meta name="theme-color" content="#080b09">
 <title>George Games and Tech Hub</title>
 <meta name="description" content="PC games, tech products, software and drivers. Ask us on WhatsApp.">
+
 <link rel="stylesheet" href="styles.css">
 <link rel="manifest" href="manifest.json">
+
 <meta name="theme-color" content="#00ff99">
 <meta name="mobile-web-app-capable" content="yes">
 
@@ -82,7 +84,55 @@ html {
     }
 }
 
-/* Gaming loading screen */
+/* GROUPED PRODUCT FILTERS */
+
+.filterGroups {
+    display: grid;
+    gap: 20px;
+    margin: 25px 0;
+}
+
+.filterGroup {
+    background: #111c2d;
+    border: 1px solid #24364b;
+    border-radius: 15px;
+    padding: 18px;
+}
+
+.filterGroup h3 {
+    color: #00ff99;
+    font-size: 17px;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.filterGroup .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filterGroup .filters button {
+    width: auto;
+    padding: 10px 16px;
+    background: #080d16;
+    color: white;
+    border: 1px solid #34465c;
+    border-radius: 25px;
+    font-size: 13px;
+    transition: 0.2s;
+}
+
+.filterGroup .filters button:hover,
+.filterGroup .filters button.active {
+    background: #00ff99;
+    color: #080d16;
+    border-color: #00ff99;
+    box-shadow: 0 0 12px #00ff9955;
+}
+
+/* GAMING LOADING SCREEN */
+
 #app-loader {
     position: fixed;
     inset: 0;
@@ -174,6 +224,8 @@ html {
 </header>
 
 <main>
+
+<!-- HERO SECTION -->
 
 <section class="hero" id="home">
     <div class="heroText">
@@ -278,6 +330,8 @@ html {
     PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD
 </div>
 
+<!-- WHY US -->
+
 <section class="why section" id="why-us">
     <div class="heading">
         <div>
@@ -288,6 +342,260 @@ html {
     </div>
 
     <div class="whyGrid">
+        <article>
+            <span>01</span>
+            <h3>Product details</h3>
+            <p>We can list platform, edition, compatibility, storage needs and important notes for each item.</p>
+        </article>
+
+        <article>
+            <span>02</span>
+            <h3>Clear price enquiries</h3>
+            <p>Ask for the latest price and availability directly on WhatsApp. No made-up prices.</p>
+        </article>
+
+        <article>
+            <span>03</span>
+            <h3>Compatibility first</h3>
+            <p>Check PC specifications, operating system and device model before choosing software or drivers.</p>
+        </article>
+
+        <article>
+            <span>04</span>
+            <h3>Direct conversation</h3>
+            <p>Each listing includes a WhatsApp enquiry message to help you ask about that exact item.</p>
+        </article>
+    </div>
+</section>
+
+<!-- CATALOGUE -->
+
+<section class="section" id="catalogue">
+
+    <div class="heading">
+        <div>
+            <label>THE CATALOGUE</label>
+            <h2>Find your next <em>upgrade.</em></h2>
+        </div>
+        <p>Choose a category, then message us to confirm price, compatibility and availability.</p>
+    </div>
+
+    <div class="catalogueTools">
+        <label class="searchLabel" for="productSearch">SEARCH THE CATALOGUE</label>
+        <input id="productSearch" type="search" placeholder="Search game, genre or platform…" autocomplete="off">
+        <span id="productCount" class="productCount"></span>
+    </div>
+
+    <!-- NEW GROUPED FILTERS -->
+
+    <div class="filterGroups">
+
+        <div class="filterGroup">
+            <h3>🌟 All Products</h3>
+            <div class="filters">
+                <button class="active" data-filter="all">All Items</button>
+            </div>
+        </div>
+
+        <div class="filterGroup">
+            <h3>🎮 PC Games</h3>
+            <div class="filters">
+                <button data-filter="games">All Games</button>
+                <button data-filter="action">Action</button>
+                <button data-filter="adventure">Adventure</button>
+                <button data-filter="racing">Racing</button>
+                <button data-filter="sports">Sports</button>
+                <button data-filter="fighting">Fighting</button>
+                <button data-filter="shooting">Shooting</button>
+                <button data-filter="open world">Open World</button>
+                <button data-filter="simulation">Simulation</button>
+                <button data-filter="strategy">Strategy</button>
+                <button data-filter="horror">Horror</button>
+            </div>
+        </div>
+
+        <div class="filterGroup">
+            <h3>🖥️ PC Accessories</h3>
+            <div class="filters">
+                <button data-filter="controllers">Controllers</button>
+                <button data-filter="keyboards">Keyboards</button>
+                <button data-filter="gaming mouse">Gaming Mouse</button>
+                <button data-filter="headsets">Headsets</button>
+                <button data-filter="gamepads">Gamepads</button>
+            </div>
+        </div>
+
+        <div class="filterGroup">
+            <h3>💾 Storage &amp; PC Upgrades</h3>
+            <div class="filters">
+                <button data-filter="ram">RAM</button>
+                <button data-filter="ssd">SSD</button>
+                <button data-filter="hdd">HDD</button>
+                <button data-filter="graphics cards">Graphics Cards</button>
+                <button data-filter="processors">Processors</button>
+            </div>
+        </div>
+
+        <div class="filterGroup">
+            <h3>📀 Software</h3>
+            <div class="filters">
+                <button data-filter="operating systems">Operating Systems</button>
+                <button data-filter="productivity">Productivity</button>
+                <button data-filter="antivirus">Antivirus</button>
+                <button data-filter="design & editing">Design &amp; Editing</button>
+            </div>
+        </div>
+
+        <div class="filterGroup">
+            <h3>🛠️ Drivers</h3>
+            <div class="filters">
+                <button data-filter="graphics drivers">Graphics Drivers</button>
+                <button data-filter="audio drivers">Audio Drivers</button>
+                <button data-filter="network drivers">Network Drivers</button>
+                <button data-filter="chipset drivers">Chipset Drivers</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="products" id="products"></div>
+
+    <p class="note">
+        ⓘ Prices are listed as supplied; confirm the exact edition, availability, platform and PC requirements on WhatsApp before ordering. Game cover images are shown for identification. Product titles and artwork belong to their respective owners.
+    </p>
+
+</section>
+
+<!-- SERVICES -->
+
+<section class="services" id="services">
+    <label>HOW WE HELP</label>
+    <h2>Tech made <em>simple.</em></h2>
+
+    <div class="serviceGrid">
+        <article>
+            <b>▣</b>
+            <h3>PC Game Help</h3>
+            <p>Ask about game editions, system requirements, installation and storage needs.</p>
+        </article>
+
+        <article>
+            <b>⌘</b>
+            <h3>Tech Products</h3>
+            <p>Enquire about accessories and upgrades for your setup and budget.</p>
+        </article>
+
+        <article>
+            <b>⌁</b>
+            <h3>Software Support</h3>
+            <p>Find suitable, legitimate software for your computer.</p>
+        </article>
+
+        <article>
+            <b>↗</b>
+            <h3>Drivers &amp; Setup</h3>
+            <p>Ask which official drivers match your PC model and operating system.</p>
+        </article>
+    </div>
+</section>
+
+<!-- CONTACT -->
+
+<section class="contact" id="contact">
+
+    <div class="contactCard">
+        <label>LET'S GET YOU SET UP</label>
+        <h2>Need something<br><em>specific?</em></h2>
+        <p>Tell us the game, software, driver or tech product you need. We’ll discuss the details on WhatsApp.</p>
+
+        <a class="btn" data-wa="Hello George Games and Tech Hub! I need help finding a specific product." target="_blank" rel="noopener">
+            Message us on WhatsApp ↗
+        </a>
+    </div>
+
+    <div class="contactSide">
+        <div class="bigG"><span>♛</span>G</div>
+        <strong>GEORGE</strong>
+        <b>GAMES &amp; TECH HUB</b>
+        <hr>
+        <small>PLAY • UPGRADE • STAY AHEAD</small>
+        <p class="contactNumber">WhatsApp: +234 913 605 9577</p>
+    </div>
+
+</section>
+
+</main>
+
+<!-- FOOTER -->
+
+<footer>
+    <strong>GEORGE <span>GAMES &amp; TECH HUB</span></strong>
+    <p>Built for gamers, learners and tech lovers.</p>
+    <small>© <span id="year"></span> George Games and Tech Hub</small>
+</footer>
+
+<a class="floatWa" data-wa="Hello! Please help me with your catalogue." target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
+
+<!-- SUPABASE CONNECTION -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://krwdispgabnsxrbbpeqx.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+</script>
+
+<!-- PRODUCT CATALOGUE -->
+
+<script src="products.js"></script>
+
+<!-- MAIN WEBSITE APPLICATION -->
+
+<script src="app.js"></script>
+
+<!-- SERVICE WORKER -->
+
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(() => {
+                console.log("George Games Tech Hub app is ready!");
+            })
+            .catch(error => {
+                console.error("Service worker registration failed:", error);
+            });
+    });
+}
+</script>
+
+<!-- LOADING SCREEN -->
+
+<script>
+window.addEventListener("load", function() {
+    const loader = document.getElementById("app-loader");
+
+    if (loader) {
+        setTimeout(function() {
+            loader.classList.add("hidden");
+
+            setTimeout(function() {
+                loader.remove();
+            }, 500);
+        }, 700);
+    }
+});
+</script>
+
+</body>
+                    </html>v class="whyGrid">
         <article><span>01</span><h3>Product details</h3><p>We can list platform, edition, compatibility, storage needs and important notes for each item.</p></article>
         <article><span>02</span><h3>Clear price enquiries</h3><p>Ask for the latest price and availability directly on WhatsApp. No made-up prices.</p></article>
         <article><span>03</span><h3>Compatibility first</h3><p>Check PC specifications, operating system and device model before choosing software or drivers.</p></article>
