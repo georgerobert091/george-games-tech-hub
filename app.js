@@ -1,18 +1,51 @@
+// ==========================================
+// GEORGE GAMES & TECH HUB
+// SHARED PRODUCT CATALOGUE SYSTEM
+// ==========================================
+
 const WHATSAPP_NUMBER = "2349136059577";
 
 const wa = message =>
     "https://wa.me/" + WHATSAPP_NUMBER +
     "?text=" + encodeURIComponent(message);
 
-document.querySelectorAll("[data-wa]").forEach(a => {
-    a.href = wa(a.dataset.wa || "Hello George Games and Tech Hub!");
-});
+
+// ==========================================
+// PAGE DETECTION
+// ==========================================
+
+const pageName = window.location.pathname
+    .split("/")
+    .pop()
+    .toLowerCase();
+
+const pageCategories = {
+    "games.html": "games",
+    "accessories.html": "accessories",
+    "storage.html": "storage",
+    "software.html": "software",
+    "drivers.html": "drivers"
+};
+
+const currentPage = pageCategories[pageName] || "all";
+
+
+// ==========================================
+// ELEMENTS
+// ==========================================
 
 const container = document.getElementById("products");
 const searchBox = document.getElementById("productSearch");
 
 let activeFilter = "all";
-let allProducts = [...PRODUCTS];
+let allProducts = Array.isArray(window.PRODUCTS)
+    ? [...window.PRODUCTS]
+    : [];
+
+
+// ==========================================
+// SECURITY: HTML ESCAPING
+// ==========================================
 
 function escapeHTML(value) {
     return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -24,26 +57,69 @@ function escapeHTML(value) {
     })[char]);
 }
 
-// Convert Supabase products into website format
+
+// ==========================================
+// PRODUCT CATEGORY HELPERS
+// ==========================================
+
+function getProductCategory(product) {
+
+    if (product.sourceCategory) {
+        return product.sourceCategory;
+    }
+
+    const name = String(product.name || "").toLowerCase();
+
+    if (
+        name.includes("storage") ||
+        name.includes("upgrade") ||
+        name.includes("ssd") ||
+        name.includes("ram")
+    ) {
+        return "storage";
+    }
+
+    if (
+        product.category === "tech" ||
+        product.category === "accessories"
+    ) {
+        return "accessories";
+    }
+
+    return product.category || "tech";
+}
+
+
+// ==========================================
+// CONVERT SUPABASE PRODUCTS
+// ==========================================
+
 function convertDatabaseProduct(product) {
+
     const categoryMap = {
         "Games": "games",
-        "PC Accessories": "tech",
-        "Storage & PC Upgrades": "tech",
+        "PC Accessories": "accessories",
+        "Storage & PC Upgrades": "storage",
         "Software": "software",
         "Drivers": "drivers"
     };
 
+    const category = categoryMap[product.category] || "accessories";
+
     return {
         id: "database-" + product.id,
+
+        databaseId: product.id,
+
+        sourceCategory: category,
+
+        category: category,
+
         name: product.name || "Unnamed Product",
 
-        category: categoryMap[product.category] || "tech",
-
-        // Read the actual genre saved in Supabase
         genre: product.genre || product.category || "Technology",
 
-        icon: product.category === "Games" ? "🎮" : "💻",
+        icon: category === "games" ? "🎮" : "💻",
 
         tag: (product.category || "PRODUCT").toUpperCase(),
 
@@ -61,9 +137,21 @@ function convertDatabaseProduct(product) {
     };
 }
 
-// Load products from Supabase
+
+// ==========================================
+// LOAD DATABASE PRODUCTS
+// ==========================================
+
 async function loadDatabaseProducts() {
+
+    if (typeof supabaseClient === "undefined") {
+        console.warn("Supabase is not available on this page.");
+        render();
+        return;
+    }
+
     try {
+
         const { data, error } = await supabaseClient
             .from("Products")
             .select("*")
@@ -78,119 +166,179 @@ async function loadDatabaseProducts() {
         const databaseProducts = (data || [])
             .map(convertDatabaseProduct);
 
-        allProducts = [...databaseProducts, ...PRODUCTS];
+        allProducts = [
+            ...databaseProducts,
+            ...allProducts
+        ];
 
         render();
 
     } catch (error) {
-        console.error("Could not load database products:", error);
+
+        console.error("Could not load products:", error);
+
         render();
     }
 }
 
-function render() {
-    const query = (searchBox?.value || "").trim().toLowerCase();
 
-    const matches = allProducts.filter(p => {
-        const categoryMatch =
+// ==========================================
+// FILTER PRODUCTS
+// ==========================================
+
+function render() {
+
+    if (!container) return;
+
+    const query = (searchBox?.value || "")
+        .trim()
+        .toLowerCase();
+
+    const matches = allProducts.filter(product => {
+
+        const category = getProductCategory(product);
+
+        const pageMatch =
+            currentPage === "all" ||
+            category === currentPage;
+
+        const filterMatch =
             activeFilter === "all" ||
-            p.category === activeFilter ||
-            (p.genre || "").toLowerCase() === activeFilter.toLowerCase();
+            category === activeFilter ||
+            String(product.genre || "").toLowerCase() ===
+                activeFilter.toLowerCase();
 
         const textMatch =
             !query ||
             [
-                p.name,
-                p.description,
-                p.genre,
-                p.platforms,
-                p.tag
+                product.name,
+                product.description,
+                product.genre,
+                product.platforms,
+                product.tag
             ].join(" ").toLowerCase().includes(query);
 
-        return categoryMatch && textMatch;
+        return pageMatch && filterMatch && textMatch;
     });
 
-    container.innerHTML = matches.length
-        ? matches.map(p => {
 
-            const image = p.image
+    // ======================================
+    // DISPLAY PRODUCT CARDS
+    // ======================================
+
+    container.innerHTML = matches.length
+
+        ? matches.map(product => {
+
+            const image = product.image
+
                 ? `<div class="productImage">
-                    <img src="${escapeHTML(p.image)}"
-                    alt="${escapeHTML(p.imageAlt || p.name)}"
-                    loading="lazy"
-                    onerror="this.parentElement.classList.add('imageMissing');this.remove()">
+                    <img
+                        src="${escapeHTML(product.image)}"
+                        alt="${escapeHTML(product.imageAlt || product.name)}"
+                        loading="lazy"
+                        onerror="this.parentElement.classList.add('imageMissing');this.remove()">
+
                     <span class="imageFallback">
-                    ${escapeHTML(p.icon || "💻")}
-                    ${escapeHTML(p.genre || "")}
+                        ${escapeHTML(product.icon || "💻")}
+                        ${escapeHTML(product.genre || "")}
                     </span>
-                   </div>`
+                </div>`
 
                 : `<div class="productImage imageMissing">
                     <span class="imageFallback">
-                    ${escapeHTML(p.icon || "💻")}
-                    ${escapeHTML(p.genre || "")}
+                        ${escapeHTML(product.icon || "💻")}
+                        ${escapeHTML(product.genre || "")}
                     </span>
-                   </div>`;
+                </div>`;
+
 
             const message =
-                `Hello George Games and Tech Hub! I am interested in ${p.name}. Listed price: ${p.price}. Please confirm availability, edition, platform and system requirements.`;
+                `Hello George Games and Tech Hub! I am interested in ${product.name}. Listed price: ${product.price}. Please confirm availability, edition, platform and system requirements.`;
+
 
             return `
+
                 <article class="card productCard">
+
                     ${image}
 
                     <div class="productInfo">
 
                         <div class="cardTop">
+
                             <span class="tag">
-                                ${escapeHTML(p.tag || "")}
+                                ${escapeHTML(product.tag || "")}
                             </span>
 
                             <span class="genre">
-                                ${escapeHTML(p.genre || "")}
+                                ${escapeHTML(product.genre || "")}
                             </span>
+
                         </div>
 
-                        <h3>${escapeHTML(p.name)}</h3>
+                        <h3>
+                            ${escapeHTML(product.name)}
+                        </h3>
 
-                        <p>${escapeHTML(p.description || "")}</p>
+                        <p>
+                            ${escapeHTML(product.description || "")}
+                        </p>
 
                         <div class="platforms">
-                            ${escapeHTML(p.platforms || "Ask for platform details")}
+                            ${escapeHTML(product.platforms || "Ask for compatibility details")}
                         </div>
 
                         <div class="cardBottom">
+
                             <span class="price">
-                                ${escapeHTML(p.price || "")}
+                                ${escapeHTML(product.price || "")}
                             </span>
 
-                            <a class="ask"
-                            target="_blank"
-                            rel="noopener"
-                            href="${escapeHTML(wa(message))}">
-                            ASK ON WHATSAPP ↗
+                            <a
+                                class="ask"
+                                target="_blank"
+                                rel="noopener"
+                                href="${escapeHTML(wa(message))}">
+                                ASK ON WHATSAPP ↗
                             </a>
+
                         </div>
 
                     </div>
+
                 </article>
+
             `;
+
         }).join("")
 
         : `<div class="noResults">
-            No products match that search. Try another name or category.
+            No products found in this category. Try another search.
            </div>`;
+
+
+    // ======================================
+    // PRODUCT COUNT
+    // ======================================
 
     const count = document.getElementById("productCount");
 
     if (count) {
+
         count.textContent =
             `${matches.length} item${matches.length === 1 ? "" : "s"}`;
+
     }
 }
 
-// Category and genre filters
+
+// ==========================================
+// CATEGORY FILTER BUTTONS
+// ==========================================
+
 document.querySelectorAll("[data-filter]").forEach(button => {
+
     button.addEventListener("click", () => {
 
         document.querySelectorAll("[data-filter]")
@@ -201,27 +349,58 @@ document.querySelectorAll("[data-filter]").forEach(button => {
         activeFilter = button.dataset.filter;
 
         render();
+
     });
+
 });
 
-// Search
+
+// ==========================================
+// SEARCH
+// ==========================================
+
 searchBox?.addEventListener("input", render);
 
-// Mobile navigation
-document.getElementById("menuBtn").addEventListener("click", () => {
-    document.getElementById("nav").classList.toggle("open");
+
+// ==========================================
+// MOBILE NAVIGATION
+// ==========================================
+
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+menuBtn?.addEventListener("click", () => {
+
+    nav?.classList.toggle("open");
+
 });
 
 document.querySelectorAll("#nav a").forEach(link => {
+
     link.addEventListener("click", () => {
-        document.getElementById("nav").classList.remove("open");
+
+        nav?.classList.remove("open");
+
     });
+
 });
 
-// Current year
-document.getElementById("year").textContent =
-    new Date().getFullYear();
 
-// Load products
+// ==========================================
+// CURRENT YEAR
+// ==========================================
+
+const year = document.getElementById("year");
+
+if (year) {
+    year.textContent = new Date().getFullYear();
+}
+
+
+// ==========================================
+// INITIALISE CATALOGUE
+// ==========================================
+
 render();
+
 loadDatabaseProducts();
