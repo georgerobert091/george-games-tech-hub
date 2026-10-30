@@ -260,14 +260,14 @@ document.getElementById("productForm")
         document.getElementById("productDescription").value.trim();
 
     const { error } = await supabaseClient
-        .from("Products")
-        .insert({
-    "Name": name,
-    "category": category,
-    "Price": price,
-    "Description": description,
-    "Image URL": image || null
-});
+    .from("Products")
+    .insert({
+        name: name,
+        category: category,
+        price: price,
+        description: description,
+        image_url: image || null
+    });
 
     if (error) {
         productMessage.textContent = "Error: " + error.message;
