@@ -1,13 +1,17 @@
 <!doctype html>
-<html lang="en"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#080b09"><title>George Games and Tech Hub</title>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080b09">
+<title>George Games and Tech Hub</title>
 <meta name="description" content="PC games, tech products, software and drivers. Ask us on WhatsApp.">
-<link rel="stylesheet" href="styles.css"><link rel="manifest" href="manifest.json">
-
+<link rel="stylesheet" href="styles.css">
+<link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#00ff99">
+<meta name="mobile-web-app-capable" content="yes">
 
-<meta name="mobile-web-app-capable" content="yes"><style>
+<style>
 :root {
     --background: #080d16;
     --card: #111c2d;
@@ -77,7 +81,8 @@ html {
         width: 100%;
     }
 }
-  /* Gaming loading screen */
+
+/* Gaming loading screen */
 #app-loader {
     position: fixed;
     inset: 0;
@@ -113,60 +118,311 @@ html {
 }
 
 @keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
+    to { transform: rotate(360deg); }
 }
 
 @keyframes glow {
-    from {
-        text-shadow: 0 0 5px #00ff99;
-    }
-    to {
-        text-shadow: 0 0 25px #00ff99;
-    }
+    from { text-shadow: 0 0 5px #00ff99; }
+    to { text-shadow: 0 0 25px #00ff99; }
 }
 
 #app-loader.hidden {
     opacity: 0;
     pointer-events: none;
-    }</style></head><body><div id="app-loader">
+}
+</style>
+</head>
+
+<body>
+
+<div id="app-loader">
     <div class="loader-circle"></div>
-
-    <h1>
-        GEORGE<br>
-        GAMES TECH HUB
-    </h1>
-
+    <h1>GEORGE<br>GAMES TECH HUB</h1>
     <p>Your World of Gaming & Technology</p>
-  </div>
-<div class="topline">PC GAMES <b>•</b> TECH PRODUCTS <b>•</b> SOFTWARE &amp; DRIVERS</div>
-<header class="header"><a class="brand" href="#home"><div class="logo"><svg viewBox="0 0 100 100"><path d="M25 20 35 29 50 12 65 29 75 20 71 39 29 39Z" fill="#a8ff35"/><path d="M70 48A27 27 0 1 0 75 63H57V54H83V76H74V70A27 27 0 1 1 70 48Z" fill="#a8ff35"/><path d="M48 43A16 16 0 1 0 64 59H53V53H71V62A23 23 0 1 1 66 41Z" fill="#101610"/></svg></div><span><strong>GEORGE</strong><small>GAMES &amp; TECH HUB</small></span></a>
-<button id="menuBtn" aria-label="Open navigation">☰</button><nav id="nav"><a href="#home">Home</a><a href="#catalogue">Catalogue</a><a href="#why-us">Why us</a><a href="#services">Services</a><a href="#contact">Contact</a></nav>
-<a class="outline" data-wa="Hello! Please send me your current games and tech price list." target="_blank" rel="noopener">WhatsApp ↗</a></header>
+</div>
+
+<div class="topline">
+    PC GAMES <b>•</b> TECH PRODUCTS <b>•</b> SOFTWARE &amp; DRIVERS
+</div>
+
+<header class="header">
+    <a class="brand" href="#home">
+        <div class="logo">
+            <svg viewBox="0 0 100 100">
+                <path d="M25 20 35 29 50 12 65 29 75 20 71 39 29 39Z" fill="#a8ff35"/>
+                <path d="M70 48A27 27 0 1 0 75 63H57V54H83V76H74V70A27 27 0 1 1 70 48Z" fill="#a8ff35"/>
+                <path d="M48 43A16 16 0 1 0 64 59H53V53H71V62A23 23 0 1 1 66 41Z" fill="#101610"/>
+            </svg>
+        </div>
+        <span>
+            <strong>GEORGE</strong>
+            <small>GAMES &amp; TECH HUB</small>
+        </span>
+    </a>
+
+    <button id="menuBtn" aria-label="Open navigation">☰</button>
+
+    <nav id="nav">
+        <a href="#home">Home</a>
+        <a href="#catalogue">Catalogue</a>
+        <a href="#why-us">Why us</a>
+        <a href="#services">Services</a>
+        <a href="#contact">Contact</a>
+    </nav>
+
+    <a class="outline" data-wa="Hello! Please send me your current games and tech price list." target="_blank" rel="noopener">WhatsApp ↗</a>
+</header>
+
 <main>
-<section class="hero" id="home"><div class="heroText"><label>● YOUR DIGITAL UPGRADE STARTS HERE</label><h1>LEVEL UP YOUR<br><em>GAME &amp; TECH.</em></h1><p>Your gaming and technology catalogue for PC games, accessories, software, drivers and practical upgrades. Browse clear product information, then message us to confirm current prices, availability and compatibility.</p><div class="actions"><a class="btn" href="#catalogue">Explore catalogue ↓</a><a class="btn ghost" data-wa="Hello George Games and Tech Hub! I want to ask about your products." target="_blank" rel="noopener">Chat on WhatsApp ↗</a></div><div class="stats"><span><b>01</b> GAMES</span><span><b>02</b> TECH GEAR</span><span><b>03</b> SOFTWARE</span><span><b>04</b> DRIVERS</span></div></div>
-<div class="art controller-art" aria-label="Illustration of an Xbox Elite Wireless Controller Series 2">
-<div class="orbit"></div><div class="controller-glow"></div>
-<svg class="elite-controller" viewBox="0 0 620 390" role="img" aria-labelledby="controllerTitle">
-<title id="controllerTitle">Xbox Elite Wireless Controller Series 2 inspired illustration</title>
-<defs><linearGradient id="body" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#424a45"/><stop offset=".48" stop-color="#171d19"/><stop offset="1" stop-color="#080b09"/></linearGradient><linearGradient id="grip" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#303a32"/><stop offset="1" stop-color="#111712"/></linearGradient><filter id="shadow"><feGaussianBlur stdDeviation="9"/></filter></defs>
-<ellipse cx="310" cy="318" rx="230" ry="28" fill="#a8ff35" opacity=".18" filter="url(#shadow)"/>
-<!-- rear paddles --> <path d="M175 105 L160 62 Q158 49 170 46 L194 43 Q205 44 207 57 L213 100Z" fill="#343d36" stroke="#68746a" stroke-width="3"/><path d="M415 105 L427 58 Q430 45 442 47 L466 52 Q477 55 473 68 L455 112Z" fill="#343d36" stroke="#68746a" stroke-width="3"/>
-<!-- controller shell --> <path d="M176 110 C143 103 119 125 106 159 L65 267 C55 295 72 320 99 316 L170 303 C197 298 214 276 228 255 L392 255 C406 276 423 298 450 303 L521 316 C548 320 565 295 555 267 L514 159 C501 125 477 103 444 110 C402 123 368 132 310 132 C252 132 218 123 176 110Z" fill="url(#body)" stroke="#657066" stroke-width="4"/>
-<!-- textured grips --> <path d="M119 171 C106 203 88 250 84 278 Q82 292 96 292 L158 280 Q180 273 192 246 L212 185Z" fill="url(#grip)" stroke="#2d392f" stroke-width="2"/><path d="M501 171 C514 203 532 250 536 278 Q538 292 524 292 L462 280 Q440 273 428 246 L408 185Z" fill="url(#grip)" stroke="#2d392f" stroke-width="2"/>
-<!-- shoulder triggers --> <path d="M174 111 Q187 87 219 93 L247 105 L238 126 L183 131Z" fill="#242c26" stroke="#758176" stroke-width="3"/><path d="M446 111 Q433 87 401 93 L373 105 L382 126 L437 131Z" fill="#242c26" stroke="#758176" stroke-width="3"/>
-<!-- sticks --> <circle cx="235" cy="183" r="38" fill="#080b09" stroke="#7a857c" stroke-width="4"/><circle cx="235" cy="183" r="26" fill="#202922" stroke="#3c493e" stroke-width="3"/><circle cx="235" cy="183" r="16" fill="#111712" stroke="#657267" stroke-width="2"/>
-<circle cx="384" cy="232" r="38" fill="#080b09" stroke="#7a857c" stroke-width="4"/><circle cx="384" cy="232" r="26" fill="#202922" stroke="#3c493e" stroke-width="3"/><circle cx="384" cy="232" r="16" fill="#111712" stroke="#657267" stroke-width="2"/>
-<!-- d pad --> <circle cx="169" cy="222" r="28" fill="#080b09" stroke="#374239" stroke-width="3"/><path d="M160 204 h18 v10 h10 v17 h-10 v10 h-18 v-10 h-10 v-17 h10z" fill="#8a968c"/>
-<!-- ABXY --> <circle cx="454" cy="177" r="13" fill="#a8ff35"/><circle cx="479" cy="199" r="13" fill="#e8f3e8"/><circle cx="429" cy="199" r="13" fill="#d2dfd4"/><circle cx="454" cy="222" r="13" fill="#59665b"/><text x="454" y="181" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">Y</text><text x="479" y="203" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">B</text><text x="429" y="203" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">X</text><text x="454" y="226" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">A</text>
-<!-- center controls --> <circle cx="310" cy="174" r="18" fill="#0b100c" stroke="#5a675c" stroke-width="3"/><path d="M300 174 A10 10 0 1 1 311 184 L311 177 L319 177 L319 190 L307 190 A16 16 0 1 1 321 164 L316 169 A10 10 0 1 0 310 184Z" fill="#a8ff35"/><rect x="282" y="211" width="22" height="7" rx="3" fill="#788579"/><rect x="316" y="211" width="22" height="7" rx="3" fill="#788579"/><circle cx="310" cy="238" r="5" fill="#a8ff35"/>
-<!-- elite paddles hints --> <rect x="225" y="273" width="45" height="8" rx="4" fill="#a8ff35" opacity=".75"/><rect x="350" y="273" width="45" height="8" rx="4" fill="#a8ff35" opacity=".75"/>
-</svg><div class="chip">ELITE SERIES 2 <span>•</span> PC READY</div><div class="controller-caption"><b>PRECISION CONTROL</b><small>Custom profiles · Rear paddles · Adjustable sticks</small></div></div></section>
-<div class="ticker">PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD <b>✳</b> PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD</div>
-<section class="why section" id="why-us"><div class="heading"><div><label>WHY GEORGE GAMES &amp; TECH HUB</label><h2>Good choices.<br><em>Clear information.</em></h2></div><p>Find the right game, accessory or PC software with product details explained in simple language before you decide.</p></div><div class="whyGrid"><article><span>01</span><h3>Product details</h3><p>We can list platform, edition, compatibility, storage needs and important notes for each item.</p></article><article><span>02</span><h3>Clear price enquiries</h3><p>Ask for the latest price and availability directly on WhatsApp. No made-up prices.</p></article><article><span>03</span><h3>Compatibility first</h3><p>Check PC specifications, operating system and device model before choosing software or drivers.</p></article><article><span>04</span><h3>Direct conversation</h3><p>Each listing includes a WhatsApp enquiry message to help you ask about that exact item.</p></article></div></section>
-<section class="section" id="catalogue"><div class="heading"><div><label>THE CATALOGUE</label><h2>Find your next <em>upgrade.</em></h2></div><p>Choose a category, then message us to confirm price, compatibility and availability.</p></div>
-<div class="catalogueTools"><label class="searchLabel" for="productSearch">SEARCH THE CATALOGUE</label><input id="productSearch" type="search" placeholder="Search game, genre or platform…" autocomplete="off"><span id="productCount" class="productCount"></span></div><div class="filters"><button class="active" data-filter="all">All items</button><button data-filter="games">PC Games</button><button data-filter="action">Action</button><button data-filter="sports">Sports</button><button data-filter="racing">Racing</button><button data-filter="tech">Tech Products</button><button data-filter="software">Software</button><button data-filter="drivers">Drivers</button></div><div class="products" id="products"></div>
+
+<section class="hero" id="home">
+    <div class="heroText">
+        <label>● YOUR DIGITAL UPGRADE STARTS HERE</label>
+        <h1>LEVEL UP YOUR<br><em>GAME &amp; TECH.</em></h1>
+
+        <p>Your gaming and technology catalogue for PC games, accessories, software, drivers and practical upgrades. Browse clear product information, then message us to confirm current prices, availability and compatibility.</p>
+
+        <div class="actions">
+            <a class="btn" href="#catalogue">Explore catalogue ↓</a>
+            <a class="btn ghost" data-wa="Hello George Games and Tech Hub! I want to ask about your products." target="_blank" rel="noopener">Chat on WhatsApp ↗</a>
+        </div>
+
+        <div class="stats">
+            <span><b>01</b> GAMES</span>
+            <span><b>02</b> TECH GEAR</span>
+            <span><b>03</b> SOFTWARE</span>
+            <span><b>04</b> DRIVERS</span>
+        </div>
+    </div>
+
+    <div class="art controller-art" aria-label="Illustration of an Xbox Elite Wireless Controller Series 2">
+        <div class="orbit"></div>
+        <div class="controller-glow"></div>
+
+        <svg class="elite-controller" viewBox="0 0 620 390" role="img" aria-labelledby="controllerTitle">
+            <title id="controllerTitle">Xbox Elite Wireless Controller Series 2 inspired illustration</title>
+
+            <defs>
+                <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+                    <stop stop-color="#424a45"/>
+                    <stop offset=".48" stop-color="#171d19"/>
+                    <stop offset="1" stop-color="#080b09"/>
+                </linearGradient>
+
+                <linearGradient id="grip" x1="0" y1="0" x2="0" y2="1">
+                    <stop stop-color="#303a32"/>
+                    <stop offset="1" stop-color="#111712"/>
+                </linearGradient>
+
+                <filter id="shadow">
+                    <feGaussianBlur stdDeviation="9"/>
+                </filter>
+            </defs>
+
+            <ellipse cx="310" cy="318" rx="230" ry="28" fill="#a8ff35" opacity=".18" filter="url(#shadow)"/>
+
+            <path d="M175 105 L160 62 Q158 49 170 46 L194 43 Q205 44 207 57 L213 100Z" fill="#343d36" stroke="#68746a" stroke-width="3"/>
+            <path d="M415 105 L427 58 Q430 45 442 47 L466 52 Q477 55 473 68 L455 112Z" fill="#343d36" stroke="#68746a" stroke-width="3"/>
+
+            <path d="M176 110 C143 103 119 125 106 159 L65 267 C55 295 72 320 99 316 L170 303 C197 298 214 276 228 255 L392 255 C406 276 423 298 450 303 L521 316 C548 320 565 295 555 267 L514 159 C501 125 477 103 444 110 C402 123 368 132 310 132 C252 132 218 123 176 110Z" fill="url(#body)" stroke="#657066" stroke-width="4"/>
+
+            <path d="M119 171 C106 203 88 250 84 278 Q82 292 96 292 L158 280 Q180 273 192 246 L212 185Z" fill="url(#grip)" stroke="#2d392f" stroke-width="2"/>
+            <path d="M501 171 C514 203 532 250 536 278 Q538 292 524 292 L462 280 Q440 273 428 246 L408 185Z" fill="url(#grip)" stroke="#2d392f" stroke-width="2"/>
+
+            <path d="M174 111 Q187 87 219 93 L247 105 L238 126 L183 131Z" fill="#242c26" stroke="#758176" stroke-width="3"/>
+            <path d="M446 111 Q433 87 401 93 L373 105 L382 126 L437 131Z" fill="#242c26" stroke="#758176" stroke-width="3"/>
+
+            <circle cx="235" cy="183" r="38" fill="#080b09" stroke="#7a857c" stroke-width="4"/>
+            <circle cx="235" cy="183" r="26" fill="#202922" stroke="#3c493e" stroke-width="3"/>
+            <circle cx="235" cy="183" r="16" fill="#111712" stroke="#657267" stroke-width="2"/>
+
+            <circle cx="384" cy="232" r="38" fill="#080b09" stroke="#7a857c" stroke-width="4"/>
+            <circle cx="384" cy="232" r="26" fill="#202922" stroke="#3c493e" stroke-width="3"/>
+            <circle cx="384" cy="232" r="16" fill="#111712" stroke="#657267" stroke-width="2"/>
+
+            <circle cx="169" cy="222" r="28" fill="#080b09" stroke="#374239" stroke-width="3"/>
+            <path d="M160 204 h18 v10 h10 v17 h-10 v10 h-18 v-10 h-10 v-17 h10z" fill="#8a968c"/>
+
+            <circle cx="454" cy="177" r="13" fill="#a8ff35"/>
+            <circle cx="479" cy="199" r="13" fill="#e8f3e8"/>
+            <circle cx="429" cy="199" r="13" fill="#d2dfd4"/>
+            <circle cx="454" cy="222" r="13" fill="#59665b"/>
+
+            <text x="454" y="181" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">Y</text>
+            <text x="479" y="203" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">B</text>
+            <text x="429" y="203" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">X</text>
+            <text x="454" y="226" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b100c">A</text>
+
+            <circle cx="310" cy="174" r="18" fill="#0b100c" stroke="#5a675c" stroke-width="3"/>
+            <path d="M300 174 A10 10 0 1 1 311 184 L311 177 L319 177 L319 190 L307 190 A16 16 0 1 1 321 164 L316 169 A10 10 0 1 0 310 184Z" fill="#a8ff35"/>
+
+            <rect x="282" y="211" width="22" height="7" rx="3" fill="#788579"/>
+            <rect x="316" y="211" width="22" height="7" rx="3" fill="#788579"/>
+            <circle cx="310" cy="238" r="5" fill="#a8ff35"/>
+
+            <rect x="225" y="273" width="45" height="8" rx="4" fill="#a8ff35" opacity=".75"/>
+            <rect x="350" y="273" width="45" height="8" rx="4" fill="#a8ff35" opacity=".75"/>
+        </svg>
+
+        <div class="chip">ELITE SERIES 2 <span>•</span> PC READY</div>
+
+        <div class="controller-caption">
+            <b>PRECISION CONTROL</b>
+            <small>Custom profiles · Rear paddles · Adjustable sticks</small>
+        </div>
+    </div>
+</section>
+
+<div class="ticker">
+    PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD <b>✳</b>
+    PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD
+</div>
+
+<section class="why section" id="why-us">
+    <div class="heading">
+        <div>
+            <label>WHY GEORGE GAMES &amp; TECH HUB</label>
+            <h2>Good choices.<br><em>Clear information.</em></h2>
+        </div>
+        <p>Find the right game, accessory or PC software with product details explained in simple language before you decide.</p>
+    </div>
+
+    <div class="whyGrid">
+        <article><span>01</span><h3>Product details</h3><p>We can list platform, edition, compatibility, storage needs and important notes for each item.</p></article>
+        <article><span>02</span><h3>Clear price enquiries</h3><p>Ask for the latest price and availability directly on WhatsApp. No made-up prices.</p></article>
+        <article><span>03</span><h3>Compatibility first</h3><p>Check PC specifications, operating system and device model before choosing software or drivers.</p></article>
+        <article><span>04</span><h3>Direct conversation</h3><p>Each listing includes a WhatsApp enquiry message to help you ask about that exact item.</p></article>
+    </div>
+</section>
+
+<section class="section" id="catalogue">
+    <div class="heading">
+        <div>
+            <label>THE CATALOGUE</label>
+            <h2>Find your next <em>upgrade.</em></h2>
+        </div>
+        <p>Choose a category, then message us to confirm price, compatibility and availability.</p>
+    </div>
+
+    <div class="catalogueTools">
+        <label class="searchLabel" for="productSearch">SEARCH THE CATALOGUE</label>
+        <input id="productSearch" type="search" placeholder="Search game, genre or platform…" autocomplete="off">
+        <span id="productCount" class="productCount"></span>
+    </div>
+
+    <div class="filters">
+        <button class="active" data-filter="all">All items</button>
+        <button data-filter="games">PC Games</button>
+        <button data-filter="action">Action</button>
+        <button data-filter="sports">Sports</button>
+        <button data-filter="racing">Racing</button>
+        <button data-filter="tech">Tech Products</button>
+        <button data-filter="software">Software</button>
+        <button data-filter="drivers">Drivers</button>
+    </div>
+
+    <div class="products" id="products"></div>
+
+    <p class="note">
+        ⓘ Prices are listed as supplied; confirm the exact edition, availability, platform and PC requirements on WhatsApp before ordering. Game cover images are shown for identification. Product titles and artwork belong to their respective owners.
+    </p>
+</section>
+
+<section class="services" id="services">
+    <label>HOW WE HELP</label>
+    <h2>Tech made <em>simple.</em></h2>
+
+    <div class="serviceGrid">
+        <article><b>▣</b><h3>PC Game Help</h3><p>Ask about game editions, system requirements, installation and storage needs.</p></article>
+        <article><b>⌘</b><h3>Tech Products</h3><p>Enquire about accessories and upgrades for your setup and budget.</p></article>
+        <article><b>⌁</b><h3>Software Support</h3><p>Find suitable, legitimate software for your computer.</p></article>
+        <article><b>↗</b><h3>Drivers &amp; Setup</h3><p>Ask which official drivers match your PC model and operating system.</p></article>
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="contactCard">
+        <label>LET'S GET YOU SET UP</label>
+        <h2>Need something<br><em>specific?</em></h2>
+        <p>Tell us the game, software, driver or tech product you need. We’ll discuss the details on WhatsApp.</p>
+        <a class="btn" data-wa="Hello George Games and Tech Hub! I need help finding a specific product." target="_blank" rel="noopener">Message us on WhatsApp ↗</a>
+    </div>
+
+    <div class="contactSide">
+        <div class="bigG"><span>♛</span>G</div>
+        <strong>GEORGE</strong>
+        <b>GAMES &amp; TECH HUB</b>
+        <hr>
+        <small>PLAY • UPGRADE • STAY AHEAD</small>
+        <p class="contactNumber">WhatsApp: +234 913 605 9577</p>
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <strong>GEORGE <span>GAMES &amp; TECH HUB</span></strong>
+    <p>Built for gamers, learners and tech lovers.</p>
+    <small>© <span id="year"></span> George Games and Tech Hub</small>
+</footer>
+
+<a class="floatWa" data-wa="Hello! Please help me with your catalogue." target="_blank" rel="noopener" aria-label="WhatsApp">✆</a>
+
+<!-- Supabase must load BEFORE app.js -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://krwdispgabnsxrbbpeqx.supabase.co";
+
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
+
+const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+);
+</script>
+
+<!-- Existing product catalogue -->
+<script src="products.js"></script>
+
+<!-- Main website application -->
+<script src="app.js"></script>
+
+<!-- Service worker -->
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker
+            .register("./sw.js")
+            .then(() => {
+                console.log("George Games Tech Hub app is ready!");
+            })
+            .catch(error => {
+                console.error("Service worker registration failed:", error);
+            });
+    });
+}
+</script>
+
+<!-- Loading screen -->
+<script>
+window.addEventListener("load", function() {
+    const loader = document.getElementById("app-loader");
+
+    if (loader) {
+        setTimeout(function() {
+            loader.classList.add("hidden");
+
+            setTimeout(function() {
+                loader.remove();
+            }, 500);
+        }, 700);
+    }
+});
+</script>
+
+</body>
+    </html>h">SEARCH THE CATALOGUE</label><input id="productSearch" type="search" placeholder="Search game, genre or platform…" autocomplete="off"><span id="productCount" class="productCount"></span></div><div class="filters"><button class="active" data-filter="all">All items</button><button data-filter="games">PC Games</button><button data-filter="action">Action</button><button data-filter="sports">Sports</button><button data-filter="racing">Racing</button><button data-filter="tech">Tech Products</button><button data-filter="software">Software</button><button data-filter="drivers">Drivers</button></div><div class="products" id="products"></div>
 <p class="note">ⓘ Prices are listed as supplied; confirm the exact edition, availability, platform and PC requirements on WhatsApp before ordering. Game cover images are shown for identification. Product titles and artwork belong to their respective owners.</p></section>
 <section class="services" id="services"><label>HOW WE HELP</label><h2>Tech made <em>simple.</em></h2><div class="serviceGrid"><article><b>▣</b><h3>PC Game Help</h3><p>Ask about game editions, system requirements, installation and storage needs.</p></article><article><b>⌘</b><h3>Tech Products</h3><p>Enquire about accessories and upgrades for your setup and budget.</p></article><article><b>⌁</b><h3>Software Support</h3><p>Find suitable, legitimate software for your computer.</p></article><article><b>↗</b><h3>Drivers &amp; Setup</h3><p>Ask which official drivers match your PC model and operating system.</p></article></div></section>
 <section class="contact" id="contact"><div class="contactCard"><label>LET'S GET YOU SET UP</label><h2>Need something<br><em>specific?</em></h2><p>Tell us the game, software, driver or tech product you need. We’ll discuss the details on WhatsApp.</p><a class="btn" data-wa="Hello George Games and Tech Hub! I need help finding a specific product." target="_blank" rel="noopener">Message us on WhatsApp ↗</a></div><div class="contactSide"><div class="bigG"><span>♛</span>G</div><strong>GEORGE</strong><b>GAMES &amp; TECH HUB</b><hr><small>PLAY • UPGRADE • STAY AHEAD</small><p class="contactNumber">WhatsApp: +234 913 605 9577</p></div></section>
