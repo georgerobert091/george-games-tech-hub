@@ -262,12 +262,12 @@ document.getElementById("productForm")
     const { error } = await supabaseClient
         .from("Products")
         .insert({
-            "Name": name,
-            "Category": category,
-            "Price": price,
-            "Description": description,
-            "Image URL": image || null
-        });
+    "Name": name,
+    "category": category,
+    "Price": price,
+    "Description": description,
+    "Image URL": image || null
+});
 
     if (error) {
         productMessage.textContent = "Error: " + error.message;
