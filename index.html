@@ -1,387 +1,835 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#080d0b">
-  <meta name="description" content="George Games and Tech Hub — games, gaming accessories, PC upgrades, software and drivers.">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>George Games & Tech Hub</title>
+    <meta name="theme-color" content="#080d0b">
 
-  <link rel="stylesheet" href="styles.css">
+    <meta name="description"
+        content="George Games and Tech Hub — discover PC games, gaming accessories, PC upgrades, software and drivers.">
 
-  <style>
-    :root {
-      --home-green: #a3ff3f;
-      --home-bg: #080d0b;
-      --home-panel: #111a15;
-      --home-text: #f4f8f4;
-      --home-muted: #a5b2a9;
-    }
+    <title>George Games & Tech Hub | Gaming & Technology</title>
 
-    * {
-      box-sizing: border-box;
-    }
+    <link rel="stylesheet" href="styles.css">
 
-    html {
-      scroll-behavior: smooth;
-    }
+    <style>
+        :root {
+            --green: #a3ff3f;
+            --dark: #080d0b;
+            --panel: #111a15;
+            --text: #f4f8f4;
+            --muted: #a5b2a9;
+            --border: #26342b;
+        }
 
-    body {
-      margin: 0;
-      background: var(--home-bg);
-      color: var(--home-text);
-      font-family: Arial, sans-serif;
-    }
+        * {
+            box-sizing: border-box;
+        }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
+        html {
+            scroll-behavior: smooth;
+        }
 
-    .homeHeader {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(8, 13, 11, .96);
-      border-bottom: 1px solid #26342b;
-      backdrop-filter: blur(12px);
-    }
+        body {
+            margin: 0;
+            background: var(--dark);
+            color: var(--text);
+            font-family: Arial, sans-serif;
+        }
 
-    .homeNav {
-      max-width: 1250px;
-      min-height: 75px;
-      margin: auto;
-      padding: 12px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 20px;
-    }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
 
-    .homeLogo {
-      font-size: 17px;
-      font-weight: 900;
-      line-height: 1.4;
-    }
+        button {
+            font: inherit;
+        }
 
-    .homeLogo span {
-      color: var(--home-green);
-    }
+        /* HEADER */
 
-    .homeLinks {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-      font-size: 13px;
-      color: var(--home-muted);
-    }
+        .homeHeader {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(8, 13, 11, .97);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(12px);
+        }
 
-    .homeLinks a:hover {
-      color: var(--home-green);
-    }
+        .homeNav {
+            max-width: 1250px;
+            min-height: 75px;
+            margin: auto;
+            padding: 12px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
 
-    .homeMenu {
-      display: none;
-      background: var(--home-green);
-      border: 0;
-      border-radius: 8px;
-      padding: 10px 13px;
-      font-weight: bold;
-      cursor: pointer;
-    }
+        .homeLogo {
+            font-size: 17px;
+            font-weight: 900;
+            line-height: 1.4;
+        }
 
-    .homeHero {
-      max-width: 1250px;
-      min-height: 440px;
-      margin: auto;
-      padding: 85px 6%;
-      display: flex;
-      align-items: center;
-      background:
-        linear-gradient(90deg, rgba(8,13,11,.98), rgba(8,13,11,.78), rgba(8,13,11,.35)),
-        url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1600&q=85")
-        center/cover;
-    }
+        .homeLogo span {
+            color: var(--green);
+        }
 
-    .heroContent {
-      max-width: 650px;
-    }
+        .homeLinks {
+            display: flex;
+            align-items: center;
+            gap: 23px;
+            font-size: 13px;
+            color: var(--muted);
+        }
 
-    .heroTag {
-      display: inline-block;
-      padding: 9px 14px;
-      border: 1px solid #527b32;
-      border-radius: 30px;
-      color: var(--home-green);
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-    }
+        .homeLinks a:hover {
+            color: var(--green);
+        }
 
-    .homeHero h1 {
-      font-size: clamp(42px, 7vw, 75px);
-      line-height: 1;
-      margin: 25px 0;
-      font-weight: 950;
-    }
+        .homeMenu {
+            display: none;
+            background: var(--green);
+            border: 0;
+            border-radius: 8px;
+            padding: 10px 13px;
+            font-weight: bold;
+            cursor: pointer;
+        }
 
-    .homeHero h1 span {
-      color: var(--home-green);
-    }
+        /* HERO */
 
-    .homeHero p {
-      max-width: 520px;
-      color: #c3cec6;
-      font-size: 16px;
-      line-height: 1.8;
-    }
+        .homeHero {
+            min-height: 520px;
+            max-width: 1450px;
+            margin: auto;
+            padding: 90px 7%;
+            display: flex;
+            align-items: center;
 
-    .heroButtons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 13px;
-      margin-top: 28px;
-    }
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(8,13,11,.98),
+                    rgba(8,13,11,.78),
+                    rgba(8,13,11,.35)
+                ),
+                url("https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1800&q=85")
+                center/cover no-repeat;
+        }
 
-    .homeButton {
-      display: inline-block;
-      padding: 14px 21px;
-      border-radius: 8px;
-      background: var(--home-green);
-      color: #10170d;
-      font-weight: 900;
-      font-size: 13px;
-    }
+        .heroContent {
+            max-width: 680px;
+        }
 
-    .homeButton.secondary {
-      background: transparent;
-      color: white;
-      border: 1px solid #708074;
-    }
+        .heroTag {
+            display: inline-block;
+            padding: 9px 15px;
+            border: 1px solid #527b32;
+            border-radius: 30px;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+        }
 
-    .homeTicker {
-      padding: 15px 10px;
-      background: var(--home-green);
-      color: #10170d;
-      text-align: center;
-      font-weight: 900;
-      font-size: 12px;
-      letter-spacing: 1.5px;
-    }
+        .homeHero h1 {
+            font-size: clamp(43px, 7vw, 78px);
+            line-height: 1;
+            margin: 25px 0;
+            font-weight: 950;
+        }
 
-    .homeSection {
-      max-width: 1250px;
-      margin: auto;
-      padding: 75px         </div>
+        .homeHero h1 span {
+            color: var(--green);
+        }
 
-            <strong>GEORGE</strong>
-            <b>GAMES & TECH HUB</b>
+        .homeHero p {
+            max-width: 540px;
+            color: #c3cec6;
+            font-size: 16px;
+            line-height: 1.8;
+        }
 
-            <hr>
+        .heroButtons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 13px;
+            margin-top: 30px;
+        }
 
-            <small>GAMING • TECHNOLOGY • SUPPORT</small>
+        .homeButton {
+            display: inline-block;
+            padding: 15px 22px;
+            border-radius: 8px;
+            background: var(--green);
+            color: #10170d;
+            font-weight: 900;
+            font-size: 13px;
+        }
+
+        .homeButton.secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid #708074;
+        }
+
+        .homeButton:hover {
+            transform: translateY(-3px);
+        }
+
+        /* TICKER */
+
+        .homeTicker {
+            padding: 16px 10px;
+            background: var(--green);
+            color: #10170d;
+            text-align: center;
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+        }
+
+        .homeTicker span {
+            margin: 0 10px;
+        }
+
+        /* SECTIONS */
+
+        .homeSection {
+            max-width: 1250px;
+            margin: auto;
+            padding: 85px 5%;
+        }
+
+        .sectionHeading {
+            margin-bottom: 35px;
+        }
+
+        .sectionHeading label {
+            color: var(--green);
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .sectionHeading h2 {
+            font-size: clamp(30px, 5vw, 48px);
+            margin: 13px 0;
+        }
+
+        .sectionHeading h2 span {
+            color: var(--green);
+        }
+
+        .sectionHeading p {
+            max-width: 650px;
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 15px;
+        }
+
+        /* CATEGORY CARDS */
+
+        .categoryGrid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 23px;
+        }
+
+        .categoryCard {
+            display: block;
+            position: relative;
+            min-height: 310px;
+            overflow: hidden;
+            border-radius: 15px;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            transition: transform .25s, border-color .25s;
+        }
+
+        .categoryCard:hover {
+            transform: translateY(-7px);
+            border-color: var(--green);
+        }
+
+        .categoryImage {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .4s;
+        }
+
+        .categoryCard:hover .categoryImage {
+            transform: scale(1.07);
+        }
+
+        .categoryOverlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                0deg,
+                rgba(5,10,7,.98) 0%,
+                rgba(5,10,7,.68) 45%,
+                rgba(5,10,7,.08) 100%
+            );
+        }
+
+        .categoryContent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 25px;
+        }
+
+        .categoryNumber {
+            display: inline-block;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .categoryContent h3 {
+            font-size: 24px;
+            margin: 0 0 10px;
+        }
+
+        .categoryContent p {
+            color: #c3cec6;
+            font-size: 13px;
+            line-height: 1.6;
+            margin: 0 0 18px;
+        }
+
+        .categoryLink {
+            display: inline-block;
+            color: var(--green);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 1px;
+        }
+
+        /* WHY US */
+
+        .whySection {
+            background: #0d1510;
+            padding: 75px 5%;
+        }
+
+        .whyInner {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .whyGrid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-top: 35px;
+        }
+
+        .whyCard {
+            background: var(--panel);
+            padding: 25px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .whyCard span {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 900;
+        }
+
+        .whyCard h3 {
+            font-size: 17px;
+            margin: 17px 0 10px;
+        }
+
+        .whyCard p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        /* CONTACT */
+
+        .contactSection {
+            max-width: 1100px;
+            margin: auto;
+            padding: 85px 5%;
+            text-align: center;
+        }
+
+        .contactBox {
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(163,255,63,.12),
+                    rgba(17,26,21,.95)
+                );
+
+            border: 1px solid #405c2d;
+            border-radius: 18px;
+            padding: 55px 25px;
+        }
+
+        .contactBox label {
+            color: var(--green);
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 12px;
+        }
+
+        .contactBox h2 {
+            font-size: clamp(32px, 5vw, 52px);
+            margin: 17px 0;
+        }
+
+        .contactBox p {
+            color: var(--muted);
+            max-width: 600px;
+            margin: 0 auto 27px;
+            line-height: 1.8;
+        }
+
+        /* FOOTER */
+
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 35px 5%;
+            text-align: center;
+            color: var(--muted);
+        }
+
+        footer strong {
+            color: white;
+            font-size: 17px;
+        }
+
+        footer strong span {
+            color: var(--green);
+        }
+
+        footer p {
+            font-size: 13px;
+            margin: 12px 0;
+        }
+
+        footer small {
+            font-size: 11px;
+        }
+
+        .floatWa {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 90;
+            width: 55px;
+            height: 55px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--green);
+            color: #10170d;
+            border-radius: 50%;
+            font-size: 25px;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,.4);
+        }
+
+        /* TABLET */
+
+        @media (max-width: 900px) {
+
+            .categoryGrid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .whyGrid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+        }
+
+        /* MOBILE */
+
+        @media (max-width: 650px) {
+
+            .homeNav {
+                min-height: 68px;
+            }
+
+            .homeMenu {
+                display: block;
+            }
+
+            .homeLinks {
+                display: none;
+                position: absolute;
+                top: 68px;
+                left: 0;
+                right: 0;
+                padding: 22px 5%;
+                background: #0d1510;
+                border-bottom: 1px solid var(--border);
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 22px;
+            }
+
+            .homeLinks.open {
+                display: flex;
+            }
+
+            .homeHero {
+                min-height: 470px;
+                padding: 75px 6%;
+            }
+
+            .homeHero p {
+                font-size: 14px;
+            }
+
+            .homeSection {
+                padding: 65px 5%;
+            }
+
+            .categoryGrid {
+                grid-template-columns: 1fr;
+            }
+
+            .categoryCard {
+                min-height: 290px;
+            }
+
+            .whyGrid {
+                grid-template-columns: 1fr;
+            }
+
+            .homeTicker {
+                font-size: 10px;
+                letter-spacing: 1px;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <header class="homeHeader">
+
+        <nav class="homeNav">
+
+            <a href="index.html" class="homeLogo">
+                GEORGE <span>GAMES & TECH HUB</span>
+            </a>
+
+            <button
+                class="homeMenu"
+                id="homeMenu"
+                type="button"
+                aria-label="Open navigation menu"
+                aria-expanded="false">
+                MENU ☰
+            </button>
+
+            <div class="homeLinks" id="homeLinks">
+
+                <a href="index.html">HOME</a>
+                <a href="#categories">CATEGORIES</a>
+                <a href="#why-us">WHY US</a>
+                <a href="#contact">CONTACT</a>
+
+            </div>
+
+        </nav>
+
+    </header>
+
+
+    <!-- HERO -->
+
+    <section class="homeHero">
+
+        <div class="heroContent">
+
+            <span class="heroTag">
+                ♛ GEORGE GAMES & TECH HUB
+            </span>
+
+            <h1>
+                YOUR WORLD OF
+                <span>GAMING & TECH.</span>
+            </h1>
+
+            <p>
+                Discover exciting PC games, gaming accessories,
+                storage upgrades, useful software and essential drivers.
+                Everything you need for your digital setup.
+            </p>
+
+            <div class="heroButtons">
+
+                <a href="#categories" class="homeButton">
+                    EXPLORE CATEGORIES ↓
+                </a>
+
+                <a
+                    href="https://wa.me/2349136059577"
+                    target="_blank"
+                    rel="noopener"
+                    class="homeButton secondary">
+                    CONTACT US ↗
+                </a>
+
+            </div>
 
         </div>
 
     </section>
 
 
-    <!-- FOOTER -->
+    <!-- TICKER -->
 
-    <footer>
-
-        <strong>
-            GEORGE <span>GAMES & TECH HUB</span>
-        </strong>
-
-        <p>
-            Your digital destination for gaming and technology.
-        </p>
-
-        <small>
-            © <span id="year"></span> George Games & Tech Hub.
-            All rights reserved.
-        </small>
-
-    </footer>
-
-
-    <a
-        class="floatWa"
-        href="https://wa.me/2349136059577"
-        target="_blank"
-        rel="noopener"
-        aria-label="Chat on WhatsApp">
-        W
-    </a>
-
-
-    <script>
-        const menuBtn = document.getElementById("menuBtn");
-        const nav = document.getElementById("nav");
-
-        menuBtn.addEventListener("click", function () {
-            nav.classList.toggle("open");
-        });
-
-        document.querySelectorAll("#nav a").forEach(function (link) {
-            link.addEventListener("click", function () {
-                nav.classList.remove("open");
-            });
-        });
-
-        document.getElementById("year").textContent =
-            new Date().getFullYear();
-
-        if ("serviceWorker" in navigator) {
-            window.addEventListener("load", function () {
-                navigator.serviceWorker.register("./sw.js")
-                    .catch(function (error) {
-                        console.log("Service worker registration failed:", error);
-                    });
-            });
-        }
-    </script>
-
-</body>
-    </html>-size="10"
-                  font-weight="bold" fill="#0b100c">X</text>
-            <text x="454" y="226" text-anchor="middle" font-size="10"
-                  font-weight="bold" fill="#0b100c">A</text>
-
-            <circle cx="310" cy="174" r="18"
-                    fill="#0b100c" stroke="#5a675c" stroke-width="3"/>
-
-            <path d="M300 174 A10 10 0 1 1 311 184 L311 177 L319 177 L319 190 L307 190 A16 16 0 1 1 321 164 L316 169 A10 10 0 1 0 310 184Z"
-                  fill="#a8ff35"/>
-
-            <rect x="282" y="211" width="22" height="7" rx="3" fill="#788579"/>
-            <rect x="316" y="211" width="22" height="7" rx="3" fill="#788579"/>
-            <circle cx="310" cy="238" r="5" fill="#a8ff35"/>
-
-            <rect x="225" y="273" width="45" height="8" rx="4"
-                  fill="#a8ff35" opacity=".75"/>
-            <rect x="350" y="273" width="45" height="8" rx="4"
-                  fill="#a8ff35" opacity=".75"/>
-        </svg>
-
-        <div class="chip">ELITE SERIES 2 <span>•</span> PC READY</div>
-
-        <div class="controller-caption">
-            <b>PRECISION CONTROL</b>
-            <small>Custom profiles · Rear paddles · Adjustable sticks</small>
-        </div>
-    </div>
-</section>
-
-<!-- TICKER -->
-
-<div class="ticker">
-    PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD <b>✳</b>
-    PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b> STAY AHEAD
-</div>
-
-<!-- WHY US -->
-
-<section class="why section" id="why-us">
-    <div class="heading">
-        <div>
-            <label>WHY GEORGE GAMES &amp; TECH HUB</label>
-            <h2>Good choices.<br><em>Clear information.</em></h2>
-        </div>
-
-        <p>
-            Find the right game, accessory or PC software with product
-            details explained in simple language before you decide.
-        </p>
+    <div class="homeTicker">
+        PLAY SMART <span>✳</span>
+        UPGRADE YOUR SETUP <span>✳</span>
+        STAY AHEAD <span>✳</span>
+        GAME ON
     </div>
 
-    <div class="whyGrid">
-        <article>
-            <span>01</span>
-            <h3>Product details</h3>
-            <p>We can list platform, edition, compatibility, storage needs and important notes for each item.</p>
-        </article>
 
-        <article>
-            <span>02</span>
-            <h3>Clear price enquiries</h3>
-            <p>Ask for the latest price and availability directly on WhatsApp. No made-up prices.</p>
-        </article>
+    <!-- CATEGORY CARDS -->
 
-        <article>
-            <span>03</span>
-            <h3>Compatibility first</h3>
-            <p>Check PC specifications, operating system and device model before choosing software or drivers.</p>
-        </article>
+    <main>
 
-        <article>
-            <span>04</span>
-            <h3>Direct conversation</h3>
-            <p>Each listing includes a WhatsApp enquiry message to help you ask about that exact item.</p>
-        </article>
-    </div>
-</section>
+        <section class="homeSection" id="categories">
 
-<!-- CATALOGUE -->
+            <div class="sectionHeading">
 
-<section class="section" id="catalogue">
+                <label>EXPLORE OUR CATEGORIES</label>
 
-    <div class="heading">
-        <div>
-            <label>THE CATALOGUE</label>
-            <h2>Find your next <em>upgrade.</em></h2>
-        </div>
+                <h2>
+                    FIND WHAT YOU <span>NEED.</span>
+                </h2>
 
-        <p>
-            Choose a category, then message us to confirm price,
-            compatibility and availability.
-        </p>
-    </div>
+                <p>
+                    Choose a category below to explore its products.
+                    Each section has its own catalogue, so finding what
+                    you need is simple.
+                </p>
 
-    <div class="catalogueTools">
-        <label class="searchLabel" for="productSearch">SEARCH THE CATALOGUE</label>
-        <input id="productSearch"
-               type="search"
-               placeholder="Search game, genre or platform…"
-               autocomplete="off">
-        <span id="productCount" class="productCount"></span>
-    </div>
-
-    <!-- GROUPED PRODUCT FILTERS -->
-
-    <div class="filterGroups">
-
-        <div class="filterGroup">
-            <h3>🌟 All Products</h3>
-            <div class="filters">
-                <button class="active" data-filter="all">All Items</button>
             </div>
-        </div>
 
-        <div class="filterGroup">
-            <h3>🎮 PC Games</h3>
-            <div class="filters">
-                <button data-filter="games">All Games</button>
-                <button data-filter="action">Action</button>
-                <button data-filter="adventure">Adventure</button>
-                <button data-filter="racing">Racing</button>
-                <button data-filter="sports">Sports</button>
-                <button data-filter="fighting">Fighting</button>
-                <button data-filter="shooting">Shooting</button>
-                <button data-filter="open world">Open World</button>
-                <button data-filter="simulation">Simulation</button>
-                <button data-filter="strategy">Strategy</button>
-                <button data-filter="horror">Horror</button>
+
+            <div class="categoryGrid">
+
+
+                <!-- GAMES -->
+
+                <a href="games.html" class="categoryCard">
+
+                    <img
+                        class="categoryImage"
+                        src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=1000&q=85"
+                        alt="PC gaming setup"
+                        loading="lazy">
+
+                    <div class="categoryOverlay"></div>
+
+                    <div class="categoryContent">
+
+                        <span class="categoryNumber">01 / GAMING</span>
+
+                        <h3>PC Games</h3>
+
+                        <p>
+                            Action, football, racing, adventure and
+                            exciting PC games.
+                        </p>
+
+                        <span class="categoryLink">
+                            EXPLORE GAMES →
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- ACCESSORIES -->
+
+                <a href="accessories.html" class="categoryCard">
+
+                    <img
+                        class="categoryImage"
+                        src="https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=1000&q=85"
+                        alt="Gaming accessories and equipment"
+                        loading="lazy">
+
+                    <div class="categoryOverlay"></div>
+
+                    <div class="categoryContent">
+
+                        <span class="categoryNumber">02 / EQUIPMENT</span>
+
+                        <h3>PC Accessories</h3>
+
+                        <p>
+                            Controllers, keyboards, gaming mice,
+                            headsets and more.
+                        </p>
+
+                        <span class="categoryLink">
+                            EXPLORE ACCESSORIES →
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- STORAGE -->
+
+                <a href="storage.html" class="categoryCard">
+
+                    <img
+                        class="categoryImage"
+                        src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?auto=format&fit=crop&w=1000&q=85"
+                        alt="Computer storage hardware"
+                        loading="lazy">
+
+                    <div class="categoryOverlay"></div>
+
+                    <div class="categoryContent">
+
+                        <span class="categoryNumber">03 / HARDWARE</span>
+
+                        <h3>Storage & PC Upgrades</h3>
+
+                        <p>
+                            SSDs, RAM, storage devices and
+                            computer upgrade options.
+                        </p>
+
+                        <span class="categoryLink">
+                            EXPLORE UPGRADES →
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- SOFTWARE -->
+
+                <a href="software.html" class="categoryCard">
+
+                    <img
+                        class="categoryImage"
+                        src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1000&q=85"
+                        alt="Computer software and productivity workspace"
+                        loading="lazy">
+
+                    <div class="categoryOverlay"></div>
+
+                    <div class="categoryContent">
+
+                        <span class="categoryNumber">04 / DIGITAL TOOLS</span>
+
+                        <h3>Software</h3>
+
+                        <p>
+                            Productivity, design, editing and
+                            other useful computer software.
+                        </p>
+
+                        <span class="categoryLink">
+                            EXPLORE SOFTWARE →
+                        </span>
+
+                    </div>
+
+                </a>
+
+
+                <!-- DRIVERS -->
+
+                <a href="drivers.html" class="categoryCard">
+
+                    <img
+                        class="categoryImage"
+                        src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1000&q=85"
+                        alt="Computer hardware and technology components"
+                        loading="lazy">
+
+                    <div class="categoryOverlay"></div>
+
+                    <div class="categoryContent">
+
+                        <span class="categoryNumber">05 / PC SUPPORT</span>
+
+                        <h3>Drivers</h3>
+
+                        <p>
+                            Graphics, audio, network and chipset
+                            driver information.
+                        </p>
+
+                        <span class="categoryLink">
+                            EXPLORE DRIVERS →
+                        </span>
+
+                    </div>
+
+                </a>
+
+
             </div>
-        </div>
 
-        <div class="filterGroup">
-            <h3>🖥️ PC Accessories</h3>
-            <div class="filters">
-                <button data-filter="controllers">Controllers</button>
-                <button data-filter="keyboards">Keyboards</button>
+        </section>
+
+
+        <!-- WHY US -->
+
+        <section class="whySection" id="why-us">
+
+            <div class="whyInner">
+
+                <div class="sectionHeading">
+
+                    <label>WHY GEORGE GAMES & TECH HUB</label>
+
+                    <h2>
+                        GOOD CHOICES.
+                        <span>CLEAR INFORMATION.</span>
+                    </h2>
+
+                    <p>
+                        We want to make choosing games and technology
+                        products easier with clear information and
+                        direct communication.
+                    </p>
+
+                </div>
+
+
+                <div class="whyGrid">
+
+       button data-filter="keyboards">Keyboards</button>
                 <button data-filter="gaming mouse">Gaming Mouse</button>
                 <button data-filter="headsets">Headsets</button>
                 <button data-filter="gamepads">Gamepads</button>
