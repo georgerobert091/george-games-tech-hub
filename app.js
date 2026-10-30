@@ -39,9 +39,12 @@ const searchBox = document.getElementById("productSearch");
 
 let activeFilter = "all";
 
-let allProducts = Array.isArray(window.PRODUCTS)
-    ? [...window.PRODUCTS]
-    : [];
+
+// Read products.js correctly
+let allProducts =
+    typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)
+        ? [...PRODUCTS]
+        : [];
 
 
 // ==========================================
@@ -66,10 +69,11 @@ function escapeHTML(value) {
 function getProductCategory(product) {
 
     if (product.sourceCategory) {
-        return product.sourceCategory;
+        return String(product.sourceCategory).toLowerCase();
     }
 
     const name = String(product.name || "").toLowerCase();
+    const category = String(product.category || "").toLowerCase();
 
     if (
         name.includes("storage") ||
@@ -81,13 +85,35 @@ function getProductCategory(product) {
     }
 
     if (
-        product.category === "tech" ||
-        product.category === "accessories"
+        category.includes("software") ||
+        name.includes("software")
+    ) {
+        return "software";
+    }
+
+    if (
+        category.includes("driver") ||
+        name.includes("driver")
+    ) {
+        return "drivers";
+    }
+
+    if (
+        category === "tech" ||
+        category === "accessories" ||
+        category === "pc accessories"
     ) {
         return "accessories";
     }
 
-    return product.category || "tech";
+    if (
+        category === "games" ||
+        category === "game"
+    ) {
+        return "games";
+    }
+
+    return category || "tech";
 }
 
 
@@ -105,12 +131,15 @@ function convertDatabaseProduct(product) {
         "Drivers": "drivers"
     };
 
-    const category = categoryMap[product.category] || "accessories";
+    const category =
+        categoryMap[product.category] || "accessories";
 
     const rawPrice = product.price;
 
     const formattedPrice =
-        rawPrice === null || rawPrice === undefined || rawPrice === ""
+        rawPrice === null ||
+        rawPrice === undefined ||
+        rawPrice === ""
             ? "Ask for price"
             : Number.isFinite(Number(rawPrice))
                 ? "₦" + Number(rawPrice).toLocaleString("en-NG")
@@ -142,7 +171,7 @@ function convertDatabaseProduct(product) {
 async function loadDatabaseProducts() {
 
     if (typeof supabaseClient === "undefined") {
-        console.warn("Supabase is not available on this page.");
+        console.warn("Supabase is not available.");
         render();
         return;
     }
@@ -201,19 +230,20 @@ function render() {
 
         const filterMatch =
             activeFilter === "all" ||
-            category === activeFilter ||
+            category === activeFilter.toLowerCase() ||
             String(product.genre || "").toLowerCase() ===
                 activeFilter.toLowerCase();
 
+        const searchableText = [
+            product.name,
+            product.description,
+            product.genre,
+            product.platforms,
+            product.tag
+        ].join(" ").toLowerCase();
+
         const textMatch =
-            !query ||
-            [
-                product.name,
-                product.description,
-                product.genre,
-                product.platforms,
-                product.tag
-            ].join(" ").toLowerCase().includes(query);
+            !query || searchableText.includes(query);
 
         return pageMatch && filterMatch && textMatch;
 
@@ -345,10 +375,8 @@ function render() {
     const count = document.getElementById("productCount");
 
     if (count) {
-
         count.textContent =
             `${matches.length} item${matches.length === 1 ? "" : "s"}`;
-
     }
 
 }
@@ -366,6 +394,61 @@ document.querySelectorAll("[data-filter]").forEach(button => {
             .forEach(item => item.classList.remove("active"));
 
         button.classList.add("active");
+
+        activeFilter = button.dataset.filter;
+
+        render();
+
+    });
+
+});
+
+
+// ==========================================
+// SEARCH
+// ==========================================
+
+searchBox?.addEventListener("input", render);
+
+
+// ==========================================
+// MOBILE NAVIGATION
+// ==========================================
+
+const menuBtn = document.getElementById("menuBtn");
+const nav = document.getElementById("nav");
+
+menuBtn?.addEventListener("click", () => {
+    nav?.classList.toggle("open");
+});
+
+document.querySelectorAll("#nav a").forEach(link => {
+
+    link.addEventListener("click", () => {
+        nav?.classList.remove("open");
+    });
+
+});
+
+
+// ==========================================
+// CURRENT YEAR
+// ==========================================
+
+const year = document.getElementById("year");
+
+if (year) {
+    year.textContent = new Date().getFullYear();
+}
+
+
+// ==========================================
+// INITIALISE CATALOGUE
+// ==========================================
+
+render();
+
+loadDatabaseProducts();      button.classList.add("active");
 
         activeFilter = button.dataset.filter;
 
