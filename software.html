@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#080b09">
+  <meta name="description" content="Discover productivity and PC software at George Games and Tech Hub.">
+  <title>PC Software | George Games and Tech Hub</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+<header class="siteHeader">
+  <div class="container">
+    <a href="index.html" class="logo">GEORGE <span>GAMES & TECH</span></a>
+
+    <nav class="mainNav">
+      <a href="index.html">Home</a>
+      <a href="games.html">Games</a>
+      <a href="accessories.html">Accessories</a>
+      <a href="storage.html">Storage & Upgrades</a>
+      <a href="software.html" class="active">Software</a>
+      <a href="drivers.html">Drivers</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="container">
+    <p class="eyebrow">GEORGE GAMES & TECH HUB</p>
+    <h1>PC <span>SOFTWARE</span></h1>
+    <p>
+      Discover useful software for productivity, creativity,
+      entertainment and everyday computer use.
+    </p>
+    <a href="#softwareProducts" class="btn">Explore Software</a>
+  </div>
+</section>
+
+<section class="catalogueSection" id="softwareProducts">
+  <div class="container">
+
+    <div class="sectionHeading">
+      <p class="eyebrow">OUR COLLECTION</p>
+      <h2>Software <span>Collection</span></h2>
+      <p>Find software and setup assistance for your PC.</p>
+    </div>
+
+    <div class="catalogueTools">
+      <input
+        type="search"
+        id="productSearch"
+        placeholder="Search software..."
+        aria-label="Search software"
+      >
+      <p id="productCount">Loading software...</p>
+    </div>
+
+    <div id="products" class="productGrid">
+      <p>Loading software products...</p>
+    </div>
+
+  </div>
+</section>
+
+<section class="whySection">
+  <div class="container">
+    <div class="sectionHeading">
+      <p class="eyebrow">WHY CHOOSE US?</p>
+      <h2>Simple. Reliable. <span>Convenient.</span></h2>
+    </div>
+
+    <div class="whyGrid">
+      <div class="whyCard">
+        <h3>Helpful Support</h3>
+        <p>Get assistance with software selection and setup.</p>
+      </div>
+
+      <div class="whyCard">
+        <h3>Easy Enquiries</h3>
+        <p>Contact us to ask about availability and pricing.</p>
+      </div>
+
+      <div class="whyCard">
+        <h3>PC Solutions</h3>
+        <p>Find useful tools for your computer needs.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="siteFooter">
+  <div class="container">
+    <p>© <span id="year"></span> George Games and Tech Hub.</p>
+    <p>Games • Accessories • Software • PC Upgrades</p>
+  </div>
+</footer>
+
+<a
+  class="whatsappFloat"
+  href="https://wa.me/2340000000000"
+  target="_blank"
+  rel="noopener"
+  aria-label="Contact us on WhatsApp"
+>WhatsApp</a>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+const SUPABASE_URL = "https://krwdispgabnsxrbbpeqx.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+</script>
+
+<script src="products.js"></script>
+<script src="app.js"></script>
+
+</body>
+</html>
