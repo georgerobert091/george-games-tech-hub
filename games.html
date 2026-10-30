@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b09">
+    <meta name="description" content="Explore PC games at George Games and Tech Hub.">
+
+    <title>PC Games | George Games & Tech Hub</title>
+
+    <link rel="icon" type="image/png" href="./icon-192.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="topline">
+        <b>GEORGE GAMES & TECH HUB</b> • PC GAMING DEPARTMENT
+    </div>
+
+    <header class="header">
+
+        <a href="index.html" class="brand">
+            <div class="logo">
+                <svg viewBox="0 0 50 50" fill="none">
+                    <path d="M37 13H20C12 13 8 18 8 25C8 33 13 38 21 38H29C37 38 42 33 42 25H27"
+                        stroke="#a8ff35"
+                        stroke-width="5"
+                        stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <span>
+                <strong>GEORGE</strong>
+                <small>GAMES & TECH HUB</small>
+            </span>
+        </a>
+
+        <button id="menuBtn" aria-label="Open navigation">☰</button>
+
+        <nav id="nav">
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="storage.html">Storage</a>
+            <a href="software.html">Software</a>
+            <a href="drivers.html">Drivers</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+
+        <a class="outline" href="admin.html">ADMIN</a>
+
+    </header>
+
+
+    <section class="hero">
+
+        <div class="heroText">
+
+            <label>GEORGE GAMING DEPARTMENT</label>
+
+            <h1>
+                ENTER THE<br>
+                <em>GAME ZONE.</em>
+            </h1>
+
+            <p>
+                Discover action, racing, football and adventure games
+                for your PC. Browse our catalogue and enquire about
+                availability.
+            </p>
+
+            <div class="actions">
+                <a href="#gameCatalogue" class="btn">BROWSE GAMES ↓</a>
+
+                <a href="index.html" class="btn ghost">BACK HOME</a>
+            </div>
+
+        </div>
+
+        <div class="art">
+            <div class="orbit"></div>
+
+            <div class="monitor">
+                <div class="screen">
+                    <strong>G</strong>
+                    <small>GAME ON</small>
+                </div>
+                <div class="neck"></div>
+                <div class="base"></div>
+            </div>
+
+            <div class="chip">PC GAMING</div>
+        </div>
+
+    </section>
+
+
+    <div class="ticker">
+        <b>ACTION</b> •
+        <b>RACING</b> •
+        <b>SPORTS</b> •
+        <b>ADVENTURE</b>
+    </div>
+
+
+    <section class="section" id="gameCatalogue">
+
+        <div class="heading">
+
+            <div>
+                <label>OUR GAME COLLECTION</label>
+                <h2>EXPLORE <em>GAMES.</em></h2>
+            </div>
+
+            <p>
+                Search for your favourite PC games or filter
+                the catalogue by genre.
+            </p>
+
+        </div>
+
+
+        <div class="catalogueTools">
+
+            <label class="searchLabel" for="productSearch">
+                SEARCH GAMES
+            </label>
+
+            <input
+                type="search"
+                id="productSearch"
+                placeholder="Search game titles, genres..."
+                autocomplete="off">
+
+            <span id="productCount" class="productCount">
+                Loading games...
+            </span>
+
+        </div>
+
+
+        <div class="filters">
+
+            <button class="active" data-filter="all">ALL GAMES</button>
+
+            <button data-filter="Action">ACTION</button>
+
+            <button data-filter="Sports">SPORTS</button>
+
+            <button data-filter="Racing">RACING</button>
+
+        </div>
+
+
+        <div id="products" class="products">
+            <div class="noResults">Loading our games catalogue...</div>
+        </div>
+
+
+        <p class="note">
+            Prices and availability should be confirmed before ordering.
+            Contact us through WhatsApp for enquiries.
+        </p>
+
+    </section>
+
+
+    <section class="contact">
+
+        <div class="contactCard">
+
+            <label>NEED A GAME?</label>
+
+            <h2>LET'S GET YOU <em>PLAYING.</em></h2>
+
+            <p>
+                Can't find the game you're looking for?
+                Send us a message and ask about availability.
+            </p>
+
+            <a
+                class="btn"
+                href="https://wa.me/2349136059577?text=Hello%20George%20Games%20and%20Tech%20Hub%2C%20I%20want%20to%20enquire%20about%20PC%20games."
+                target="_blank"
+                rel="noopener">
+                ENQUIRE ON WHATSAPP ↗
+            </a>
+
+        </div>
+
+        <div class="contactSide">
+
+            <div class="bigG">G</div>
+
+            <strong>GEORGE</strong>
+            <b>GAMES & TECH HUB</b>
+
+            <hr>
+
+            <small>YOUR GAMING DESTINATION</small>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <strong>
+            GEORGE <span>GAMES & TECH HUB</span>
+        </strong>
+
+        <p>PC Games • Accessories • Technology</p>
+
+        <small>
+            © <span id="year"></span> George Games & Tech Hub.
+        </small>
+
+    </footer>
+
+
+    <a
+        class="floatWa"
+        href="https://wa.me/2349136059577"
+        target="_blank"
+        rel="noopener"
+        aria-label="WhatsApp">
+        W
+    </a>
+
+
+    <!-- SUPABASE -->
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL =
+            "https://krwdispgabnsxrbbpeqx.supabase.co";
+
+        const SUPABASE_PUBLISHABLE_KEY =
+            "sb_publishable_7kXHB4eR-ukGbXNZL1s57A_Ve8VWEEv";
+
+        const supabaseClient = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+    </script>
+
+
+    <!-- PRODUCT DATA AND CATALOGUE -->
+
+    <script src="products.js"></script>
+    <script src="app.js"></script>
+
+
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("./sw.js")
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            });
+        }
+    </script>
+
+</body>
+                            </html>
