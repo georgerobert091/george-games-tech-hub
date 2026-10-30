@@ -63,7 +63,6 @@ button {
 }
 
 a { color: #00ff99; }
-
 .hidden { display: none; }
 
 .product {
@@ -75,12 +74,6 @@ a { color: #00ff99; }
     max-width: 110px;
     display: block;
     margin-top: 10px;
-    border-radius: 8px;
-}
-
-.message {
-    line-height: 1.6;
-    overflow-wrap: anywhere;
 }
 
 .productActions {
@@ -88,27 +81,17 @@ a { color: #00ff99; }
     gap: 10px;
 }
 
-.productActions button {
-    flex: 1;
-}
+.editButton { background: #00c8ff; }
+.deleteButton { background: #ff4545; color: white; }
+.cancelButton { background: #34465c; color: white; }
 
-.editButton {
-    background: #00c8ff;
-}
-
-.deleteButton {
-    background: #ff4545;
-    color: white;
-}
-
-.cancelButton {
-    background: #34465c;
-    color: white;
+.message {
+    line-height: 1.6;
+    overflow-wrap: anywhere;
 }
 
 @media(max-width: 400px) {
     body { padding: 12px; }
-    .productActions { flex-direction: column; gap: 0; }
 }
 </style>
 </head>
@@ -124,17 +107,15 @@ a { color: #00ff99; }
 
 <section id="loginSection" class="card">
     <h2>🔐 Admin Login</h2>
-
     <form id="loginForm">
-        <label for="email">Email Address</label>
+        <label>Email Address</label>
         <input id="email" type="email" required>
 
-        <label for="password">Password</label>
+        <label>Password</label>
         <input id="password" type="password" required>
 
         <button type="submit">Sign In</button>
     </form>
-
     <p id="loginMessage" class="message"></p>
 </section>
 
@@ -154,32 +135,33 @@ a { color: #00ff99; }
 
             <form id="productForm">
 
-                <label for="productName">Product Name</label>
+                <label>Product Name</label>
                 <input id="productName" type="text" required>
 
-                <label for="productPrice">Price (₦)</label>
+                <label>Price (₦)</label>
                 <input id="productPrice" type="number"
                        min="0" step="1" required>
 
-                <label for="productCategory">Category</label>
+                <label>Product Category</label>
                 <select id="productCategory" required>
                     <option value="">Choose category</option>
-                    <option value="Games">Games</option>
-                    <option value="PC Accessories">PC Accessories</option>
-                    <option value="Storage & PC Upgrades">
-                        Storage & PC Upgrades
-                    </option>
-                    <option value="Software">Software</option>
-                    <option value="Drivers">Drivers</option>
+                    <option>Games</option>
+                    <option>PC Accessories</option>
+                    <option>Storage & PC Upgrades</option>
+                    <option>Software</option>
+                    <option>Drivers</option>
                 </select>
 
-                <label for="productImage">Product Image URL</label>
+                <label>Product Genre / Subcategory</label>
+                <select id="productGenre" required disabled>
+                    <option value="">Choose a category first</option>
+                </select>
+
+                <label>Product Image URL</label>
                 <input id="productImage" type="url"
                        placeholder="https://example.com/image.png">
 
-                <label for="productDescription">
-                    Product Description
-                </label>
+                <label>Product Description</label>
                 <textarea id="productDescription" rows="4"></textarea>
 
                 <button id="saveButton" type="submit">
@@ -220,11 +202,67 @@ const supabaseClient = window.supabase.createClient(
 
 const loginSection = document.getElementById("loginSection");
 const dashboard = document.getElementById("dashboard");
-const loginMessage = document.getElementById("loginMessage");
 const productMessage = document.getElementById("productMessage");
+
+const categorySelect = document.getElementById("productCategory");
+const genreSelect = document.getElementById("productGenre");
 
 let editingId = null;
 let products = [];
+
+const subcategories = {
+    "Games": [
+        "Action", "Adventure", "Racing", "Sports",
+        "Fighting", "Shooting", "Open World",
+        "Simulation", "Strategy", "Horror"
+    ],
+    "PC Accessories": [
+        "Controllers", "Keyboards", "Gaming Mouse",
+        "Headsets", "Gamepads"
+    ],
+    "Storage & PC Upgrades": [
+        "RAM", "SSD", "HDD", "Graphics Cards",
+        "Processors"
+    ],
+    "Software": [
+        "Operating Systems", "Productivity",
+        "Antivirus", "Design & Editing"
+    ],
+    "Drivers": [
+        "Graphics Drivers", "Audio Drivers",
+        "Network Drivers", "Chipset Drivers"
+    ]
+};
+
+function updateGenres(selectedGenre = "") {
+    const category = categorySelect.value;
+    const options = subcategories[category] || [];
+
+    genreSelect.replaceChildren();
+
+    const first = document.createElement("option");
+    first.value = "";
+    first.textContent = options.length
+        ? "Choose genre / subcategory"
+        : "Choose a category first";
+
+    genreSelect.appendChild(first);
+    genreSelect.disabled = options.length === 0;
+
+    options.forEach(option => {
+        const item = document.createElement("option");
+        item.value = option;
+        item.textContent = option;
+
+        if (option === selectedGenre) {
+            item.selected = true;
+        }
+
+        genreSelect.appendChild(item);
+    });
+}
+
+categorySelect.addEventListener("change", () => updateGenres());
 
 async function checkAdmin() {
     const { data: { session } } =
@@ -244,10 +282,8 @@ async function checkAdmin() {
 
     if (error || !data) {
         await supabaseClient.auth.signOut();
-
-        loginMessage.textContent =
+        document.getElementById("loginMessage").textContent =
             "Access denied. This account is not an administrator.";
-
         loginSection.classList.remove("hidden");
         dashboard.classList.add("hidden");
         return;
@@ -256,14 +292,15 @@ async function checkAdmin() {
     loginSection.classList.add("hidden");
     dashboard.classList.remove("hidden");
 
-    loadProducts();
+    await loadProducts();
 }
 
 document.getElementById("loginForm")
-.addEventListener("submit", async function(event) {
+.addEventListener("submit", async event => {
     event.preventDefault();
 
-    loginMessage.textContent = "Signing in...";
+    document.getElementById("loginMessage").textContent =
+        "Signing in...";
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -272,52 +309,45 @@ document.getElementById("loginForm")
         .signInWithPassword({ email, password });
 
     if (error) {
-        loginMessage.textContent = error.message;
+        document.getElementById("loginMessage").textContent =
+            error.message;
         return;
     }
 
-    loginMessage.textContent = "";
+    document.getElementById("loginMessage").textContent = "";
     await checkAdmin();
 });
 
 document.getElementById("logoutButton")
-.addEventListener("click", async function() {
+.addEventListener("click", async () => {
     await supabaseClient.auth.signOut();
     location.reload();
 });
 
 document.getElementById("productForm")
-.addEventListener("submit", async function(event) {
+.addEventListener("submit", async event => {
     event.preventDefault();
 
-    productMessage.textContent = editingId
+    productMessage.textContent = editingId !== null
         ? "Updating product..."
         : "Saving product...";
 
     const product = {
         name: document.getElementById("productName").value.trim(),
         price: Number(document.getElementById("productPrice").value),
-        category: document.getElementById("productCategory").value,
+        category: categorySelect.value,
+        genre: genreSelect.value,
         image_url: document.getElementById("productImage").value.trim() || null,
         description: document.getElementById("productDescription").value.trim()
     };
 
-    let result;
-
-    if (editingId !== null) {
-        result = await supabaseClient
-            .from("Products")
-            .update(product)
-            .eq("id", editingId);
-    } else {
-        result = await supabaseClient
-            .from("Products")
-            .insert(product);
-    }
+    const result = editingId !== null
+        ? await supabaseClient.from("Products")
+            .update(product).eq("id", editingId)
+        : await supabaseClient.from("Products").insert(product);
 
     if (result.error) {
-        productMessage.textContent =
-            "Error: " + result.error.message;
+        productMessage.textContent = "Error: " + result.error.message;
         return;
     }
 
@@ -333,21 +363,28 @@ function resetForm() {
     editingId = null;
 
     document.getElementById("productForm").reset();
-    document.getElementById("formTitle").textContent = "➕ Add a Product";
-    document.getElementById("saveButton").textContent = "Save Product";
-    document.getElementById("cancelButton").classList.add("hidden");
+
+    document.getElementById("formTitle").textContent =
+        "➕ Add a Product";
+
+    document.getElementById("saveButton").textContent =
+        "Save Product";
+
+    document.getElementById("cancelButton")
+        .classList.add("hidden");
+
+    updateGenres();
 }
 
 document.getElementById("cancelButton")
-.addEventListener("click", function() {
+.addEventListener("click", () => {
     resetForm();
     productMessage.textContent = "Edit cancelled.";
 });
 
 async function loadProducts() {
-    const productList = document.getElementById("productList");
-
-    productList.textContent = "Loading products...";
+    const list = document.getElementById("productList");
+    list.textContent = "Loading products...";
 
     const { data, error } = await supabaseClient
         .from("Products")
@@ -355,15 +392,15 @@ async function loadProducts() {
         .order("id", { ascending: false });
 
     if (error) {
-        productList.textContent = "Error: " + error.message;
+        list.textContent = "Error: " + error.message;
         return;
     }
 
     products = data || [];
-    productList.replaceChildren();
+    list.replaceChildren();
 
-    if (products.length === 0) {
-        productList.textContent = "No products added yet.";
+    if (!products.length) {
+        list.textContent = "No products added yet.";
         return;
     }
 
@@ -379,12 +416,15 @@ async function loadProducts() {
             "₦" + Number(product.price).toLocaleString("en-NG");
 
         const category = document.createElement("p");
-        category.textContent = product.category;
+        category.textContent = "Category: " + product.category;
+
+        const genre = document.createElement("p");
+        genre.textContent = "Genre: " + (product.genre || "Not set");
 
         const description = document.createElement("p");
         description.textContent = product.description || "";
 
-        item.append(name, price, category, description);
+        item.append(name, price, category, genre, description);
 
         if (product.image_url) {
             const image = document.createElement("img");
@@ -392,6 +432,89 @@ async function loadProducts() {
             image.alt = product.name;
             image.loading = "lazy";
             item.appendChild(image);
+        }
+
+        const actions = document.createElement("div");
+        actions.className = "productActions";
+
+        const edit = document.createElement("button");
+        edit.textContent = "✏️ Edit";
+        edit.className = "editButton";
+        edit.addEventListener("click", () => editProduct(product.id));
+
+        const remove = document.createElement("button");
+        remove.textContent = "🗑️ Delete";
+        remove.className = "deleteButton";
+        remove.addEventListener("click", () =>
+            deleteProduct(product.id, product.name)
+        );
+
+        actions.append(edit, remove);
+        item.appendChild(actions);
+        list.appendChild(item);
+    });
+}
+
+function editProduct(id) {
+    const product = products.find(p => String(p.id) === String(id));
+    if (!product) return;
+
+    editingId = product.id;
+
+    document.getElementById("productName").value = product.name;
+    document.getElementById("productPrice").value = product.price;
+
+    categorySelect.value = product.category;
+    updateGenres(product.genre || "");
+
+    document.getElementById("productImage").value =
+        product.image_url || "";
+
+    document.getElementById("productDescription").value =
+        product.description || "";
+
+    document.getElementById("formTitle").textContent =
+        "✏️ Edit Product";
+
+    document.getElementById("saveButton").textContent =
+        "Update Product";
+
+    document.getElementById("cancelButton")
+        .classList.remove("hidden");
+
+    productMessage.textContent = "Editing: " + product.name;
+
+    document.getElementById("productForm")
+        .scrollIntoView({ behavior: "smooth" });
+}
+
+async function deleteProduct(id, name) {
+    if (!confirm("Delete " + name + " permanently?")) return;
+
+    productMessage.textContent = "Deleting product...";
+
+    const { error } = await supabaseClient
+        .from("Products")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        productMessage.textContent = "Error: " + error.message;
+        return;
+    }
+
+    if (String(editingId) === String(id)) resetForm();
+
+    productMessage.textContent = "✅ Product deleted successfully!";
+    await loadProducts();
+}
+
+updateGenres();
+checkAdmin();
+</script>
+
+</body>
+</html>age);
         }
 
         const actions = document.createElement("div");
