@@ -39,15 +39,13 @@ const searchBox = document.getElementById("productSearch");
 
 let activeFilter = "all";
 
-// Read the global catalogue correctly.
-let allProducts = typeof PRODUCTS !== "undefined" &&
-    Array.isArray(PRODUCTS)
-        ? [...PRODUCTS]
-        : [];
+let allProducts = Array.isArray(window.PRODUCTS)
+    ? [...window.PRODUCTS]
+    : [];
 
 
 // ==========================================
-// HTML ESCAPING
+// SECURITY: HTML ESCAPING
 // ==========================================
 
 function escapeHTML(value) {
@@ -109,6 +107,15 @@ function convertDatabaseProduct(product) {
 
     const category = categoryMap[product.category] || "accessories";
 
+    const rawPrice = product.price;
+
+    const formattedPrice =
+        rawPrice === null || rawPrice === undefined || rawPrice === ""
+            ? "Ask for price"
+            : Number.isFinite(Number(rawPrice))
+                ? "₦" + Number(rawPrice).toLocaleString("en-NG")
+                : String(rawPrice);
+
     return {
         id: "database-" + product.id,
         databaseId: product.id,
@@ -118,11 +125,7 @@ function convertDatabaseProduct(product) {
         genre: product.genre || product.category || "Technology",
         icon: category === "games" ? "🎮" : "💻",
         tag: (product.category || "PRODUCT").toUpperCase(),
-        price: product.price
-            ? (String(product.price).includes("₦")
-                ? String(product.price)
-                : "₦" + Number(product.price).toLocaleString("en-NG"))
-            : "Ask for price",
+        price: formattedPrice,
         description: product.description ||
             "Contact us for more information.",
         platforms: "Contact us for compatibility details",
@@ -151,7 +154,11 @@ async function loadDatabaseProducts() {
             .select("*")
             .order("id", { ascending: false });
 
-        if (error) throw error;
+        if (error) {
+            console.error("Supabase error:", error.message);
+            render();
+            return;
+        }
 
         const databaseProducts = (data || [])
             .map(convertDatabaseProduct);
@@ -173,7 +180,7 @@ async function loadDatabaseProducts() {
 
 
 // ==========================================
-// RENDER PRODUCTS
+// FILTER AND DISPLAY PRODUCTS
 // ==========================================
 
 function render() {
@@ -209,16 +216,21 @@ function render() {
             ].join(" ").toLowerCase().includes(query);
 
         return pageMatch && filterMatch && textMatch;
+
     });
 
 
     // ======================================
-    // PRODUCT CARDS
+    // DISPLAY PRODUCT CARDS
     // ======================================
 
     container.innerHTML = matches.length
 
         ? matches.map(product => {
+
+            const productLink =
+                "product.html?id=" +
+                encodeURIComponent(product.id);
 
             const image = product.image
 
@@ -247,15 +259,17 @@ function render() {
                 `Hello George Games and Tech Hub! I am interested in ${product.name}. Listed price: ${product.price}. Please confirm availability, edition, platform and system requirements.`;
 
 
-            const detailsLink =
-                "product.html?id=" + encodeURIComponent(product.id);
-
-
             return `
 
                 <article class="card productCard">
 
-                    ${image}
+                    <a
+                        href="${escapeHTML(productLink)}"
+                        class="productDetailsLink"
+                        aria-label="View details for ${escapeHTML(product.name)}"
+                    >
+                        ${image}
+                    </a>
 
                     <div class="productInfo">
 
@@ -272,7 +286,10 @@ function render() {
                         </div>
 
                         <h3>
-                            <a href="${escapeHTML(detailsLink)}">
+                            <a
+                                href="${escapeHTML(productLink)}"
+                                class="productDetailsLink"
+                            >
                                 ${escapeHTML(product.name)}
                             </a>
                         </h3>
@@ -288,23 +305,23 @@ function render() {
                         <div class="cardBottom">
 
                             <span class="price">
-                                ${escapeHTML(product.price || "")}
+                                ${escapeHTML(product.price || "Ask for price")}
                             </span>
 
                             <a
                                 class="ask"
-                                href="${escapeHTML(wa(message))}"
                                 target="_blank"
-                                rel="noopener">
+                                rel="noopener"
+                                href="${escapeHTML(wa(message))}">
                                 ASK ON WHATSAPP ↗
                             </a>
 
                         </div>
 
                         <a
+                            href="${escapeHTML(productLink)}"
                             class="button"
-                            href="${escapeHTML(detailsLink)}"
-                            style="display:block;text-align:center;margin-top:15px;">
+                        >
                             VIEW PRODUCT DETAILS →
                         </a>
 
@@ -328,9 +345,12 @@ function render() {
     const count = document.getElementById("productCount");
 
     if (count) {
+
         count.textContent =
             `${matches.length} item${matches.length === 1 ? "" : "s"}`;
+
     }
+
 }
 
 
@@ -371,7 +391,40 @@ const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
 
 menuBtn?.addEventListener("click", () => {
+
     nav?.classList.toggle("open");
+
+});
+
+document.querySelectorAll("#nav a").forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        nav?.classList.remove("open");
+
+    });
+
+});
+
+
+// ==========================================
+// CURRENT YEAR
+// ==========================================
+
+const year = document.getElementById("year");
+
+if (year) {
+    year.textContent = new Date().getFullYear();
+}
+
+
+// ==========================================
+// INITIALISE CATALOGUE
+// ==========================================
+
+render();
+
+loadDatabaseProducts();ist.toggle("open");
 });
 
 document.querySelectorAll("#nav a").forEach(link => {
