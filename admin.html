@@ -67,19 +67,48 @@ a { color: #00ff99; }
 .hidden { display: none; }
 
 .product {
-    padding: 12px;
+    padding: 15px 0;
     border-bottom: 1px solid #34465c;
 }
 
 .product img {
-    max-width: 100px;
+    max-width: 110px;
     display: block;
     margin-top: 10px;
+    border-radius: 8px;
 }
 
 .message {
     line-height: 1.6;
     overflow-wrap: anywhere;
+}
+
+.productActions {
+    display: flex;
+    gap: 10px;
+}
+
+.productActions button {
+    flex: 1;
+}
+
+.editButton {
+    background: #00c8ff;
+}
+
+.deleteButton {
+    background: #ff4545;
+    color: white;
+}
+
+.cancelButton {
+    background: #34465c;
+    color: white;
+}
+
+@media(max-width: 400px) {
+    body { padding: 12px; }
+    .productActions { flex-direction: column; gap: 0; }
 }
 </style>
 </head>
@@ -121,7 +150,7 @@ a { color: #00ff99; }
     <div class="dashboard">
 
         <section class="card">
-            <h2>➕ Add a Product</h2>
+            <h2 id="formTitle">➕ Add a Product</h2>
 
             <form id="productForm">
 
@@ -153,7 +182,14 @@ a { color: #00ff99; }
                 </label>
                 <textarea id="productDescription" rows="4"></textarea>
 
-                <button type="submit">Save Product</button>
+                <button id="saveButton" type="submit">
+                    Save Product
+                </button>
+
+                <button id="cancelButton" type="button"
+                        class="cancelButton hidden">
+                    Cancel Edit
+                </button>
 
             </form>
 
@@ -186,6 +222,9 @@ const loginSection = document.getElementById("loginSection");
 const dashboard = document.getElementById("dashboard");
 const loginMessage = document.getElementById("loginMessage");
 const productMessage = document.getElementById("productMessage");
+
+let editingId = null;
+let products = [];
 
 async function checkAdmin() {
     const { data: { session } } =
@@ -251,34 +290,58 @@ document.getElementById("productForm")
 .addEventListener("submit", async function(event) {
     event.preventDefault();
 
-    productMessage.textContent = "Saving product...";
+    productMessage.textContent = editingId
+        ? "Updating product..."
+        : "Saving product...";
 
-    const name = document.getElementById("productName").value.trim();
-    const price = Number(document.getElementById("productPrice").value);
-    const category = document.getElementById("productCategory").value;
-    const image = document.getElementById("productImage").value.trim();
-    const description =
-        document.getElementById("productDescription").value.trim();
+    const product = {
+        name: document.getElementById("productName").value.trim(),
+        price: Number(document.getElementById("productPrice").value),
+        category: document.getElementById("productCategory").value,
+        image_url: document.getElementById("productImage").value.trim() || null,
+        description: document.getElementById("productDescription").value.trim()
+    };
 
-    const { error } = await supabaseClient
-        .from("Products")
-        .insert({
-            name: name,
-            category: category,
-            price: price,
-            description: description,
-            image_url: image || null
-        });
+    let result;
 
-    if (error) {
-        productMessage.textContent = "Error: " + error.message;
+    if (editingId !== null) {
+        result = await supabaseClient
+            .from("Products")
+            .update(product)
+            .eq("id", editingId);
+    } else {
+        result = await supabaseClient
+            .from("Products")
+            .insert(product);
+    }
+
+    if (result.error) {
+        productMessage.textContent =
+            "Error: " + result.error.message;
         return;
     }
 
-    productMessage.textContent = "✅ Product saved successfully!";
+    productMessage.textContent = editingId !== null
+        ? "✅ Product updated successfully!"
+        : "✅ Product saved successfully!";
 
-    this.reset();
+    resetForm();
     await loadProducts();
+});
+
+function resetForm() {
+    editingId = null;
+
+    document.getElementById("productForm").reset();
+    document.getElementById("formTitle").textContent = "➕ Add a Product";
+    document.getElementById("saveButton").textContent = "Save Product";
+    document.getElementById("cancelButton").classList.add("hidden");
+}
+
+document.getElementById("cancelButton")
+.addEventListener("click", function() {
+    resetForm();
+    productMessage.textContent = "Edit cancelled.";
 });
 
 async function loadProducts() {
@@ -296,14 +359,15 @@ async function loadProducts() {
         return;
     }
 
+    products = data || [];
     productList.replaceChildren();
 
-    if (!data || data.length === 0) {
+    if (products.length === 0) {
         productList.textContent = "No products added yet.";
         return;
     }
 
-    data.forEach(product => {
+    products.forEach(product => {
         const item = document.createElement("div");
         item.className = "product";
 
@@ -330,12 +394,89 @@ async function loadProducts() {
             item.appendChild(image);
         }
 
+        const actions = document.createElement("div");
+        actions.className = "productActions";
+
+        const editButton = document.createElement("button");
+        editButton.textContent = "✏️ Edit";
+        editButton.className = "editButton";
+
+        editButton.addEventListener("click", () => {
+            editProduct(product.id);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.textContent = "🗑️ Delete";
+        deleteButton.className = "deleteButton";
+
+        deleteButton.addEventListener("click", () => {
+            deleteProduct(product.id, product.name);
+        });
+
+        actions.append(editButton, deleteButton);
+        item.appendChild(actions);
+
         productList.appendChild(item);
     });
+}
+
+function editProduct(id) {
+    const product = products.find(p => String(p.id) === String(id));
+
+    if (!product) return;
+
+    editingId = product.id;
+
+    document.getElementById("productName").value = product.name;
+    document.getElementById("productPrice").value = product.price;
+    document.getElementById("productCategory").value = product.category;
+    document.getElementById("productImage").value = product.image_url || "";
+    document.getElementById("productDescription").value =
+        product.description || "";
+
+    document.getElementById("formTitle").textContent = "✏️ Edit Product";
+    document.getElementById("saveButton").textContent = "Update Product";
+    document.getElementById("cancelButton").classList.remove("hidden");
+
+    productMessage.textContent =
+        "Editing: " + product.name;
+
+    document.getElementById("productForm")
+        .scrollIntoView({ behavior: "smooth" });
+}
+
+async function deleteProduct(id, name) {
+    const confirmed = confirm(
+        "Are you sure you want to delete " + name + "?\n\nThis cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+    productMessage.textContent = "Deleting product...";
+
+    const { error } = await supabaseClient
+        .from("Products")
+        .delete()
+        .eq("id", id);
+
+    if (error) {
+        productMessage.textContent =
+            "Error deleting product: " + error.message;
+        return;
+    }
+
+    if (String(editingId) === String(id)) {
+        resetForm();
+    }
+
+    productMessage.textContent =
+        "✅ " + name + " deleted successfully!";
+
+    await loadProducts();
 }
 
 checkAdmin();
 </script>
 
 </body>
-                                   </html>
+    </html>
