@@ -38,13 +38,16 @@ const container = document.getElementById("products");
 const searchBox = document.getElementById("productSearch");
 
 let activeFilter = "all";
-let allProducts = Array.isArray(window.PRODUCTS)
-    ? [...window.PRODUCTS]
-    : [];
+
+// Read the global catalogue correctly.
+let allProducts = typeof PRODUCTS !== "undefined" &&
+    Array.isArray(PRODUCTS)
+        ? [...PRODUCTS]
+        : [];
 
 
 // ==========================================
-// SECURITY: HTML ESCAPING
+// HTML ESCAPING
 // ==========================================
 
 function escapeHTML(value) {
@@ -108,31 +111,22 @@ function convertDatabaseProduct(product) {
 
     return {
         id: "database-" + product.id,
-
         databaseId: product.id,
-
         sourceCategory: category,
-
         category: category,
-
         name: product.name || "Unnamed Product",
-
         genre: product.genre || product.category || "Technology",
-
         icon: category === "games" ? "🎮" : "💻",
-
         tag: (product.category || "PRODUCT").toUpperCase(),
-
-        price: "₦" + Number(product.price || 0)
-            .toLocaleString("en-NG"),
-
+        price: product.price
+            ? (String(product.price).includes("₦")
+                ? String(product.price)
+                : "₦" + Number(product.price).toLocaleString("en-NG"))
+            : "Ask for price",
         description: product.description ||
             "Contact us for more information.",
-
         platforms: "Contact us for compatibility details",
-
         image: product.image_url || "",
-
         imageAlt: product.name || "Product image"
     };
 }
@@ -157,11 +151,7 @@ async function loadDatabaseProducts() {
             .select("*")
             .order("id", { ascending: false });
 
-        if (error) {
-            console.error("Supabase error:", error.message);
-            render();
-            return;
-        }
+        if (error) throw error;
 
         const databaseProducts = (data || [])
             .map(convertDatabaseProduct);
@@ -176,14 +166,14 @@ async function loadDatabaseProducts() {
     } catch (error) {
 
         console.error("Could not load products:", error);
-
         render();
+
     }
 }
 
 
 // ==========================================
-// FILTER PRODUCTS
+// RENDER PRODUCTS
 // ==========================================
 
 function render() {
@@ -223,7 +213,7 @@ function render() {
 
 
     // ======================================
-    // DISPLAY PRODUCT CARDS
+    // PRODUCT CARDS
     // ======================================
 
     container.innerHTML = matches.length
@@ -257,6 +247,10 @@ function render() {
                 `Hello George Games and Tech Hub! I am interested in ${product.name}. Listed price: ${product.price}. Please confirm availability, edition, platform and system requirements.`;
 
 
+            const detailsLink =
+                "product.html?id=" + encodeURIComponent(product.id);
+
+
             return `
 
                 <article class="card productCard">
@@ -278,7 +272,9 @@ function render() {
                         </div>
 
                         <h3>
-                            ${escapeHTML(product.name)}
+                            <a href="${escapeHTML(detailsLink)}">
+                                ${escapeHTML(product.name)}
+                            </a>
                         </h3>
 
                         <p>
@@ -297,13 +293,20 @@ function render() {
 
                             <a
                                 class="ask"
+                                href="${escapeHTML(wa(message))}"
                                 target="_blank"
-                                rel="noopener"
-                                href="${escapeHTML(wa(message))}">
+                                rel="noopener">
                                 ASK ON WHATSAPP ↗
                             </a>
 
                         </div>
+
+                        <a
+                            class="button"
+                            href="${escapeHTML(detailsLink)}"
+                            style="display:block;text-align:center;margin-top:15px;">
+                            VIEW PRODUCT DETAILS →
+                        </a>
 
                     </div>
 
@@ -325,10 +328,8 @@ function render() {
     const count = document.getElementById("productCount");
 
     if (count) {
-
         count.textContent =
             `${matches.length} item${matches.length === 1 ? "" : "s"}`;
-
     }
 }
 
@@ -370,17 +371,13 @@ const menuBtn = document.getElementById("menuBtn");
 const nav = document.getElementById("nav");
 
 menuBtn?.addEventListener("click", () => {
-
     nav?.classList.toggle("open");
-
 });
 
 document.querySelectorAll("#nav a").forEach(link => {
 
     link.addEventListener("click", () => {
-
         nav?.classList.remove("open");
-
     });
 
 });
@@ -398,7 +395,7 @@ if (year) {
 
 
 // ==========================================
-// INITIALISE CATALOGUE
+// INITIALISE
 // ==========================================
 
 render();
