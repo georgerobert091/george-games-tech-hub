@@ -12,8 +12,6 @@ const container = document.getElementById("products");
 const searchBox = document.getElementById("productSearch");
 
 let activeFilter = "all";
-
-// Keep the existing products from products.js
 let allProducts = [...PRODUCTS];
 
 function escapeHTML(value) {
@@ -26,7 +24,7 @@ function escapeHTML(value) {
     })[char]);
 }
 
-// Convert Supabase products into the website's product format
+// Convert Supabase products into website format
 function convertDatabaseProduct(product) {
     const categoryMap = {
         "Games": "games",
@@ -39,19 +37,31 @@ function convertDatabaseProduct(product) {
     return {
         id: "database-" + product.id,
         name: product.name || "Unnamed Product",
+
         category: categoryMap[product.category] || "tech",
-        genre: product.category || "Technology",
-        icon: "💻",
+
+        // Read the actual genre saved in Supabase
+        genre: product.genre || product.category || "Technology",
+
+        icon: product.category === "Games" ? "🎮" : "💻",
+
         tag: (product.category || "PRODUCT").toUpperCase(),
-        price: "₦" + Number(product.price || 0).toLocaleString("en-NG"),
-        description: product.description || "Contact us for more information.",
+
+        price: "₦" + Number(product.price || 0)
+            .toLocaleString("en-NG"),
+
+        description: product.description ||
+            "Contact us for more information.",
+
         platforms: "Contact us for compatibility details",
+
         image: product.image_url || "",
+
         imageAlt: product.name || "Product image"
     };
 }
 
-// Get products from Supabase
+// Load products from Supabase
 async function loadDatabaseProducts() {
     try {
         const { data, error } = await supabaseClient
@@ -65,9 +75,9 @@ async function loadDatabaseProducts() {
             return;
         }
 
-        const databaseProducts = (data || []).map(convertDatabaseProduct);
+        const databaseProducts = (data || [])
+            .map(convertDatabaseProduct);
 
-        // Combine database products with existing products
         allProducts = [...databaseProducts, ...PRODUCTS];
 
         render();
@@ -85,7 +95,7 @@ function render() {
         const categoryMatch =
             activeFilter === "all" ||
             p.category === activeFilter ||
-            (p.genre || "").toLowerCase() === activeFilter;
+            (p.genre || "").toLowerCase() === activeFilter.toLowerCase();
 
         const textMatch =
             !query ||
@@ -102,6 +112,7 @@ function render() {
 
     container.innerHTML = matches.length
         ? matches.map(p => {
+
             const image = p.image
                 ? `<div class="productImage">
                     <img src="${escapeHTML(p.image)}"
@@ -109,12 +120,15 @@ function render() {
                     loading="lazy"
                     onerror="this.parentElement.classList.add('imageMissing');this.remove()">
                     <span class="imageFallback">
-                    ${escapeHTML(p.icon || "💻")} ${escapeHTML(p.genre || "")}
+                    ${escapeHTML(p.icon || "💻")}
+                    ${escapeHTML(p.genre || "")}
                     </span>
                    </div>`
+
                 : `<div class="productImage imageMissing">
                     <span class="imageFallback">
-                    ${escapeHTML(p.icon || "💻")} ${escapeHTML(p.genre || "")}
+                    ${escapeHTML(p.icon || "💻")}
+                    ${escapeHTML(p.genre || "")}
                     </span>
                    </div>`;
 
@@ -126,9 +140,15 @@ function render() {
                     ${image}
 
                     <div class="productInfo">
+
                         <div class="cardTop">
-                            <span class="tag">${escapeHTML(p.tag || "")}</span>
-                            <span class="genre">${escapeHTML(p.genre || "")}</span>
+                            <span class="tag">
+                                ${escapeHTML(p.tag || "")}
+                            </span>
+
+                            <span class="genre">
+                                ${escapeHTML(p.genre || "")}
+                            </span>
                         </div>
 
                         <h3>${escapeHTML(p.name)}</h3>
@@ -140,7 +160,9 @@ function render() {
                         </div>
 
                         <div class="cardBottom">
-                            <span class="price">${escapeHTML(p.price || "")}</span>
+                            <span class="price">
+                                ${escapeHTML(p.price || "")}
+                            </span>
 
                             <a class="ask"
                             target="_blank"
@@ -149,10 +171,12 @@ function render() {
                             ASK ON WHATSAPP ↗
                             </a>
                         </div>
+
                     </div>
                 </article>
             `;
         }).join("")
+
         : `<div class="noResults">
             No products match that search. Try another name or category.
            </div>`;
@@ -165,13 +189,15 @@ function render() {
     }
 }
 
-// Category filters
+// Category and genre filters
 document.querySelectorAll("[data-filter]").forEach(button => {
     button.addEventListener("click", () => {
+
         document.querySelectorAll("[data-filter]")
             .forEach(item => item.classList.remove("active"));
 
         button.classList.add("active");
+
         activeFilter = button.dataset.filter;
 
         render();
