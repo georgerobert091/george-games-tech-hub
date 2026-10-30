@@ -1,362 +1,437 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080b09">
+    <meta name="description" content="George Games and Tech Hub - PC games, accessories, storage upgrades, software and drivers.">
 
-<meta name="theme-color" content="#00ff99">
-<meta name="description" content="PC games, tech products, software and drivers. Ask us on WhatsApp.">
+    <title>George Games & Tech Hub</title>
 
-<title>George Games and Tech Hub</title>
-
-<!-- WEBSITE FAVICON -->
-<link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
-<link rel="apple-touch-icon" href="./icon-192.png">
-
-<!-- STYLESHEET AND WEB APP -->
-<link rel="stylesheet" href="styles.css">
-<link rel="manifest" href="manifest.json">
-<meta name="mobile-web-app-capable" content="yes">
-
-<style>
-:root {
-    --background: #080d16;
-    --card: #111c2d;
-    --green: #00ff99;
-    --text: #ffffff;
-}
-
-body {
-    background: var(--background);
-    color: var(--text);
-    font-family: Arial, sans-serif;
-    margin: 0;
-}
-
-h1, h2, h3 {
-    color: var(--green);
-}
-
-button {
-    background: var(--green);
-    color: #07110d;
-    border: none;
-    padding: 12px 20px;
-    border-radius: 10px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 0 15px var(--green);
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-}
-
-.product, .product-card {
-    background: var(--card);
-    border: 1px solid #24364b;
-    border-radius: 14px;
-    padding: 15px;
-    margin: 12px 0;
-    transition: transform 0.2s;
-}
-
-.product:hover, .product-card:hover {
-    transform: translateY(-4px);
-}
-
-a {
-    color: var(--green);
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-@media (max-width: 600px) {
-    body {
-        font-size: 15px;
-    }
-
-    button {
-        width: 100%;
-    }
-}
-
-/* GROUPED PRODUCT FILTERS */
-
-.filterGroups {
-    display: grid;
-    gap: 20px;
-    margin: 25px 0;
-}
-
-.filterGroup {
-    background: #111c2d;
-    border: 1px solid #24364b;
-    border-radius: 15px;
-    padding: 18px;
-}
-
-.filterGroup h3 {
-    color: #00ff99;
-    font-size: 17px;
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-.filterGroup .filters {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.filterGroup .filters button {
-    width: auto;
-    padding: 10px 16px;
-    background: #080d16;
-    color: white;
-    border: 1px solid #34465c;
-    border-radius: 25px;
-    font-size: 13px;
-    transition: 0.2s;
-}
-
-.filterGroup .filters button:hover,
-.filterGroup .filters button.active {
-    background: #00ff99;
-    color: #080d16;
-    border-color: #00ff99;
-    box-shadow: 0 0 12px #00ff9955;
-}
-
-/* GAMING LOADING SCREEN */
-
-#app-loader {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: #080d16;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.5s ease;
-}
-
-#app-loader h1 {
-    color: #00ff99;
-    text-align: center;
-    text-shadow: 0 0 15px #00ff99;
-    animation: glow 1.5s infinite alternate;
-}
-
-.loader-circle {
-    width: 55px;
-    height: 55px;
-    border: 4px solid #24364b;
-    border-top: 4px solid #00ff99;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 25px;
-}
-
-#app-loader p {
-    color: white;
-    text-align: center;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes glow {
-    from { text-shadow: 0 0 5px #00ff99; }
-    to { text-shadow: 0 0 25px #00ff99; }
-}
-
-#app-loader.hidden {
-    opacity: 0;
-    pointer-events: none;
-}
-</style>
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<!-- LOADING SCREEN -->
-
-<div id="app-loader">
-    <div class="loader-circle"></div>
-    <h1>GEORGE<br>GAMES TECH HUB</h1>
-    <p>Your World of Gaming &amp; Technology</p>
-</div>
-
-<div class="topline">
-    PC GAMES <b>•</b> TECH PRODUCTS <b>•</b> SOFTWARE &amp; DRIVERS
-</div>
-
-<!-- HEADER -->
-
-<header class="header">
-    <a class="brand" href="#home">
-        <div class="logo">
-            <svg viewBox="0 0 100 100">
-                <path d="M25 20 35 29 50 12 65 29 75 20 71 39 29 39Z" fill="#a8ff35"/>
-                <path d="M70 48A27 27 0 1 0 75 63H57V54H83V76H74V70A27 27 0 1 1 70 48Z" fill="#a8ff35"/>
-                <path d="M48 43A16 16 0 1 0 64 59H53V53H71V62A23 23 0 1 1 66 41Z" fill="#101610"/>
-            </svg>
-        </div>
-
-        <span>
-            <strong>GEORGE</strong>
-            <small>GAMES &amp; TECH HUB</small>
-        </span>
-    </a>
-
-    <button id="menuBtn" aria-label="Open navigation">☰</button>
-
-    <nav id="nav">
-        <a href="#home">Home</a>
-        <a href="#catalogue">Catalogue</a>
-        <a href="#why-us">Why us</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-    </nav>
-
-    <a class="outline"
-       data-wa="Hello! Please send me your current games and tech price list."
-       target="_blank"
-       rel="noopener">WhatsApp ↗</a>
-</header>
-
-<main>
-
-<!-- HERO SECTION -->
-
-<section class="hero" id="home">
-    <div class="heroText">
-        <label>● YOUR DIGITAL UPGRADE STARTS HERE</label>
-
-        <h1>LEVEL UP YOUR<br><em>GAME &amp; TECH.</em></h1>
-
-        <p>
-            Your gaming and technology catalogue for PC games,
-            accessories, software, drivers and practical upgrades.
-            Browse clear product information, then message us to
-            confirm current prices, availability and compatibility.
-        </p>
-
-        <div class="actions">
-            <a class="btn" href="#catalogue">Explore catalogue ↓</a>
-
-            <a class="btn ghost"
-               data-wa="Hello George Games and Tech Hub! I want to ask about your products."
-               target="_blank"
-               rel="noopener">Chat on WhatsApp ↗</a>
-        </div>
-
-        <div class="stats">
-            <span><b>01</b> GAMES</span>
-            <span><b>02</b> TECH GEAR</span>
-            <span><b>03</b> SOFTWARE</span>
-            <span><b>04</b> DRIVERS</span>
-        </div>
+    <div class="topline">
+        <b>GEORGE GAMES & TECH HUB</b>
+        <b>•</b>
+        YOUR DIGITAL TECHNOLOGY STORE
     </div>
 
-    <div class="art controller-art"
-         aria-label="Illustration of an Xbox Elite Wireless Controller Series 2">
+    <header class="header">
 
-        <div class="orbit"></div>
-        <div class="controller-glow"></div>
+        <a href="index.html" class="brand">
+            <div class="logo">
+                <svg viewBox="0 0 50 50" fill="none">
+                    <path d="M37 13H20C12 13 8 18 8 25C8 33 13 38 21 38H29C37 38 42 33 42 25H27"
+                        stroke="#a8ff35"
+                        stroke-width="5"
+                        stroke-linecap="round"/>
+                </svg>
+            </div>
 
-        <svg class="elite-controller"
-             viewBox="0 0 620 390"
-             role="img"
-             aria-labelledby="controllerTitle">
+            <span>
+                <strong>GEORGE</strong>
+                <small>GAMES & TECH HUB</small>
+            </span>
+        </a>
 
-            <title id="controllerTitle">
-                Xbox Elite Wireless Controller Series 2 inspired illustration
-            </title>
+        <button id="menuBtn" aria-label="Open navigation">☰</button>
 
-            <defs>
-                <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
-                    <stop stop-color="#424a45"/>
-                    <stop offset=".48" stop-color="#171d19"/>
-                    <stop offset="1" stop-color="#080b09"/>
-                </linearGradient>
+        <nav id="nav">
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="storage.html">Storage</a>
+            <a href="software.html">Software</a>
+            <a href="drivers.html">Drivers</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </nav>
 
-                <linearGradient id="grip" x1="0" y1="0" x2="0" y2="1">
-                    <stop stop-color="#303a32"/>
-                    <stop offset="1" stop-color="#111712"/>
-                </linearGradient>
+        <a class="outline" href="admin.html">ADMIN</a>
 
-                <filter id="shadow">
-                    <feGaussianBlur stdDeviation="9"/>
-                </filter>
-            </defs>
+    </header>
 
-            <ellipse cx="310" cy="318" rx="230" ry="28"
-                     fill="#a8ff35" opacity=".18" filter="url(#shadow)"/>
 
-            <path d="M175 105 L160 62 Q158 49 170 46 L194 43 Q205 44 207 57 L213 100Z"
-                  fill="#343d36" stroke="#68746a" stroke-width="3"/>
+    <!-- HERO SECTION -->
 
-            <path d="M415 105 L427 58 Q430 45 442 47 L466 52 Q477 55 473 68 L455 112Z"
-                  fill="#343d36" stroke="#68746a" stroke-width="3"/>
+    <section class="hero">
 
-            <path d="M176 110 C143 103 119 125 106 159 L65 267 C55 295 72 320 99 316 L170 303 C197 298 214 276 228 255 L392 255 C406 276 423 298 450 303 L521 316 C548 320 565 295 555 267 L514 159 C501 125 477 103 444 110 C402 123 368 132 310 132 C252 132 218 123 176 110Z"
-                  fill="url(#body)" stroke="#657066" stroke-width="4"/>
+        <div class="heroText">
 
-            <path d="M119 171 C106 203 88 250 84 278 Q82 292 96 292 L158 280 Q180 273 192 246 L212 185Z"
-                  fill="url(#grip)" stroke="#2d392f" stroke-width="2"/>
+            <label>WELCOME TO GEORGE GAMES & TECH HUB</label>
 
-            <path d="M501 171 C514 203 532 250 536 278 Q538 292 524 292 L462 280 Q440 273 428 246 L408 185Z"
-                  fill="url(#grip)" stroke="#2d392f" stroke-width="2"/>
+            <h1>
+                LEVEL UP<br>
+                YOUR <em>TECH.</em>
+            </h1>
 
-            <path d="M174 111 Q187 87 219 93 L247 105 L238 126 L183 131Z"
-                  fill="#242c26" stroke="#758176" stroke-width="3"/>
+            <p>
+                Discover PC games, gaming accessories, storage upgrades,
+                software and essential drivers — all in one place.
+            </p>
 
-            <path d="M446 111 Q433 87 401 93 L373 105 L382 126 L437 131Z"
-                  fill="#242c26" stroke="#758176" stroke-width="3"/>
+            <div class="actions">
+                <a href="games.html" class="btn">EXPLORE GAMES ↗</a>
+                <a href="contact.html" class="btn ghost">CONTACT US</a>
+            </div>
 
-            <circle cx="235" cy="183" r="38"
-                    fill="#080b09" stroke="#7a857c" stroke-width="4"/>
-            <circle cx="235" cy="183" r="26"
-                    fill="#202922" stroke="#3c493e" stroke-width="3"/>
-            <circle cx="235" cy="183" r="16"
-                    fill="#111712" stroke="#657267" stroke-width="2"/>
+            <div class="stats">
+                <span>
+                    <b>GAMES</b>
+                    PC ENTERTAINMENT
+                </span>
 
-            <circle cx="384" cy="232" r="38"
-                    fill="#080b09" stroke="#7a857c" stroke-width="4"/>
-            <circle cx="384" cy="232" r="26"
-                    fill="#202922" stroke="#3c493e" stroke-width="3"/>
-            <circle cx="384" cy="232" r="16"
-                    fill="#111712" stroke="#657267" stroke-width="2"/>
+                <span>
+                    <b>TECH</b>
+                    PC ACCESSORIES
+                </span>
 
-            <circle cx="169" cy="222" r="28"
-                    fill="#080b09" stroke="#374239" stroke-width="3"/>
+                <span>
+                    <b>SUPPORT</b>
+                    SOFTWARE & DRIVERS
+                </span>
+            </div>
 
-            <path d="M160 204 h18 v10 h10 v17 h-10 v10 h-18 v-10 h-10 v-17 h10z"
-                  fill="#8a968c"/>
+        </div>
 
-            <circle cx="454" cy="177" r="13" fill="#a8ff35"/>
-            <circle cx="479" cy="199" r="13" fill="#e8f3e8"/>
-            <circle cx="429" cy="199" r="13" fill="#d2dfd4"/>
-            <circle cx="454" cy="222" r="13" fill="#59665b"/>
 
-            <text x="454" y="181" text-anchor="middle" font-size="10"
-                  font-weight="bold" fill="#0b100c">Y</text>
-            <text x="479" y="203" text-anchor="middle" font-size="10"
-                  font-weight="bold" fill="#0b100c">B</text>
-            <text x="429" y="203" text-anchor="middle" font-size="10"
+        <div class="art controller-art">
+
+            <div class="orbit"></div>
+            <div class="controller-glow"></div>
+
+            <div class="monitor">
+                <div class="screen">
+                    <strong>G</strong>
+                    <small>GEORGE TECH</small>
+                </div>
+                <div class="neck"></div>
+                <div class="base"></div>
+            </div>
+
+            <div class="chip">
+                GAMING <span>•</span> TECHNOLOGY
+            </div>
+
+            <div class="controller-caption">
+                <b>GEORGE GAMES & TECH HUB</b>
+                <small>YOUR DIGITAL WORLD STARTS HERE</small>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <div class="ticker">
+        <b>GAMES</b> •
+        <b>ACCESSORIES</b> •
+        <b>STORAGE</b> •
+        <b>SOFTWARE</b> •
+        <b>DRIVERS</b>
+    </div>
+
+
+    <!-- CATEGORY SECTION -->
+
+    <section class="section">
+
+        <div class="heading">
+            <div>
+                <label>EXPLORE OUR STORE</label>
+                <h2>CHOOSE YOUR <em>CATEGORY.</em></h2>
+            </div>
+
+            <p>
+                Browse our dedicated departments and find what you need
+                for your PC gaming and technology experience.
+            </p>
+        </div>
+
+
+        <div class="products">
+
+            <a href="games.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">🎮</div>
+                    <span class="tag">01 / GAMING</span>
+                </div>
+
+                <h3>PC Games</h3>
+
+                <p>
+                    Explore action, racing, football, adventure and
+                    other exciting PC games.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">EXPLORE GAMES</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+
+            <a href="accessories.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">🎧</div>
+                    <span class="tag">02 / ACCESSORIES</span>
+                </div>
+
+                <h3>PC Accessories</h3>
+
+                <p>
+                    Discover gaming controllers, keyboards, mice,
+                    headsets and other accessories.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">EXPLORE ACCESSORIES</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+
+            <a href="storage.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">💾</div>
+                    <span class="tag">03 / UPGRADES</span>
+                </div>
+
+                <h3>Storage & PC Upgrades</h3>
+
+                <p>
+                    Explore SSDs, RAM, storage solutions and
+                    computer upgrade services.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">EXPLORE UPGRADES</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+
+            <a href="software.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">💻</div>
+                    <span class="tag">04 / SOFTWARE</span>
+                </div>
+
+                <h3>Software</h3>
+
+                <p>
+                    Find useful productivity tools and software
+                    for your computer.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">EXPLORE SOFTWARE</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+
+            <a href="drivers.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">⚙️</div>
+                    <span class="tag">05 / SUPPORT</span>
+                </div>
+
+                <h3>Drivers & Setup</h3>
+
+                <p>
+                    Get help finding compatible drivers and
+                    setting up your computer.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">EXPLORE DRIVERS</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+
+            <a href="about.html" class="card categoryCard">
+                <div class="cardTop">
+                    <div class="icon">🚀</div>
+                    <span class="tag">06 / ABOUT US</span>
+                </div>
+
+                <h3>About George Hub</h3>
+
+                <p>
+                    Learn about our technology store, services
+                    and what we stand for.
+                </p>
+
+                <div class="cardBottom">
+                    <span class="price">GET TO KNOW US</span>
+                    <span class="ask">OPEN ↗</span>
+                </div>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- WHY CHOOSE US -->
+
+    <section class="section why">
+
+        <div class="heading">
+            <div>
+                <label>WHY GEORGE GAMES & TECH HUB?</label>
+                <h2>TECHNOLOGY MADE <em>SIMPLER.</em></h2>
+            </div>
+        </div>
+
+        <div class="whyGrid">
+
+            <article>
+                <span>01</span>
+                <h3>Gaming</h3>
+                <p>Explore games across different genres and platforms.</p>
+            </article>
+
+            <article>
+                <span>02</span>
+                <h3>Technology</h3>
+                <p>Find useful PC accessories and upgrade options.</p>
+            </article>
+
+            <article>
+                <span>03</span>
+                <h3>Convenience</h3>
+                <p>Browse our catalogue and make enquiries through WhatsApp.</p>
+            </article>
+
+            <article>
+                <span>04</span>
+                <h3>Support</h3>
+                <p>Get assistance with software, drivers and setup enquiries.</p>
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- CONTACT SECTION -->
+
+    <section class="contact">
+
+        <div class="contactCard">
+
+            <label>NEED HELP?</label>
+
+            <h2>LET'S TALK <em>TECH.</em></h2>
+
+            <p>
+                Have questions about a game, accessory, software
+                or computer upgrade? Contact us for more information.
+            </p>
+
+            <a
+                class="btn"
+                href="https://wa.me/2349136059577?text=Hello%20George%20Games%20and%20Tech%20Hub"
+                target="_blank"
+                rel="noopener">
+                CHAT ON WHATSAPP ↗
+            </a>
+
+            <div class="contactNumber">
+                +234 913 605 9577
+            </div>
+
+        </div>
+
+
+        <div class="contactSide">
+
+            <div class="bigG">
+                G
+                <sup>+</sup>
+            </div>
+
+            <strong>GEORGE</strong>
+            <b>GAMES & TECH HUB</b>
+
+            <hr>
+
+            <small>GAMING • TECHNOLOGY • SUPPORT</small>
+
+        </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <strong>
+            GEORGE <span>GAMES & TECH HUB</span>
+        </strong>
+
+        <p>
+            Your digital destination for gaming and technology.
+        </p>
+
+        <small>
+            © <span id="year"></span> George Games & Tech Hub.
+            All rights reserved.
+        </small>
+
+    </footer>
+
+
+    <a
+        class="floatWa"
+        href="https://wa.me/2349136059577"
+        target="_blank"
+        rel="noopener"
+        aria-label="Chat on WhatsApp">
+        W
+    </a>
+
+
+    <script>
+        const menuBtn = document.getElementById("menuBtn");
+        const nav = document.getElementById("nav");
+
+        menuBtn.addEventListener("click", function () {
+            nav.classList.toggle("open");
+        });
+
+        document.querySelectorAll("#nav a").forEach(function (link) {
+            link.addEventListener("click", function () {
+                nav.classList.remove("open");
+            });
+        });
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", function () {
+                navigator.serviceWorker.register("./sw.js")
+                    .catch(function (error) {
+                        console.log("Service worker registration failed:", error);
+                    });
+            });
+        }
+    </script>
+
+</body>
+    </html>-size="10"
                   font-weight="bold" fill="#0b100c">X</text>
             <text x="454" y="226" text-anchor="middle" font-size="10"
                   font-weight="bold" fill="#0b100c">A</text>
