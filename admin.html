@@ -50,6 +50,17 @@ input, select, textarea {
     border-radius: 8px;
 }
 
+input[type="file"] {
+    border: 1px dashed #00ff99;
+    padding: 14px;
+}
+
+small {
+    display: block;
+    color: #b8c5d6;
+    margin-top: 7px;
+}
+
 button {
     width: 100%;
     padding: 13px;
@@ -71,9 +82,12 @@ a { color: #00ff99; }
 }
 
 .product img {
-    max-width: 110px;
+    max-width: 150px;
+    max-height: 150px;
+    object-fit: contain;
     display: block;
     margin-top: 10px;
+    border-radius: 8px;
 }
 
 .productActions {
@@ -88,6 +102,16 @@ a { color: #00ff99; }
 .message {
     line-height: 1.6;
     overflow-wrap: anywhere;
+}
+
+#imagePreview {
+    display: none;
+    max-width: 180px;
+    max-height: 180px;
+    object-fit: contain;
+    margin-top: 12px;
+    border: 1px solid #34465c;
+    border-radius: 8px;
 }
 
 @media(max-width: 400px) {
@@ -107,6 +131,7 @@ a { color: #00ff99; }
 
 <section id="loginSection" class="card">
     <h2>🔐 Admin Login</h2>
+
     <form id="loginForm">
         <label>Email Address</label>
         <input id="email" type="email" required>
@@ -116,6 +141,7 @@ a { color: #00ff99; }
 
         <button type="submit">Sign In</button>
     </form>
+
     <p id="loginMessage" class="message"></p>
 </section>
 
@@ -157,9 +183,16 @@ a { color: #00ff99; }
                     <option value="">Choose a category first</option>
                 </select>
 
-                <label>Product Image URL</label>
-                <input id="productImage" type="url"
-                       placeholder="https://example.com/image.png">
+                <label>Choose Product Image</label>
+                <input id="productImage" type="file"
+                       accept="image/jpeg,image/png,image/webp,image/gif">
+
+                <small>
+                    Select an image directly from your phone.
+                    Maximum size: 5 MB.
+                </small>
+
+                <img id="imagePreview" alt="Selected product preview">
 
                 <label>Product Description</label>
                 <textarea id="productDescription" rows="4"></textarea>
@@ -206,9 +239,13 @@ const productMessage = document.getElementById("productMessage");
 
 const categorySelect = document.getElementById("productCategory");
 const genreSelect = document.getElementById("productGenre");
+const imageInput = document.getElementById("productImage");
+const imagePreview = document.getElementById("imagePreview");
 
 let editingId = null;
 let products = [];
+let currentImageUrl = null;
+let previewObjectUrl = null;
 
 const subcategories = {
     "Games": [
@@ -216,18 +253,22 @@ const subcategories = {
         "Fighting", "Shooting", "Open World",
         "Simulation", "Strategy", "Horror"
     ],
+
     "PC Accessories": [
         "Controllers", "Keyboards", "Gaming Mouse",
         "Headsets", "Gamepads"
     ],
+
     "Storage & PC Upgrades": [
         "RAM", "SSD", "HDD", "Graphics Cards",
         "Processors"
     ],
+
     "Software": [
         "Operating Systems", "Productivity",
         "Antivirus", "Design & Editing"
     ],
+
     "Drivers": [
         "Graphics Drivers", "Audio Drivers",
         "Network Drivers", "Chipset Drivers"
@@ -264,6 +305,90 @@ function updateGenres(selectedGenre = "") {
 
 categorySelect.addEventListener("change", () => updateGenres());
 
+function showPreview(url) {
+    imagePreview.src = url;
+    imagePreview.style.display = "block";
+}
+
+function clearPreview() {
+    imagePreview.removeAttribute("src");
+    imagePreview.style.display = "none";
+
+    if (previewObjectUrl) {
+        URL.revokeObjectURL(previewObjectUrl);
+        previewObjectUrl = null;
+    }
+}
+
+imageInput.addEventListener("change", () => {
+    clearPreview();
+
+    const file = imageInput.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/gif"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+        imageInput.value = "";
+        productMessage.textContent =
+            "Please select a JPG, PNG, WebP or GIF image.";
+        return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) {
+        imageInput.value = "";
+        productMessage.textContent =
+            "Image is too large. Please choose an image below 5 MB.";
+        return;
+    }
+
+    previewObjectUrl = URL.createObjectURL(file);
+    showPreview(previewObjectUrl);
+
+    productMessage.textContent = "Image selected successfully.";
+});
+
+// Upload image to Supabase Storage
+async function uploadProductImage(file) {
+    const extension = file.name.split(".").pop().toLowerCase();
+
+    const safeExtension = ["jpg", "jpeg", "png", "webp", "gif"]
+        .includes(extension) ? extension : "jpg";
+
+    const fileName =
+        Date.now() + "-" +
+        Math.random().toString(36).slice(2) +
+        "." + safeExtension;
+
+    const { error } = await supabaseClient.storage
+        .from("product-images")
+        .upload(fileName, file, {
+            cacheControl: "3600",
+            upsert: false,
+            contentType: file.type
+        });
+
+    if (error) {
+        throw error;
+    }
+
+    const { data } = supabaseClient.storage
+        .from("product-images")
+        .getPublicUrl(fileName);
+
+    if (!data || !data.publicUrl) {
+        throw new Error("Could not get the public image URL.");
+    }
+
+    return data.publicUrl;
+}
+
 async function checkAdmin() {
     const { data: { session } } =
         await supabaseClient.auth.getSession();
@@ -282,8 +407,10 @@ async function checkAdmin() {
 
     if (error || !data) {
         await supabaseClient.auth.signOut();
+
         document.getElementById("loginMessage").textContent =
             "Access denied. This account is not an administrator.";
+
         loginSection.classList.remove("hidden");
         dashboard.classList.add("hidden");
         return;
@@ -299,8 +426,8 @@ document.getElementById("loginForm")
 .addEventListener("submit", async event => {
     event.preventDefault();
 
-    document.getElementById("loginMessage").textContent =
-        "Signing in...";
+    const loginMessage = document.getElementById("loginMessage");
+    loginMessage.textContent = "Signing in...";
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -309,12 +436,11 @@ document.getElementById("loginForm")
         .signInWithPassword({ email, password });
 
     if (error) {
-        document.getElementById("loginMessage").textContent =
-            error.message;
+        loginMessage.textContent = error.message;
         return;
     }
 
-    document.getElementById("loginMessage").textContent = "";
+    loginMessage.textContent = "";
     await checkAdmin();
 });
 
@@ -324,45 +450,78 @@ document.getElementById("logoutButton")
     location.reload();
 });
 
+// Save or update product
 document.getElementById("productForm")
 .addEventListener("submit", async event => {
     event.preventDefault();
 
-    productMessage.textContent = editingId !== null
-        ? "Updating product..."
-        : "Saving product...";
+    const saveButton = document.getElementById("saveButton");
+    saveButton.disabled = true;
 
-    const product = {
-        name: document.getElementById("productName").value.trim(),
-        price: Number(document.getElementById("productPrice").value),
-        category: categorySelect.value,
-        genre: genreSelect.value,
-        image_url: document.getElementById("productImage").value.trim() || null,
-        description: document.getElementById("productDescription").value.trim()
-    };
+    try {
+        productMessage.textContent = "Preparing product...";
 
-    const result = editingId !== null
-        ? await supabaseClient.from("Products")
-            .update(product).eq("id", editingId)
-        : await supabaseClient.from("Products").insert(product);
+        const selectedFile = imageInput.files[0];
 
-    if (result.error) {
-        productMessage.textContent = "Error: " + result.error.message;
-        return;
+        let imageUrl = currentImageUrl;
+
+        // Upload a newly selected image
+        if (selectedFile) {
+            productMessage.textContent =
+                "Uploading product image...";
+
+            imageUrl = await uploadProductImage(selectedFile);
+        }
+
+        const product = {
+            name: document.getElementById("productName").value.trim(),
+            price: Number(document.getElementById("productPrice").value),
+            category: categorySelect.value,
+            genre: genreSelect.value,
+            image_url: imageUrl || null,
+            description: document.getElementById("productDescription").value.trim()
+        };
+
+        productMessage.textContent = "Saving product details...";
+
+        const result = editingId !== null
+            ? await supabaseClient
+                .from("Products")
+                .update(product)
+                .eq("id", editingId)
+            : await supabaseClient
+                .from("Products")
+                .insert(product);
+
+        if (result.error) {
+            throw result.error;
+        }
+
+        productMessage.textContent = editingId !== null
+            ? "✅ Product updated successfully!"
+            : "✅ Product and image saved successfully!";
+
+        resetForm();
+        await loadProducts();
+
+    } catch (error) {
+        console.error(error);
+
+        productMessage.textContent =
+            "Error: " + (error.message || "Something went wrong.");
+
+    } finally {
+        saveButton.disabled = false;
     }
-
-    productMessage.textContent = editingId !== null
-        ? "✅ Product updated successfully!"
-        : "✅ Product saved successfully!";
-
-    resetForm();
-    await loadProducts();
 });
 
 function resetForm() {
     editingId = null;
+    currentImageUrl = null;
 
     document.getElementById("productForm").reset();
+
+    clearPreview();
 
     document.getElementById("formTitle").textContent =
         "➕ Add a Product";
@@ -440,11 +599,13 @@ async function loadProducts() {
         const edit = document.createElement("button");
         edit.textContent = "✏️ Edit";
         edit.className = "editButton";
+
         edit.addEventListener("click", () => editProduct(product.id));
 
         const remove = document.createElement("button");
         remove.textContent = "🗑️ Delete";
         remove.className = "deleteButton";
+
         remove.addEventListener("click", () =>
             deleteProduct(product.id, product.name)
         );
@@ -457,9 +618,11 @@ async function loadProducts() {
 
 function editProduct(id) {
     const product = products.find(p => String(p.id) === String(id));
+
     if (!product) return;
 
     editingId = product.id;
+    currentImageUrl = product.image_url || null;
 
     document.getElementById("productName").value = product.name;
     document.getElementById("productPrice").value = product.price;
@@ -467,8 +630,12 @@ function editProduct(id) {
     categorySelect.value = product.category;
     updateGenres(product.genre || "");
 
-    document.getElementById("productImage").value =
-        product.image_url || "";
+    imageInput.value = "";
+    clearPreview();
+
+    if (currentImageUrl) {
+        showPreview(currentImageUrl);
+    }
 
     document.getElementById("productDescription").value =
         product.description || "";
@@ -489,88 +656,9 @@ function editProduct(id) {
 }
 
 async function deleteProduct(id, name) {
-    if (!confirm("Delete " + name + " permanently?")) return;
-
-    productMessage.textContent = "Deleting product...";
-
-    const { error } = await supabaseClient
-        .from("Products")
-        .delete()
-        .eq("id", id);
-
-    if (error) {
-        productMessage.textContent = "Error: " + error.message;
-        return;
-    }
-
-    if (String(editingId) === String(id)) resetForm();
-
-    productMessage.textContent = "✅ Product deleted successfully!";
-    await loadProducts();
-}
-
-updateGenres();
-checkAdmin();
-</script>
-
-</body>
-</html>age);
-        }
-
-        const actions = document.createElement("div");
-        actions.className = "productActions";
-
-        const editButton = document.createElement("button");
-        editButton.textContent = "✏️ Edit";
-        editButton.className = "editButton";
-
-        editButton.addEventListener("click", () => {
-            editProduct(product.id);
-        });
-
-        const deleteButton = document.createElement("button");
-        deleteButton.textContent = "🗑️ Delete";
-        deleteButton.className = "deleteButton";
-
-        deleteButton.addEventListener("click", () => {
-            deleteProduct(product.id, product.name);
-        });
-
-        actions.append(editButton, deleteButton);
-        item.appendChild(actions);
-
-        productList.appendChild(item);
-    });
-}
-
-function editProduct(id) {
-    const product = products.find(p => String(p.id) === String(id));
-
-    if (!product) return;
-
-    editingId = product.id;
-
-    document.getElementById("productName").value = product.name;
-    document.getElementById("productPrice").value = product.price;
-    document.getElementById("productCategory").value = product.category;
-    document.getElementById("productImage").value = product.image_url || "";
-    document.getElementById("productDescription").value =
-        product.description || "";
-
-    document.getElementById("formTitle").textContent = "✏️ Edit Product";
-    document.getElementById("saveButton").textContent = "Update Product";
-    document.getElementById("cancelButton").classList.remove("hidden");
-
-    productMessage.textContent =
-        "Editing: " + product.name;
-
-    document.getElementById("productForm")
-        .scrollIntoView({ behavior: "smooth" });
-}
-
-async function deleteProduct(id, name) {
     const confirmed = confirm(
-        "Are you sure you want to delete " + name + "?\n\nThis cannot be undone."
+        "Are you sure you want to delete " + name +
+        "?\n\nThis cannot be undone."
     );
 
     if (!confirmed) return;
@@ -598,8 +686,9 @@ async function deleteProduct(id, name) {
     await loadProducts();
 }
 
+updateGenres();
 checkAdmin();
 </script>
 
 </body>
-    </html>
+</html>
