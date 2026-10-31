@@ -1,516 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#160d20">
-  <meta name="description" content="George Games & Tech Hub - PC games, gaming accessories, software, drivers and PC upgrades.">
-  <title>George Games & Tech Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta name="theme-color" content="#080b09">
+    <meta name="description" content="George Games and Tech Hub — discover PC games, gaming accessories, storage upgrades, software and drivers.">
 
-    html {
-      scroll-behavior: smooth;
-    }
+    <title>George Games & Tech Hub | Gaming & Technology</title>
 
-    body {
-      background: #100b16;
-      color: #f7f1fb;
-      font-family: Arial, Helvetica, sans-serif;
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .homeHeader {
-      position: relative;
-      z-index: 20;
-      background: #190f22;
-      border-bottom: 1px solid #392545;
-    }
-
-    .homeNav {
-      max-width: 1200px;
-      min-height: 76px;
-      margin: auto;
-      padding: 12px 5%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-    }
-
-    .homeLogo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
-    }
-
-    .crown {
-      color: #e8b84b;
-      font-size: 35px;
-      line-height: 1;
-    }
-
-    .logoText {
-      color: #fff;
-      font-weight: 900;
-      font-size: 17px;
-      line-height: 1.2;
-      letter-spacing: 1px;
-    }
-
-    .logoText span {
-      display: block;
-      color: #e8b84b;
-      font-size: 10px;
-      letter-spacing: 2px;
-      margin-top: 4px;
-    }
-
-    .homeLinks {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-    }
-
-    .homeLinks a {
-      color: #ddd2e5;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    .homeLinks a:hover {
-      color: #e8b84b;
-    }
-
-    .homeMenu {
-      display: none;
-      background: #e8b84b;
-      color: #160d20;
-      border: 0;
-      border-radius: 6px;
-      padding: 10px 13px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .hero {
-      min-height: 440px;
-      padding: 85px 6%;
-      display: flex;
-      align-items: center;
-      background:
-        radial-gradient(circle at 80% 30%, #462456 0, transparent 35%),
-        linear-gradient(120deg, #160d20, #24132e);
-    }
-
-    .heroContent {
-      max-width: 850px;
-      margin: auto;
-      text-align: center;
-    }
-
-    .eyebrow {
-      color: #e8b84b;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 3px;
-      margin-bottom: 15px;
-    }
-
-    .hero h1 {
-      font-size: clamp(35px, 7vw, 65px);
-      line-height: 1.12;
-      margin-bottom: 20px;
-    }
-
-    .hero h1 span {
-      color: #e8b84b;
-    }
-
-    .hero p {
-      max-width: 650px;
-      margin: 0 auto 28px;
-      color: #c9bbd2;
-      font-size: 16px;
-    }
-
-    .button {
-      display: inline-block;
-      background: #e8b84b;
-      color: #160d20;
-      padding: 13px 23px;
-      border-radius: 6px;
-      font-weight: 900;
-      font-size: 13px;
-      transition: 0.2s;
-    }
-
-    .button:hover {
-      background: #ffd879;
-      transform: translateY(-2px);
-    }
-
-    .ticker {
-      background: #e8b84b;
-      color: #160d20;
-      text-align: center;
-      padding: 12px 8px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing: 1px;
-    }
-
-    .section {
-      max-width: 1200px;
-      margin: auto;
-      padding: 75px 5%;
-    }
-
-    .sectionHeading {
-      text-align: center;
-      margin-bottom: 35px;
-    }
-
-    .sectionHeading small {
-      color: #e8b84b;
-      font-weight: bold;
-      letter-spacing: 3px;
-    }
-
-    .sectionHeading h2 {
-      font-size: clamp(25px, 4vw, 38px);
-      margin-top: 8px;
-    }
-
-    .sectionHeading p {
-      color: #b9aabd;
-      margin-top: 8px;
-      font-size: 14px;
-    }
-
-    .categoryGrid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .categoryCard {
-      min-height: 190px;
-      padding: 28px 22px;
-      border: 1px solid #493052;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #24152e, #17101f);
-      transition: 0.25s;
-    }
-
-    .categoryCard:hover {
-      transform: translateY(-5px);
-      border-color: #e8b84b;
-    }
-
-    .categoryIcon {
-      font-size: 34px;
-      margin-bottom: 15px;
-    }
-
-    .categoryCard h3 {
-      font-size: 19px;
-      margin-bottom: 8px;
-    }
-
-    .categoryCard p {
-      color: #b9aabd;
-      font-size: 13px;
-      margin-bottom: 18px;
-    }
-
-    .categoryCard strong {
-      color: #e8b84b;
-      font-size: 12px;
-    }
-
-    .whySection {
-      background: #190f22;
-    }
-
-    .whyGrid {
-      max-width: 1100px;
-      margin: auto;
-      padding: 65px 5%;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
-    .whyCard {
-      text-align: center;
-      padding: 25px 18px;
-      border: 1px solid #392545;
-      border-radius: 10px;
-      background: #21142b;
-    }
-
-    .whyCard .categoryIcon {
-      font-size: 30px;
-    }
-
-    .whyCard h3 {
-      margin-bottom: 8px;
-    }
-
-    .whyCard p {
-      color: #b9aabd;
-      font-size: 13px;
-    }
-
-    .contactSection {
-      text-align: center;
-      padding: 70px 5%;
-    }
-
-    .contactSection h2 {
-      font-size: 30px;
-      margin-bottom: 12px;
-    }
-
-    .contactSection p {
-      color: #b9aabd;
-      margin-bottom: 22px;
-    }
-
-    .footer {
-      background: #09060d;
-      border-top: 1px solid #392545;
-      padding: 28px 5%;
-      text-align: center;
-      color: #a998b5;
-      font-size: 12px;
-    }
-
-    .footer strong {
-      color: #e8b84b;
-    }
-
-    .whatsappFloat {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 30;
-      background: #20c968;
-      color: #071b0e;
-      padding: 13px 17px;
-      border-radius: 30px;
-      font-size: 13px;
-      font-weight: 900;
-      box-shadow: 0 5px 20px #0008;
-    }
-
-    @media (max-width: 750px) {
-      .homeNav {
-        min-height: 68px;
-        padding: 10px 4%;
-      }
-
-      .logoText {
-        font-size: 13px;
-      }
-
-      .logoText span {
-        font-size: 8px;
-        letter-spacing: 1px;
-      }
-
-      .crown {
-        font-size: 29px;
-      }
-
-      .homeMenu {
-        display: block;
-        flex-shrink: 0;
-      }
-
-      .homeenter;
-            align-items: center;
-            background: var(--green);
-            color: #10170d;
-            border-radius: 50%;
-            font-size: 25px;
-            font-weight: bold;
-            box-shadow: 0 5px 20px rgba(0,0,0,.4);
-        }
-
-        /* TABLET */
-
-        @media (max-width: 900px) {
-
-            .categoryGrid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .whyGrid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-        }
-
-        /* MOBILE */
-
-        @media (max-width: 650px) {
-
-            .homeNav {
-                min-height: 68px;
-            }
-
-            .homeMenu {
-                display: block;
-            }
-
-            .homeLinks {
-                display: none;
-                position: absolute;
-                top: 68px;
-                left: 0;
-                right: 0;
-                padding: 22px 5%;
-                background: #0d1510;
-                border-bottom: 1px solid var(--border);
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 22px;
-            }
-
-            .homeLinks.open {
-                display: flex;
-            }
-
-            .homeHero {
-                min-height: 470px;
-                padding: 75px 6%;
-            }
-
-            .homeHero p {
-                font-size: 14px;
-            }
-
-            .homeSection {
-                padding: 65px 5%;
-            }
-
-            .categoryGrid {
-                grid-template-columns: 1fr;
-            }
-
-            .categoryCard {
-                min-height: 290px;
-            }
-
-            .whyGrid {
-                grid-template-columns: 1fr;
-            }
-
-            .homeTicker {
-                font-size: 10px;
-                letter-spacing: 1px;
-            }
-
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-    <!-- HEADER -->
+    <!-- TOP ANNOUNCEMENT -->
 
-    <header class="homeHeader">
+    <div class="topline">
+        GEORGE GAMES & TECH HUB
+        <b>•</b>
+        GAMING
+        <b>•</b>
+        TECHNOLOGY
+        <b>•</b>
+        SUPPORT
+    </div>
 
-        <nav class="homeNav">
 
-            <a href="index.html" class="homeLogo">
-                GEORGE <span>GAMES & TECH HUB</span>
-            </a>
+    <!-- HEADER / NAVIGATION -->
 
-            <button
-                class="homeMenu"
-                id="homeMenu"
+    <header class="header">
+
+        <a href="index.html" class="brand" aria-label="George Games and Tech Hub homepage">
+
+            <div class="logo">
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M18 37 L31 48 L42 24 L51 43 L66 20 L72 47 L87 34 L82 72 L23 72 Z"
+                          fill="#a8ff35"/>
+
+                    <path d="M30 57 H70 V65 H30 Z"
+                          fill="#a8ff35"/>
+
+                    <text x="50" y="87"
+                          text-anchor="middle"
+                          font-size="43"
+                          font-weight="900"
+                          fill="#a8ff35">G</text>
+                </svg>
+            </div>
+
+            <span>
+                <strong>GEORGE</strong>
+                <small>GAMES & TECH HUB</small>
+            </span>
+
+        </a>
+
+
+        <button id="menuBtn"
                 type="button"
                 aria-label="Open navigation menu"
                 aria-expanded="false">
-                MENU ☰
-            </button>
+            ☰
+        </button>
 
-            <div class="homeLinks" id="homeLinks">
 
-                <a href="index.html">HOME</a>
-                <a href="#categories">CATEGORIES</a>
-                <a href="#why-us">WHY US</a>
-                <a href="#contact">CONTACT</a>
+        <nav id="nav" aria-label="Main navigation">
 
-            </div>
+            <a href="index.html">Home</a>
+            <a href="games.html">Games</a>
+            <a href="accessories.html">Accessories</a>
+            <a href="storage.html">Storage</a>
+            <a href="software.html">Software</a>
+            <a href="drivers.html">Drivers</a>
 
         </nav>
+
+
+        <a class="outline" href="admin.html">ADMIN ↗</a>
 
     </header>
 
 
-    <!-- HERO -->
+    <main>
 
-    <section class="homeHero">
+        <!-- HERO SECTION -->
 
-        <div class="heroContent">
+        <section class="hero">
 
-            <span class="heroTag">
-                ♛ GEORGE GAMES & TECH HUB
-            </span>
+            <div class="heroText">
 
-            <h1>
-                YOUR WORLD OF
-                <span>GAMING & TECH.</span>
-            </h1>
+                <label>WELCOME TO GEORGE GAMES & TECH HUB</label>
 
-            <p>
-                Discover exciting PC games, gaming accessories,
-                storage upgrades, useful software and essential drivers.
-                Everything you need for your digital setup.
-            </p>
+                <h1>
+                    LEVEL UP<br>
+                    YOUR <em>TECH.</em>
+                </h1>
 
-            <div class="heroButtons">
+                <p>
+                    Your digital destination for PC games, gaming accessories,
+                    computer upgrades, useful software and driver support.
 
-                <a href="#categories" class="homeButton">
-                    EXPLORE CATEGORIES ↓
+                    Find what you need and get clear information before making
+                    your choice.
+                </p>
+
+
+                <div class="actions">
+
+                    <a href="games.html" class="btn">
+                        EXPLORE PC GAMES ↗
+                    </a>
+
+                    <a href="accessories.html" class="btn ghost">
+                        EXPLORE TECH PRODUCTS
+                    </a>
+
+                </div>
+
+
+                <div class="stats">
+
+                    <span>
+                        <b>01</b>
+                        PC GAMES
+                    </span>
+
+                    <span>
+                        <b>02</b>
+                        ACCESSORIES
+                    </span>
+
+                    <span>
+                        <b>03</b>
+                        PC UPGRADES
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- GAMING / COMPUTER ART -->
+
+            <div class="art">
+
+                <div class="orbit"></div>
+
+                <div class="tower">
+                    <i></i>
+                    <i></i>
+                    <i></i>
+                </div>
+
+                <div class="monitor">
+
+                    <div class="screen">
+
+                        <strong>G</strong>
+
+                        <small>GEORGE TECH HUB</small>
+
+                    </div>
+
+                    <div class="neck"></div>
+
+                    <div class="base"></div>
+
+                </div>
+
+                <div class="chip">
+                    PC READY <span>✳</span> GAMING
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- TICKER -->
+
+        <div class="ticker">
+
+            PLAY SMART
+            <b>✳</b>
+            UPGRADE YOUR SETUP
+            <b>✳</b>
+            STAY AHEAD
+            <b>✳</b>
+            EXPLORE TECHNOLOGY
+
+        </div>
+
+
+        <!-- WHY CHOOSE US -->
+
+        <section class="why section" id="why-us">
+
+            <div class="heading">
+
+                <div>
+
+                    <label>WHY GEORGE GAMES & TECH HUB</label>
+
+                    <h2>
+                        Good choices.<br>
+                        <em>Clear information.</em>
+                    </h2>
+
+                </div>
+
+                <p>
+                    Find games, accessories and computer products with
+                    useful information to help you make the right choice.
+                </p>
+
+            </div>
+
+
+            <div class="whyGrid">
+
+                <article>
+
+                    <span>01</span>
+
+                    <h3>Product Information</h3>
+
+                    <p>
+                        Explore product details, editions, features
+                        and important information before enquiring.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>02</span>
+
+                    <h3>Clear Enquiries</h3>
+
+                    <p>
+                        Contact us directly to ask about current prices
+                        and product availability.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>03</span>
+
+                    <h3>Compatibility First</h3>
+
+                    <p>
+                        Get information about PC requirements,
+                        operating systems and device compatibility.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <span>04</span>
+
+                    <h3>Direct Support</h3>
+
+                    <p>
+                        Have questions? Send us a message and
+                        discuss what you need.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- PRODUCT CATEGORIES -->
+
+        <section class="section" id="categories">
+
+            <div class="heading">
+
+                <div>
+
+                    <label>EXPLORE OUR CATEGORIES</label>
+
+                    <h2>
+                        Find your next<br>
+                        <em>upgrade.</em>
+                    </h2>
+
+                </div>
+
+                <p>
+                    Choose a category below to explore available
+                    products and services.
+                </p>
+
+            </div>
+
+
+            <div class="whyGrid">
+
+                <a href="games.html" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">🎮</div>
+
+                        <span class="tag">GAMING</span>
+
+                    </div>
+
+                    <h3>PC Games</h3>
+
+                    <p>
+                        Explore action, adventure, racing, sports
+                        and other PC games.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">EXPLORE GAMES</span>
+
+                        <span class="ask">OPEN ↗</span>
+
+                    </div>
+
                 </a>
 
-                <a
-                    href="https://wa.me/2349136059577"
-                    target="_blank"
-                    rel="noopener"
-                    class="homeButton secondary">
-                    CONTACT US ↗
+
+                <a href="accessories.html" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">🖥️</div>
+
+                        <span class="tag">GAMING GEAR</span>
+
+                    </div>
+
+                    <h3>PC Accessories</h3>
+
+                    <p>
+                        Discover controllers, keyboards, gaming mice,
+                        headsets and other accessories.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">EXPLORE ACCESSORIES</span>
+
+                        <span class="ask">OPEN ↗</span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="storage.html" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">💾</div>
+
+                        <span class="tag">UPGRADES</span>
+
+                    </div>
+
+                    <h3>Storage & PC Upgrades</h3>
+
+                    <p>
+                        Explore RAM, SSDs, HDDs, processors
+                        and graphics card upgrades.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">EXPLORE UPGRADES</span>
+
+                        <span class="ask">OPEN ↗</span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="software.html" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">📀</div>
+
+                        <span class="tag">PRODUCTIVITY</span>
+
+                    </div>
+
+                    <h3>Software</h3>
+
+                    <p>
+                        Discover useful productivity, design,
+                        editing and computer software.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">EXPLORE SOFTWARE</span>
+
+                        <span class="ask">OPEN ↗</span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="drivers.html" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">🛠️</div>
+
+                        <span class="tag">PC SUPPORT</span>
+
+                    </div>
+
+                    <h3>Drivers & Setup</h3>
+
+                    <p>
+                        Find information about graphics, audio,
+                        network and chipset drivers.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">EXPLORE DRIVERS</span>
+
+                        <span class="ask">OPEN ↗</span>
+
+                    </div>
+
+                </a>
+
+
+                <a href="#contact" class="card">
+
+                    <div class="cardTop">
+
+                        <div class="icon">✉</div>
+
+                        <span class="tag">SUPPORT</span>
+
+                    </div>
+
+                    <h3>Contact George Hub</h3>
+
+                    <p>
+                        Have a particular game or technology
+                        product in mind? Let's discuss it.
+                    </p>
+
+                    <div class="cardBottom">
+
+                        <span class="price">GET IN TOUCH</span>
+
+                        <span class="ask">CONTACT ↗</span>
+
+                    </div>
+
                 </a>
 
             </div>
 
-        </div>
-
-    </section>
+        </section>
 
 
-    <!-- TICKER -->
+        <!-- SERVICES -->
 
-    <div class="homeTicker">
-        PLAY SMART <span>✳</span>
-        UPGRADE YOUR SETUP <span>✳</span>
-        STAY AHEAD <span>✳</span>
+        <section class="services">
+
+            <label>HOW WE HELP</label>
+
+            <h2>
+                Tech made <em>simple.</em>
+            </h2>
+
+
+            <div class="serviceGrid">
+
+                <article>
+
+                    <b>🎮</b>
+
+                    <h3>PC Game Information</h3>
+
+                    <p>
+                        Ask about game editions, system requirements
+                        and storage needs.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <b>⌘</b>
+
+                    <h3>Tech Products</h3>
+
+                    <p>
+                        Enquire about accessories and computer
+                        upgrades for your setup.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <b>▣</b>
+
+                    <h3>Software Support</h3>
+
+                    <p>
+                        Find suitable software for your computer
+                        and productivity needs.
+                    </p>
+
+                </article>
+
+
+                <article>
+
+                    <b>↗</b>
+
+                    <h3>Drivers & Setup</h3>
+
+                    <p>
+                        Get guidance on finding drivers
+                        that match your PC.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTACT -->
+
+        <section class="contact" id="contact">
+
+            <div class="contactCard">
+
+                <label>LET'S GET YOU SET UP</label>
+
+                <h2>
+                    Need something<br>
+                    <em>specific?</em>
+                </h2>
+
+                <p>
+                    Tell us the game, software, driver, accessory
+                    or computer product you need.
+
+                    We'll discuss the details with you on WhatsApp.
+                </p>
+
+                <a class="btn"
+                   href="https://wa.me/2349136059577?text=Hello%20George%20Games%20and%20Tech%20Hub!%20I%20need%20help%20finding%20a%20product."
+                   target="_blank"
+                   rel="noopener noreferrer">
+
+                    MESSAGE US ON WHATSAPP ↗
+
+                </a>
+
+            </div>
+
+
+            <div class="contactSide">
+
+                <div class="bigG">
+
+                    <span>♛</span>G
+
+                </div>
+
+                <strong>GEORGE</strong>
+
+                <b>GAMES & TECH HUB</b>
+
+                <hr>
+
+                <small>PLAY • UPGRADE • STAY AHEAD</small>
+
+                <p class="contactNumber">
+                    WhatsApp: +234 913 605 9577
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer>
+
+        <strong>
+            GEORGE <span>GAMES & TECH HUB</span>
+        </strong>
+
+        <p>
+            Your digital destination for gaming and technology.
+        </p>
+
+        <small>
+            © <span id="year"></span> George Games & Tech Hub.
+            All rights reserved.
+        </small>
+
+    </footer>
+
+
+    <!-- FLOATING WHATSAPP BUTTON -->
+
+    <a class="floatWa"
+       href="https://wa.me/2349136059577"
+       target="_blank"
+       rel="noopener noreferrer"
+       aria-label="Chat with George Games and Tech Hub on WhatsApp">
+
+        ✆
+
+    </a>
+
+
+    <!-- NAVIGATION AND FOOTER SCRIPT -->
+
+    <script>
+
+        const menuBtn = document.getElementById("menuBtn");
+        const nav = document.getElementById("nav");
+
+        if (menuBtn && nav) {
+
+            menuBtn.addEventListener("click", function () {
+
+                nav.classList.toggle("open");
+
+                const isOpen = nav.classList.contains("open");
+
+                menuBtn.setAttribute("aria-expanded", isOpen);
+
+                menuBtn.textContent = isOpen ? "✕" : "☰";
+
+            });
+
+
+            nav.querySelectorAll("a").forEach(function (link) {
+
+                link.addEventListener("click", function () {
+
+                    nav.classList.remove("open");
+
+                    menuBtn.setAttribute("aria-expanded", "false");
+
+                    menuBtn.textContent = "☰";
+
+                });
+
+            });
+
+        }
+
+
+        const yearElement = document.getElementById("year");
+
+        if (yearElement) {
+
+            yearElement.textContent = new Date().getFullYear();
+
+        }
+
+
+        if ("serviceWorker" in navigator) {
+
+            window.addEventListener("load", function () {
+
+                navigator.serviceWorker.register("./sw.js")
+                    .catch(function (error) {
+
+                        console.log(
+                            "Service worker registration failed:",
+                            error
+                        );
+
+                    });
+
+            });
+
+        }
+
+    </script>
+
+</body>
+  </html>
         GAME ON
     </div>
 
