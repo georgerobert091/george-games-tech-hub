@@ -1,18 +1,18 @@
-// ==========================================
-// GEORGE GAMES & TECH HUB
-// SHARED PRODUCT CATALOGUE SYSTEM
-// ==========================================
+/* =========================================
+   GEORGE GAMES & TECH HUB
+   PRODUCT CATALOGUE SYSTEM
+========================================= */
 
 const WHATSAPP_NUMBER = "2349136059577";
 
-const wa = message =>
+const whatsappLink = (message) =>
     "https://wa.me/" + WHATSAPP_NUMBER +
     "?text=" + encodeURIComponent(message);
 
 
-// ==========================================
-// PAGE DETECTION
-// ==========================================
+/* =========================================
+   PAGE CATEGORY DETECTION
+========================================= */
 
 const pageName = window.location.pathname
     .split("/")
@@ -30,82 +30,39 @@ const pageCategories = {
 const currentPage = pageCategories[pageName] || "all";
 
 
-// ==========================================
-// ELEMENTS
-// ==========================================
+/* =========================================
+   PAGE ELEMENTS
+========================================= */
 
 const container = document.getElementById("products");
 const searchBox = document.getElementById("productSearch");
+const productCount = document.getElementById("productCount");
 
 let activeFilter = "all";
+let allProducts = [];
 
-
-// Load products from products.js
-
-let allProducts =
+const staticProducts =
     typeof PRODUCTS !== "undefined" && Array.isArray(PRODUCTS)
         ? [...PRODUCTS]
         : [];
 
 
-// ==========================================
-// SECURITY: HTML ESCAPING
-// ==========================================
+/* =========================================
+   CATEGORY CONVERSION
+========================================= */
 
-function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, char => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[char]);
+function normaliseCategory(value) {
+    return String(value || "")
+        .toLowerCase()
+        .trim();
 }
 
-
-// ==========================================
-// PRODUCT CATEGORY HELPERS
-// ==========================================
-
 function getProductCategory(product) {
+    const category = normaliseCategory(
+        product.sourceCategory || product.category
+    );
 
-    if (product.sourceCategory) {
-        return String(product.sourceCategory).toLowerCase();
-    }
-
-    const name = String(product.name || "").toLowerCase();
-    const category = String(product.category || "").toLowerCase();
-
-    if (
-        name.includes("storage") ||
-        name.includes("upgrade") ||
-        name.includes("ssd") ||
-        name.includes("ram")
-    ) {
-        return "storage";
-    }
-
-    if (
-        category.includes("software") ||
-        name.includes("software")
-    ) {
-        return "software";
-    }
-
-    if (
-        category.includes("driver") ||
-        name.includes("driver")
-    ) {
-        return "drivers";
-    }
-
-    if (
-        category === "tech" ||
-        category === "accessories" ||
-        category === "pc accessories"
-    ) {
-        return "accessories";
-    }
+    const name = normaliseCategory(product.name);
 
     if (
         category === "games" ||
@@ -114,185 +71,419 @@ function getProductCategory(product) {
         return "games";
     }
 
-    return category || "tech";
-}
-
-
-// ==========================================
-// CONVERT SUPABASE PRODUCTS
-// ==========================================
-
-function convertDatabaseProduct(product) {
-
-    const categoryMap = {
-        "Games": "games",
-        "PC Accessories": "accessories",
-        "Storage & PC Upgrades": "storage",
-        "Software": "software",
-        "Drivers": "drivers"
-    };
-
-    const category =
-        categoryMap[product.category] || "accessories";
-
-    const rawPrice = product.price;
-
-    const formattedPrice =
-        rawPrice === null ||
-        rawPrice === undefined ||
-        rawPrice === ""
-            ? "Ask for price"
-            : Number.isFinite(Number(rawPrice))
-                ? "₦" + Number(rawPrice).toLocaleString("en-NG")
-                : String(rawPrice);
-
-    return {
-        id: "database-" + product.id,
-        databaseId: product.id,
-        sourceCategory: category,
-        category: category,
-        name: product.name || "Unnamed Product",
-        genre: product.genre || product.category || "Technology",
-        icon: category === "games" ? "🎮" : "💻",
-        tag: (product.category || "PRODUCT").toUpperCase(),
-        price: formattedPrice,
-        description: product.description ||
-            "Contact us for more information.",
-        platforms: "Contact=======================
-
-    const count = document.getElementById("productCount");
-
-    if (count) {
-        count.textContent =
-            `${matches.length} item${matches.length === 1 ? "" : "s"}`;
+    if (
+        category === "pc accessories" ||
+        category === "accessories" ||
+        category === "tech accessories"
+    ) {
+        return "accessories";
     }
 
+    if (
+        category === "storage & pc upgrades" ||
+        category === "storage" ||
+        category === "pc upgrades"
+    ) {
+        return "storage";
+    }
+
+    if (
+        category === "software" ||
+        category === "productivity software"
+    ) {
+        return "software";
+    }
+
+    if (
+        category === "drivers" ||
+        category === "driver"
+    ) {
+        return "drivers";
+    }
+
+    // Handle older static product categories.
+
+    if (category === "tech") {
+        if (
+            name.includes("storage") ||
+            name.includes("upgrade") ||
+            name.includes("ssd") ||
+            name.includes("ram")
+        ) {
+            return "storage";
+        }
+
+        return "accessories";
+    }
+
+    if (category === "software") return "software";
+    if (category === "drivers") return "drivers";
+
+    return "games";
 }
 
 
-// ==========================================
-// CATEGORY FILTER BUTTONS
-// ==========================================
+/* =========================================
+   CONVERT DATABASE PRODUCTS
+========================================= */
 
-document.querySelectorAll("[data-filter]").forEach(button => {
+function convertDatabaseProduct(product) {
+    return {
+        id: product.id,
+        databaseId: product.id,
 
+        name: product.name || "Unnamed product",
+
+        category: getProductCategory({
+            category: product.category,
+            name: product.name
+        }),
+
+        sourceCategory: product.category || "",
+
+        genre: product.genre || product.category || "General",
+
+        icon: "🎮",
+
+        tag: product.category || "PRODUCT",
+
+        price: formatPrice(product.price),
+
+        description:
+            product.description ||
+            "Contact us for more information about this product.",
+
+        platforms: "Contact us for compatibility details.",
+
+        image: product.image_url || "",
+
+        imageAlt: product.name || "Product image"
+    };
+}
+
+
+/* =========================================
+   PRICE FORMATTING
+========================================= */
+
+function formatPrice(price) {
+    if (price === null || price === undefined || price === "") {
+        return "Ask for price";
+    }
+
+    const value = String(price).trim();
+
+    if (value.includes("₦")) {
+        return value;
+    }
+
+    if (isNaN(Number(value.replace(/,/g, "")))) {
+        return value;
+    }
+
+    return "₦" + Number(value.replace(/,/g, "")).toLocaleString("en-NG");
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(value) {
+    return String(value ?? "").replace(/[&<>"']/g, character => {
+        const replacements = {
+            "&": "&amp;",
+            "<": "&lt;",
+            ">": "&gt;",
+            '"': "&quot;",
+            "'": "&#039;"
+        };
+
+        return replacements[character];
+    });
+}
+
+
+/* =========================================
+   LOAD DATABASE PRODUCTS
+========================================= */
+
+async function loadDatabaseProducts() {
+    let databaseProducts = [];
+
+    try {
+        if (
+            typeof supabaseClient !== "undefined" &&
+            supabaseClient
+        ) {
+            const { data, error } = await supabaseClient
+                .from("Products")
+                .select("*")
+                .order("id", { ascending: false });
+
+            if (error) {
+                console.error("Supabase error:", error);
+            } else if (Array.isArray(data)) {
+                databaseProducts = data.map(
+                    convertDatabaseProduct
+                );
+            }
+        } else {
+            console.warn("Supabase client was not found.");
+        }
+    } catch (error) {
+        console.error("Could not load database products:", error);
+    }
+
+    // Database products take priority when names match.
+
+    const combinedProducts = [...staticProducts];
+
+    databaseProducts.forEach(databaseProduct => {
+        const existingIndex = combinedProducts.findIndex(
+            item =>
+                normaliseCategory(item.name) ===
+                normaliseCategory(databaseProduct.name)
+        );
+
+        if (existingIndex >= 0) {
+            combinedProducts[existingIndex] = databaseProduct;
+        } else {
+            combinedProducts.push(databaseProduct);
+        }
+    });
+
+    allProducts = combinedProducts.map(product => ({
+        ...product,
+        category: getProductCategory(product)
+    }));
+
+    renderProducts();
+}
+
+
+/* =========================================
+   FILTER PRODUCTS
+========================================= */
+
+function getFilteredProducts() {
+    const searchTerm = searchBox
+        ? searchBox.value.toLowerCase().trim()
+        : "";
+
+    return allProducts.filter(product => {
+        const categoryMatches =
+            currentPage === "all" ||
+            product.category === currentPage;
+
+        const filterMatches =
+            activeFilter === "all" ||
+            normaliseCategory(product.genre) ===
+                normaliseCategory(activeFilter);
+
+        const searchMatches =
+            !searchTerm ||
+            [
+                product.name,
+                product.description,
+                product.genre,
+                product.category,
+                product.tag
+            ]
+            .join(" ")
+            .toLowerCase()
+            .includes(searchTerm);
+
+        return (
+            categoryMatches &&
+            filterMatches &&
+            searchMatches
+        );
+    });
+}
+
+
+/* =========================================
+   DISPLAY PRODUCT CARDS
+========================================= */
+
+function createProductCard(product) {
+    const name = escapeHTML(product.name);
+    const description = escapeHTML(product.description);
+    const price = escapeHTML(product.price);
+    const genre = escapeHTML(product.genre);
+    const tag = escapeHTML(product.tag);
+    const platforms = escapeHTML(product.platforms);
+    const icon = escapeHTML(product.icon || "🎮");
+    const image = escapeHTML(product.image || "");
+    const imageAlt = escapeHTML(product.imageAlt || product.name);
+
+    const message =
+        "Hello George Games & Tech Hub! I am interested in: " +
+        product.name +
+        ". Please provide more information.";
+
+    const orderLink = whatsappLink(message);
+
+    const imageHTML = image
+        ? `
+            <div class="productImage">
+                <img
+                    src="${image}"
+                    alt="${imageAlt}"
+                    loading="lazy"
+                    onerror="
+                        this.style.display='none';
+                        this.parentElement.classList.add('imageMissing');
+                    "
+                >
+                <div class="imageFallback">${icon}</div>
+            </div>
+        `
+        : `
+            <div class="productImage imageMissing">
+                <div class="imageFallback">${icon}</div>
+            </div>
+        `;
+
+    return `
+        <article class="card productCard">
+
+            ${imageHTML}
+
+            <div class="productInfo">
+
+                <div class="cardTop">
+                    <span class="icon">${icon}</span>
+                    <span class="tag">${tag}</span>
+                </div>
+
+                <h3>${name}</h3>
+
+                <span class="genre">${genre}</span>
+
+                <p>${description}</p>
+
+                <div class="platforms">
+                    ${platforms}
+                </div>
+
+                <div class="cardBottom">
+                    <span class="price">${price}</span>
+
+                    <a
+                        class="ask"
+                        href="${orderLink}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        ENQUIRE ON WHATSAPP
+                    </a>
+                </div>
+
+            </div>
+        </article>
+    `;
+}
+
+
+/* =========================================
+   RENDER PRODUCTS
+========================================= */
+
+function renderProducts() {
+    if (!container) return;
+
+    const products = getFilteredProducts();
+
+    if (productCount) {
+        productCount.textContent =
+            `${products.length} item${products.length === 1 ? "" : "s"}`;
+    }
+
+    if (products.length === 0) {
+        container.innerHTML = `
+            <div class="noResults">
+                No products found. Try another search or filter.
+            </div>
+        `;
+
+        return;
+    }
+
+    container.innerHTML = products
+        .map(createProductCard)
+        .join("");
+}
+
+
+/* =========================================
+   FILTER BUTTONS
+========================================= */
+
+document.querySelectorAll(".filters button").forEach(button => {
     button.addEventListener("click", () => {
 
-        document.querySelectorAll("[data-filter]")
+        document.querySelectorAll(".filters button")
             .forEach(item => item.classList.remove("active"));
 
         button.classList.add("active");
 
-        activeFilter = button.dataset.filter;
+        activeFilter = button.dataset.filter || "all";
 
-        render();
-
+        renderProducts();
     });
-
 });
 
 
-// ==========================================
-// SEARCH
-// ==========================================
+/* =========================================
+   SEARCH
+========================================= */
 
-searchBox?.addEventListener("input", render);
-
-
-// ==========================================
-// MOBILE NAVIGATION
-// ==========================================
-
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("nav");
-
-menuBtn?.addEventListener("click", () => {
-    nav?.classList.toggle("open");
-});
-
-document.querySelectorAll("#nav a").forEach(link => {
-
-    link.addEventListener("click", () => {
-        nav?.classList.remove("open");
-    });
-
-});
-
-
-// ==========================================
-// CURRENT YEAR
-// ==========================================
-
-const year = document.getElementById("year");
-
-if (year) {
-    year.textContent = new Date().getFullYear();
+if (searchBox) {
+    searchBox.addEventListener("input", renderProducts);
 }
 
 
-// ==========================================
-// INITIALISE CATALOGUE
-// ==========================================
+/* =========================================
+   MOBILE NAVIGATION
+========================================= */
 
-render();
+const menuButton = document.getElementById("menuBtn");
+const navigation = document.querySelector(".header nav");
 
-loadDatabaseProducts();      button.classList.add("active");
-
-        activeFilter = button.dataset.filter;
-
-        render();
-
+if (menuButton && navigation) {
+    menuButton.addEventListener("click", () => {
+        navigation.classList.toggle("open");
     });
 
-});
-
-
-// ==========================================
-// SEARCH
-// ==========================================
-
-searchBox?.addEventListener("input", render);
-
-
-// ==========================================
-// MOBILE NAVIGATION
-// ==========================================
-
-const menuBtn = document.getElementById("menuBtn");
-const nav = document.getElementById("nav");
-
-menuBtn?.addEventListener("click", () => {
-
-    nav?.classList.toggle("open");
-
-});
-
-document.querySelectorAll("#nav a").forEach(link => {
-
-    link.addEventListener("click", () => {
-
-        nav?.classList.remove("open");
-
+    navigation.querySelectorAll("a").forEach(link => {
+        link.addEventListener("click", () => {
+            navigation.classList.remove("open");
+        });
     });
-
-});
-
-
-// ==========================================
-// CURRENT YEAR
-// ==========================================
-
-const year = document.getElementById("year");
-
-if (year) {
-    year.textContent = new Date().getFullYear();
 }
 
 
-// ==========================================
-// INITIALISE CATALOGUE
-// ==========================================
+/* =========================================
+   FOOTER YEAR
+========================================= */
 
-render();
+document.querySelectorAll(".year").forEach(element => {
+    element.textContent = new Date().getFullYear();
+});
 
-loadDatabaseProducts();
+
+/* =========================================
+   START CATALOGUE
+========================================= */
+
+if (container) {
+    container.innerHTML = `
+        <div class="noResults">
+            Loading catalogue...
+        </div>
+    `;
+
+    loadDatabaseProducts();
+}
