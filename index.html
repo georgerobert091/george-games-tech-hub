@@ -3,676 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <meta name="theme-color" content="#080b09">
     <meta name="description" content="George Games and Tech Hub — discover PC games, gaming accessories, storage upgrades, software and drivers.">
-
     <title>George Games & Tech Hub | Gaming & Technology</title>
-
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Homepage category image sizing; existing styles.css remains unchanged -->
+    <style>
+        .categoryImage {
+            display: block;
+            width: 100%;
+            height: 145px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 16px;
+            border: 1px solid var(--line);
+        }
+        @media (max-width: 560px) {
+            .categoryImage {
+                height: 105px;
+                margin-bottom: 12px;
+            }
+        }
+    </style>
 </head>
-
 <body>
-
-    <!-- TOP ANNOUNCEMENT -->
-
     <div class="topline">
-        GEORGE GAMES & TECH HUB
-        <b>•</b>
-        GAMING
-        <b>•</b>
-        TECHNOLOGY
-        <b>•</b>
-        SUPPORT
+        GEORGE GAMES & TECH HUB <b>•</b> GAMING <b>•</b> TECHNOLOGY <b>•</b> SUPPORT
     </div>
 
-
-    <!-- HEADER / NAVIGATION -->
-
     <header class="header">
-
         <a href="index.html" class="brand" aria-label="George Games and Tech Hub homepage">
-
             <div class="logo">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <path d="M18 37 L31 48 L42 24 L51 43 L66 20 L72 47 L87 34 L82 72 L23 72 Z"
-                          fill="#a8ff35"/>
-
-                    <path d="M30 57 H70 V65 H30 Z"
-                          fill="#a8ff35"/>
-
-                    <text x="50" y="87"
-                          text-anchor="middle"
-                          font-size="43"
-                          font-weight="900"
-                          fill="#a8ff35">G</text>
+                    <path d="M18 37 L31 48 L42 24 L51 43 L66 20 L72 47 L87 34 L82 72 L23 72 Z" fill="#a8ff35"/>
+                    <path d="M30 57 H70 V65 H30 Z" fill="#a8ff35"/>
+                    <text x="50" y="87" text-anchor="middle" font-size="43" font-weight="900" fill="#a8ff35">G</text>
                 </svg>
             </div>
-
             <span>
                 <strong>GEORGE</strong>
                 <small>GAMES & TECH HUB</small>
             </span>
-
         </a>
 
-
-        <button id="menuBtn"
-                type="button"
-                aria-label="Open navigation menu"
-                aria-expanded="false">
-            ☰
-        </button>
-
+        <button id="menuBtn" type="button" aria-label="Open navigation menu" aria-expanded="false">☰</button>
 
         <nav id="nav" aria-label="Main navigation">
-
             <a href="index.html">Home</a>
             <a href="games.html">Games</a>
             <a href="accessories.html">Accessories</a>
             <a href="storage.html">Storage</a>
             <a href="software.html">Software</a>
             <a href="drivers.html">Drivers</a>
-
         </nav>
 
-
         <a class="outline" href="admin.html">ADMIN ↗</a>
-
     </header>
 
-
     <main>
-
-        <!-- HERO SECTION -->
-
         <section class="hero">
-
             <div class="heroText">
-
                 <label>WELCOME TO GEORGE GAMES & TECH HUB</label>
-
-                <h1>
-                    LEVEL UP<br>
-                    YOUR <em>TECH.</em>
-                </h1>
-
+                <h1>LEVEL UP<br>YOUR <em>TECH.</em></h1>
                 <p>
                     Your digital destination for PC games, gaming accessories,
                     computer upgrades, useful software and driver support.
-
                     Find what you need and get clear information before making
                     your choice.
                 </p>
-
-
                 <div class="actions">
-
-                    <a href="games.html" class="btn">
-                        EXPLORE PC GAMES ↗
-                    </a>
-
-                    <a href="accessories.html" class="btn ghost">
-                        EXPLORE TECH PRODUCTS
-                    </a>
-
+                    <a href="games.html" class="btn">EXPLORE PC GAMES ↗</a>
+                    <a href="accessories.html" class="btn ghost">EXPLORE TECH PRODUCTS</a>
                 </div>
-
-
                 <div class="stats">
-
-                    <span>
-                        <b>01</b>
-                        PC GAMES
-                    </span>
-
-                    <span>
-                        <b>02</b>
-                        ACCESSORIES
-                    </span>
-
-                    <span>
-                        <b>03</b>
-                        PC UPGRADES
-                    </span>
-
+                    <span><b>01</b>PC GAMES</span>
+                    <span><b>02</b>ACCESSORIES</span>
+                    <span><b>03</b>PC UPGRADES</span>
                 </div>
-
             </div>
-
-
-            <!-- GAMING / COMPUTER ART -->
 
             <div class="art">
-
                 <div class="orbit"></div>
-
-                <div class="tower">
-                    <i></i>
-                    <i></i>
-                    <i></i>
-                </div>
-
+                <div class="tower"><i></i><i></i><i></i></div>
                 <div class="monitor">
-
                     <div class="screen">
-
                         <strong>G</strong>
-
                         <small>GEORGE TECH HUB</small>
-
                     </div>
-
                     <div class="neck"></div>
-
                     <div class="base"></div>
-
                 </div>
-
-                <div class="chip">
-                    PC READY <span>✳</span> GAMING
-                </div>
-
+                <div class="chip">PC READY <span>✳</span> GAMING</div>
             </div>
-
         </section>
-
-
-        <!-- TICKER -->
 
         <div class="ticker">
-
-            PLAY SMART
-            <b>✳</b>
-            UPGRADE YOUR SETUP
-            <b>✳</b>
-            STAY AHEAD
-            <b>✳</b>
-            EXPLORE TECHNOLOGY
-
+            PLAY SMART <b>✳</b> UPGRADE YOUR SETUP <b>✳</b>
+            STAY AHEAD <b>✳</b> EXPLORE TECHNOLOGY
         </div>
 
-
-        <!-- WHY CHOOSE US -->
-
         <section class="why section" id="why-us">
-
             <div class="heading">
-
                 <div>
-
                     <label>WHY GEORGE GAMES & TECH HUB</label>
-
-                    <h2>
-                        Good choices.<br>
-                        <em>Clear information.</em>
-                    </h2>
-
+                    <h2>Good choices.<br><em>Clear information.</em></h2>
                 </div>
-
-                <p>
-                    Find games, accessories and computer products with
-                    useful information to help you make the right choice.
-                </p>
-
+                <p>Find games, accessories and computer products with useful information to help you make the right choice.</p>
             </div>
-
 
             <div class="whyGrid">
-
                 <article>
-
                     <span>01</span>
-
                     <h3>Product Information</h3>
-
-                    <p>
-                        Explore product details, editions, features
-                        and important information before enquiring.
-                    </p>
-
+                    <p>Explore product details, editions, features and important information before enquiring.</p>
                 </article>
-
-
                 <article>
-
                     <span>02</span>
-
                     <h3>Clear Enquiries</h3>
-
-                    <p>
-                        Contact us directly to ask about current prices
-                        and product availability.
-                    </p>
-
+                    <p>Contact us directly to ask about current prices and product availability.</p>
                 </article>
-
-
                 <article>
-
                     <span>03</span>
-
                     <h3>Compatibility First</h3>
-
-                    <p>
-                        Get information about PC requirements,
-                        operating systems and device compatibility.
-                    </p>
-
+                    <p>Get information about PC requirements, operating systems and device compatibility.</p>
                 </article>
-
-
                 <article>
-
                     <span>04</span>
-
                     <h3>Direct Support</h3>
-
-                    <p>
-                        Have questions? Send us a message and
-                        discuss what you need.
-                    </p>
-
+                    <p>Have questions? Send us a message and discuss what you need.</p>
                 </article>
-
             </div>
-
         </section>
 
-
-        <!-- PRODUCT CATEGORIES -->
-
         <section class="section" id="categories">
-
             <div class="heading">
-
                 <div>
-
                     <label>EXPLORE OUR CATEGORIES</label>
-
-                    <h2>
-                        Find your next<br>
-                        <em>upgrade.</em>
-                    </h2>
-
+                    <h2>Find your next<br><em>upgrade.</em></h2>
                 </div>
-
-                <p>
-                    Choose a category below to explore available
-                    products and services.
-                </p>
-
+                <p>Choose a category below to explore available products and services.</p>
             </div>
 
-
             <div class="whyGrid">
-
                 <a href="games.html" class="card">
-
+                    <img class="categoryImage" src="games.jpg" alt="PC gaming">
                     <div class="cardTop">
                         <div class="icon">🎮</div>
                         <span class="tag">GAMING</span>
                     </div>
-
                     <h3>PC Games</h3>
-
-                    <p>
-                        Explore action, adventure, racing, sports
-                        and other PC games.
-                    </p>
-
+                    <p>Explore action, adventure, racing, sports and other PC games.</p>
                     <div class="cardBottom">
                         <span class="price">EXPLORE GAMES</span>
                         <span class="ask">OPEN ↗</span>
                     </div>
-
                 </a>
 
-
                 <a href="accessories.html" class="card">
-
+                    <img class="categoryImage" src="accessories.jpg" alt="Gaming accessories">
                     <div class="cardTop">
                         <div class="icon">🖥️</div>
                         <span class="tag">GAMING GEAR</span>
                     </div>
-
                     <h3>PC Accessories</h3>
-
-                    <p>
-                        Discover controllers, keyboards, gaming mice,
-                        headsets and other accessories.
-                    </p>
-
+                    <p>Discover controllers, keyboards, gaming mice, headsets and other accessories.</p>
                     <div class="cardBottom">
                         <span class="price">EXPLORE ACCESSORIES</span>
                         <span class="ask">OPEN ↗</span>
                     </div>
-
                 </a>
 
-
                 <a href="storage.html" class="card">
-
+                    <img class="categoryImage" src="storage.jpg" alt="Computer hardware and upgrades">
                     <div class="cardTop">
                         <div class="icon">💾</div>
                         <span class="tag">UPGRADES</span>
                     </div>
-
                     <h3>Storage & PC Upgrades</h3>
-
-                    <p>
-                        Explore RAM, SSDs, HDDs, processors
-                        and graphics card upgrades.
-                    </p>
-
+                    <p>Explore RAM, SSDs, HDDs, processors and graphics card upgrades.</p>
                     <div class="cardBottom">
                         <span class="price">EXPLORE UPGRADES</span>
                         <span class="ask">OPEN ↗</span>
                     </div>
-
                 </a>
 
-
                 <a href="software.html" class="card">
-
+                    <img class="categoryImage" src="software.jpg" alt="Computer software workstation">
                     <div class="cardTop">
                         <div class="icon">📀</div>
                         <span class="tag">PRODUCTIVITY</span>
                     </div>
-
                     <h3>Software</h3>
-
-                    <p>
-                        Discover useful productivity, design,
-                        editing and computer software.
-                    </p>
-
+                    <p>Discover useful productivity, design, editing and computer software.</p>
                     <div class="cardBottom">
                         <span class="price">EXPLORE SOFTWARE</span>
                         <span class="ask">OPEN ↗</span>
                     </div>
-
                 </a>
 
-
                 <a href="drivers.html" class="card">
-
+                    <img class="categoryImage" src="drivers.jpg" alt="Laptop computer setup">
                     <div class="cardTop">
                         <div class="icon">🛠️</div>
                         <span class="tag">PC SUPPORT</span>
                     </div>
-
                     <h3>Drivers & Setup</h3>
-
-                    <p>
-                        Find information about graphics, audio,
-                        network and chipset drivers.
-                    </p>
-
+                    <p>Find information about graphics, audio, network and chipset drivers.</p>
                     <div class="cardBottom">
                         <span class="price">EXPLORE DRIVERS</span>
                         <span class="ask">OPEN ↗</span>
                     </div>
-
                 </a>
 
-
                 <a href="#contact" class="card">
-
                     <div class="cardTop">
                         <div class="icon">✉</div>
                         <span class="tag">SUPPORT</span>
                     </div>
-
                     <h3>Contact George Hub</h3>
-
-                    <p>
-                        Have a particular game or technology
-                        product in mind? Let's discuss it.
-                    </p>
-
+                    <p>Have a particular game or technology product in mind? Let's discuss it.</p>
                     <div class="cardBottom">
                         <span class="price">GET IN TOUCH</span>
                         <span class="ask">CONTACT ↗</span>
                     </div>
-
                 </a>
-
             </div>
-
         </section>
-
-
-        <!-- SERVICES -->
 
         <section class="services">
-
             <label>HOW WE HELP</label>
-
-            <h2>
-                Tech made <em>simple.</em>
-            </h2>
-
-
+            <h2>Tech made <em>simple.</em></h2>
             <div class="serviceGrid">
-
                 <article>
-
                     <b>🎮</b>
-
                     <h3>PC Game Information</h3>
-
-                    <p>
-                        Ask about game editions, system requirements
-                        and storage needs.
-                    </p>
-
+                    <p>Ask about game editions, system requirements and storage needs.</p>
                 </article>
-
-
                 <article>
-
                     <b>⌘</b>
-
                     <h3>Tech Products</h3>
-
-                    <p>
-                        Enquire about accessories and computer
-                        upgrades for your setup.
-                    </p>
-
+                    <p>Enquire about accessories and computer upgrades for your setup.</p>
                 </article>
-
-
                 <article>
-
                     <b>▣</b>
-
                     <h3>Software Support</h3>
-
-                    <p>
-                        Find suitable software for your computer
-                        and productivity needs.
-                    </p>
-
+                    <p>Find suitable software for your computer and productivity needs.</p>
                 </article>
-
-
                 <article>
-
                     <b>↗</b>
-
                     <h3>Drivers & Setup</h3>
-
-                    <p>
-                        Get guidance on finding drivers
-                        that match your PC.
-                    </p>
-
+                    <p>Get guidance on finding drivers that match your PC.</p>
                 </article>
-
             </div>
-
         </section>
-
-
-        <!-- CONTACT -->
 
         <section class="contact" id="contact">
-
             <div class="contactCard">
-
                 <label>LET'S GET YOU SET UP</label>
-
-                <h2>
-                    Need something<br>
-                    <em>specific?</em>
-                </h2>
-
+                <h2>Need something<br><em>specific?</em></h2>
                 <p>
-                    Tell us the game, software, driver, accessory
-                    or computer product you need.
-
+                    Tell us the game, software, driver, accessory or computer product you need.
                     We'll discuss the details with you on WhatsApp.
                 </p>
-
                 <a class="btn"
                    href="https://wa.me/2349136059577?text=Hello%20George%20Games%20and%20Tech%20Hub!%20I%20need%20help%20finding%20a%20product."
-                   target="_blank"
-                   rel="noopener noreferrer">
-
+                   target="_blank" rel="noopener noreferrer">
                     MESSAGE US ON WHATSAPP ↗
-
                 </a>
-
             </div>
-
 
             <div class="contactSide">
-
-                <div class="bigG">
-                    <span>♛</span>G
-                </div>
-
+                <div class="bigG"><span>♛</span>G</div>
                 <strong>GEORGE</strong>
-
                 <b>GAMES & TECH HUB</b>
-
                 <hr>
-
                 <small>PLAY • UPGRADE • STAY AHEAD</small>
-
-                <p class="contactNumber">
-                    WhatsApp: +234 913 605 9577
-                </p>
-
+                <p class="contactNumber">WhatsApp: +234 913 605 9577</p>
             </div>
-
         </section>
-
     </main>
 
-
-    <!-- FOOTER -->
-
     <footer>
-
-        <strong>
-            GEORGE <span>GAMES & TECH HUB</span>
-        </strong>
-
-        <p>
-            Your digital destination for gaming and technology.
-        </p>
-
-        <small>
-            © <span id="year"></span> George Games & Tech Hub.
-            All rights reserved.
-        </small>
-
+        <strong>GEORGE <span>GAMES & TECH HUB</span></strong>
+        <p>Your digital destination for gaming and technology.</p>
+        <small>© <span id="year"></span> George Games & Tech Hub. All rights reserved.</small>
     </footer>
 
-
-    <!-- FLOATING WHATSAPP BUTTON -->
-
-    <a class="floatWa"
-       href="https://wa.me/2349136059577"
-       target="_blank"
-       rel="noopener noreferrer"
-       aria-label="Chat with George Games and Tech Hub on WhatsApp">
-
-        ✆
-
-    </a>
-
-
-    <!-- NAVIGATION AND FOOTER SCRIPT -->
+    <a class="floatWa" href="https://wa.me/2349136059577"
+       target="_blank" rel="noopener noreferrer"
+       aria-label="Chat with George Games and Tech Hub on WhatsApp">✆</a>
 
     <script>
-
         const menuBtn = document.getElementById("menuBtn");
         const nav = document.getElementById("nav");
 
         if (menuBtn && nav) {
-
             menuBtn.addEventListener("click", function () {
-
                 nav.classList.toggle("open");
-
                 const isOpen = nav.classList.contains("open");
-
                 menuBtn.setAttribute("aria-expanded", isOpen);
-
                 menuBtn.textContent = isOpen ? "✕" : "☰";
-
             });
-
 
             nav.querySelectorAll("a").forEach(function (link) {
-
                 link.addEventListener("click", function () {
-
                     nav.classList.remove("open");
-
                     menuBtn.setAttribute("aria-expanded", "false");
-
                     menuBtn.textContent = "☰";
-
                 });
-
             });
-
         }
-
 
         const yearElement = document.getElementById("year");
-
         if (yearElement) {
-
             yearElement.textContent = new Date().getFullYear();
-
         }
-
 
         if ("serviceWorker" in navigator) {
-
             window.addEventListener("load", function () {
-
                 navigator.serviceWorker.register("./sw.js")
                     .catch(function (error) {
-
-                        console.log(
-                            "Service worker registration failed:",
-                            error
-                        );
-
+                        console.log("Service worker registration failed:", error);
                     });
-
             });
-
         }
-
     </script>
-
 </body>
-                        </html>
+</html>
